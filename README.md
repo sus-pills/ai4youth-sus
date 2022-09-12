@@ -5,6 +5,9 @@
 # sus
 **Opis**: Projekt stworzony na potrzeby konkursu finałowego AI4Youth.
 
+##
+Dane treningowe pochodzą z [tego linku](https://github.com/usuyama/ePillID-benchmark).
+
 ## <<Usuń później>>
 - Use 'black' as your python formatter.
 - Commit files using the vscode built-in Git
