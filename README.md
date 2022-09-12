@@ -3,7 +3,7 @@
 </p>
 
 # sus
-**Opis**: Projekt stworzony na potrzeby konkursu finałowego AI4Youth.
+Projekt stworzony na potrzeby konkursu finałowego AI4Youth.
 
 ## Ważne infromacje
 Dane treningowe pochodzą z [tego linku](https://github.com/usuyama/ePillID-benchmark).
