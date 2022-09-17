@@ -1,3 +1,7 @@
+"""
+A file designited to download the data from the web.
+"""
+
 from pathlib import Path
 import pandas as pd
 import requests

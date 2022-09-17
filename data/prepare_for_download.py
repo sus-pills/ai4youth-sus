@@ -1,6 +1,6 @@
 """
 File designated to prepare the reference data for the downloading process from the https://data.lhncbc.nlm.nih.gov/public/Pills/index.html website.
-Important: if the data_list.csv file already exists, it will be overwrittena after executing this script!
+Important: if the data_list.csv file already exists, it will be overwritten after executing this script!
 """
 
 import re
