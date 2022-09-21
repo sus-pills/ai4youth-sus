@@ -51,11 +51,17 @@ def create_folders(df: pd.DataFrame):
             dir_len = len(list(dir.iterdir()))
             if (dir not in RESERVED) and (dir_len != 0):
                 for obj in dir.iterdir():
-                    obj.unlink(missing_ok=True)
+                    # Had to add this 'if' clause below...
+                    # pathlib calls windows error 5 when unlinking a folder,
+                    # even though unlink() should instantly call rmdir() when used on a folder
+                    # rmdir() works fine
+                    if obj.is_dir():
+                        obj.rmdir()
+                    else:
+                        obj.unlink(missing_ok=True)
 
             # Delete useless folders
             if (dir not in RESERVED) and (dir not in cats):
-                print()
                 dir.rmdir()
     else:
         Path(IMG_PATH).mkdir(parents=True)
