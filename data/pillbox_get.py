@@ -1,5 +1,5 @@
 """
-A file designited to download the data from the web.
+A file designited to download the data from the pillbox images site.
 """
 
 from pathlib import Path
@@ -11,8 +11,12 @@ import requests
 # 'images' folder
 IMG_PATH = ".\\data\\images"
 # Reserved folders; should be created/deleted manually
-RESERVED = [Path(f"{IMG_PATH}\\.cropped"), Path(f"{IMG_PATH}\\.backup")]
-# A checkpoint starting the download from the X-th image in case your internet connection failed
+RESERVED = [
+    Path(f"{IMG_PATH}\\.cropped"),
+    Path(f"{IMG_PATH}\\.backup"),
+    Path(f"{IMG_PATH}\\.training"),
+]
+# A checkpoint starting the download from the X-th image in case your internet connection failed...
 # Default is 0
 CHECKPOINT = 0
 
