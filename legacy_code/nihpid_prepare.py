@@ -58,7 +58,7 @@ def main():
         cats = f.read().split("\n")
 
     # Load the reference dataframe
-    ref_df = pd.read_excel(".\\info\\directory_of_images.xlsx")
+    ref_df = pd.read_excel(".\\data\\directory_of_images.xlsx")
 
     # Prepare the new dataframe
     df = ref_df[["Part", "Name", "Image"]].to_numpy()
