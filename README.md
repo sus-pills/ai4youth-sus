@@ -7,6 +7,7 @@ Projekt stworzony na potrzeby konkursu finałowego AI4Youth.
 
 ## Ważne infromacje
 Dane treningowe pochodzą z [tego linku](https://github.com/usuyama/ePillID-benchmark).
+Logo projektu używa czcionki z [tego linku](https://www.1001fonts.com/universalis-adf-std-font.html).
 
 ## <<Usuń później>>
 - Używaj formatowania typu 'black' do Pythona.
