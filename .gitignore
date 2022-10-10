@@ -5,3 +5,5 @@ README.md
 .vscode
 data/images
 sus/models
+sus/.logs
+sus/logs
