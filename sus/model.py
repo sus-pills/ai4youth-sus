@@ -21,9 +21,11 @@ DATA_DIR = ".\\data\\images\\.train"
 SAVE_DIR = ".\\sus\\models"
 LOG_DIR = ".\\sus\\.logs"
 
-def create_model(params: dict) -> dict:
-    """ Load dataset and create the model based on given parameters. """
 
+def create_model(params: dict) -> dict:
+    """
+    Load dataset and create the model based on given parameters.
+    """
 
     """ VARS """
     outputs = len(list(Path(DATA_DIR).iterdir()))
@@ -32,16 +34,14 @@ def create_model(params: dict) -> dict:
     batch_size = params['batch_size']
     dimensions = params['dimensions']
     conv_block = params['conv_filters']
-    batch_norm = params['batch_norm']
     dense_block = zip(params['dense_units'], params['drop_prob'])
     learning_rate = params['learning_rate']
     epochs = params['epochs']
-    
+
     if dimensions == 1:
         color_mode = 'grayscale'
     elif dimensions == 3:
         color_mode = 'rgb'
-
 
     """ LOAD DS """
     ds_train, ds_test = tf.keras.utils.image_dataset_from_directory(
@@ -55,7 +55,6 @@ def create_model(params: dict) -> dict:
         color_mode=color_mode,
     )
 
-
     """ CREATE MODEL """
     model = tf.keras.Sequential()
 
@@ -66,12 +65,11 @@ def create_model(params: dict) -> dict:
     for filters in conv_block:
         regularizer = tf.keras.regularizers.L2()
 
-        model.add(tf.keras.layers.Conv2D(filters, kernel_size=3, padding='same', activation='relu', kernel_regularizer=regularizer))
+        model.add(tf.keras.layers.Conv2D(filters, kernel_size=3,
+                  padding='same', activation='relu', kernel_regularizer=regularizer))
         model.add(tf.keras.layers.MaxPool2D(pool_size=5, padding='same'))
+        model.add(tf.keras.layers.BatchNormalization())
 
-        if batch_norm:
-            model.add(tf.keras.layers.BatchNormalization())
-    
     model.add(tf.keras.layers.Flatten())
 
     # dense, dropout
@@ -82,7 +80,6 @@ def create_model(params: dict) -> dict:
     # Final layer block
     model.add(tf.keras.layers.Dense(outputs, activation='relu'))
 
-
     package = {
         'model': model,
         'train': ds_train,
@@ -92,8 +89,8 @@ def create_model(params: dict) -> dict:
         'epochs': epochs,
     }
 
-
     return package
+
 
 def main():
 
@@ -115,31 +112,27 @@ def main():
 
         model.compile(
             optimizer=tf.keras.optimizers.Adam(learning_rate=learning_rate),
-            loss=[tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)],
+            loss=[tf.keras.losses.SparseCategoricalCrossentropy(
+                from_logits=True)],
             metrics=["accuracy"],
         )
 
         model_name = f"cnn-{datetime.datetime.now().strftime('%Y%m%d-%H%M%S')}"
-        
+
         # logging directory
         log_dir = f'{LOG_DIR}\\{model_name}'
 
         # Initiate TensorBoard
-        tensorboard = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
-    
-        model.fit(train, batch_size=batch_size, epochs=epochs, verbose=2, callbacks=[tensorboard])
+        tensorboard = tf.keras.callbacks.TensorBoard(
+            log_dir=log_dir, histogram_freq=1)
+
+        model.fit(train, batch_size=batch_size, epochs=epochs,
+                  verbose=2, callbacks=[tensorboard])
+
+        model.evaluate(test, batch_size=batch_size,
+                       verbose=2, callbacks=[tensorboard])
 
         model.save(f"{SAVE_DIR}\\{model_name}")
-
-
-    # model.summary()
-
-
-    # model = tf.keras.models.load_model(f"{SAVE_DIR}\\model09")
-
-    # model.evaluate(test, batch_size=batch, verbose=2)
-
-
 
 
 if __name__ == "__main__":
