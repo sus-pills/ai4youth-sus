@@ -1,98 +1,13 @@
 [
     {
-        "input_y": 28,
-        "input_x": 28,
-        "batch_size": 10,
-        "dimensions": 3,
-        "conv_filters": [50, 100, 50],
-        "batch_norm": true,
-        "dense_units": [100],
-        "drop_prob": [0.2],
-        "learning_rate": 8e-5,
-        "epochs": 100
-    },
-    {
-        "input_y": 28,
-        "input_x": 28,
-        "batch_size": 10,
-        "dimensions": 3,
-        "conv_filters": [50, 100, 150, 100, 50],
-        "batch_norm": true,
-        "dense_units": [100],
-        "drop_prob": [0.2],
-        "learning_rate": 8e-5,
-        "epochs": 100
-    },
-    {
-        "input_y": 28,
-        "input_x": 28,
-        "batch_size": 10,
-        "dimensions": 3,
-        "conv_filters": [50, 100, 100, 50],
-        "batch_norm": true,
-        "dense_units": [150],
-        "drop_prob": [0.2],
-        "learning_rate": 8e-4,
-        "epochs": 100
-    },
-    {
-        "input_y": 32,
-        "input_x": 32,
+        "input_y": 100,
+        "input_x": 100,
         "batch_size": 15,
         "dimensions": 3,
-        "conv_filters": [50, 100, 50],
-        "batch_norm": true,
+        "conv_filters": [50, 100],
         "dense_units": [100],
         "drop_prob": [0.2],
         "learning_rate": 8e-4,
-        "epochs": 100
-    },
-    {
-        "input_y": 32,
-        "input_x": 32,
-        "batch_size": 15,
-        "dimensions": 3,
-        "conv_filters": [50, 100, 200, 100, 50],
-        "batch_norm": false,
-        "dense_units": [100],
-        "drop_prob": [0.2],
-        "learning_rate": 8e-5,
-        "epochs": 100
-    },
-    {
-        "input_y": 32,
-        "input_x": 32,
-        "batch_size": 15,
-        "dimensions": 3,
-        "conv_filters": [50, 100, 150, 50],
-        "batch_norm": true,
-        "dense_units": [200],
-        "drop_prob": [0.1],
-        "learning_rate": 8e-6,
-        "epochs": 100
-    },
-    {
-        "input_y": 64,
-        "input_x": 64,
-        "batch_size": 15,
-        "dimensions": 3,
-        "conv_filters": [32, 64, 128, 256],
-        "batch_norm": true,
-        "dense_units": [512],
-        "drop_prob": [0.5],
-        "learning_rate": 8e-4,
-        "epochs": 100
-    },
-    {
-        "input_y": 46,
-        "input_x": 46,
-        "batch_size": 12,
-        "dimensions": 3,
-        "conv_filters": [60, 120, 180, 120, 60],
-        "batch_norm": true,
-        "dense_units": [150],
-        "drop_prob": [0],
-        "learning_rate": 5e-2,
         "epochs": 100
     }
 ]
