@@ -8,6 +8,6 @@
         "dense_units": [100],
         "drop_prob": [0.2],
         "learning_rate": 8e-4,
-        "epochs": 100
+        "epochs": 5
     }
 ]
