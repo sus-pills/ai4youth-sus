@@ -9,3 +9,5 @@ sus/.logs
 sus/logs
 info
 legacy_code
+.expo
+app/node_modeules
