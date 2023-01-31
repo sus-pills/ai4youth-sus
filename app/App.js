@@ -6,6 +6,7 @@ export default function App() {
     <View style={styles.container}>
       {/* Tutaj leci kod aplikacji. Nie dodawajcie jeszcze Native CHUJ_CHUJ Winda */}
       <StatusBar style="auto" />
+      <Text>CHUJ XD XDXDXDX</Text>
     </View>
   );
 }
