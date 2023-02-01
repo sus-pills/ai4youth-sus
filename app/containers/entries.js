@@ -36,7 +36,7 @@ const Styles = StyleSheet.create({
   },
 });
 
-export default function Wpisy() {
+export default function Entries() {
   return (
     <View style={Styles.container}>
       <View style={Styles.zawartoscWpisu}>

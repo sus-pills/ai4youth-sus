@@ -16,7 +16,7 @@ const Styles = StyleSheet.create({
   },
 });
 
-export default function Detektor() {
+export default function Detector() {
   return (
     <View style={Styles.container}>
       <Text style={Styles.TekstAplikacji}>Detektor Leków</Text>

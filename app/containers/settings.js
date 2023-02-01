@@ -14,8 +14,6 @@ const MyComponent = () => {
   return <Switch value={isSwitchOn} onValueChange={onToggleSwitch} />;
 };
 
-const okoIkona = require("../img/eye.png");
-const textIkona = require("../img/text.png");
 
 const Styles = StyleSheet.create({
   container: {
@@ -34,7 +32,7 @@ const Styles = StyleSheet.create({
   },
 });
 
-export default function Ustawienia() {
+export default function Settings() {
   return (
     <View style={Styles.container}>
       <Text style={Styles.TekstAplikacji}>Tryb dla daltonistów:</Text>
@@ -43,8 +41,8 @@ export default function Ustawienia() {
       <Text style={Styles.TekstAplikacji}>Wysoki kontrast:</Text>
       <Switch></Switch>
 
-      <OptionsMenu
-        button={okoIkona}
+      {/* <OptionsMenu
+        button={}
         buttonStyle={{
           width: 55,
           height: 55,
@@ -54,7 +52,7 @@ export default function Ustawienia() {
         options={["Trinatopia", "Protanopia"]}
       />
       <OptionsMenu
-        button={textIkona}
+        button={}
         buttonStyle={{
           width: 55,
           height: 55,
@@ -62,7 +60,7 @@ export default function Ustawienia() {
           resizeMode: "contain",
         }}
         options={["32", "36", "40"]}
-      />
+      /> */}
     </View>
   );
 }

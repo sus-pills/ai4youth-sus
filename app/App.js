@@ -1,13 +1,14 @@
+// Imports
 import React from "react";
 import { Text, View, StyleSheet } from "react-native";
-import { Calendar } from "react-native-calendars";
-import { createDrawerNavigator } from "@react-navigation/drawer";
-import Home from "./containers/home";
-import Wpisy from "./containers/wpisy";
-import Kalendarz from "./containers/kalendarz";
-import Ustawienia from "./containers/ustawienia";
-import Detektor from "./containers/detektor";
+
+// Navigation Imports
 import { NavigationContainer } from "@react-navigation/native";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import Calendar from "./containers/calendar";
+import Detector from "./containers/detector";
+import Entries from "./containers/entries";
+import Settings from "./containers/settings";
 
 const Drawer = createDrawerNavigator();
 
@@ -32,12 +33,11 @@ export default function App() {
           width: 280,
           backgroundColor: "#1A5A7D",
         }}
-        initialRouteName="Home"
+        initialRouteName="Calendar"
       >
-        <Drawer.Screen name="Start" component={Home} />
-        <Drawer.Screen name="Wpisy" component={Wpisy} />
         <Drawer.Screen name="Kalendarz" component={Kalendarz} />
-        <Drawer.Screen name="Detektor Leków" component={Detektor} />
+        <Drawer.Screen name="Wykryj lek" component={Detektor} />
+        <Drawer.Screen name="Wpisy" component={Wpisy} />
         <Drawer.Screen name="Ustawienia" component={Ustawienia} />
       </Drawer.Navigator>
     </NavigationContainer>
