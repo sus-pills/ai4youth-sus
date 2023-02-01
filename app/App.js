@@ -10,6 +10,9 @@ import Detector from "./containers/detector";
 import Entries from "./containers/entries";
 import Settings from "./containers/settings";
 
+// Other Imports
+import { HexColors } from "./global/globalStyles";
+
 const Drawer = createDrawerNavigator();
 
 const Styles = StyleSheet.create({
@@ -25,9 +28,8 @@ export default function App() {
       <Drawer.Navigator
         screenOptions={{
           headerShown: true,
-          headerStyle: {
-            backgroundColor: "#1A5A7D",
-          },
+          headerStyle: { backgroundColor: HexColors.main },
+          headerTitleStyle: { color: "white" },
         }}
         drawerStyle={{
           width: 280,
