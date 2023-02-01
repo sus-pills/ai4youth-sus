@@ -21,55 +21,6 @@ const Styles = StyleSheet.create({
 
 export default function App() {
   return (
-    /* 
-
-    Kalendarz 1
-
-    <View>
-      <CalendarList
-  onVisibleMonthsChange={(months) => {console.log('now these months are visible', months);}}
-  pastScrollRange={50}
-  futureScrollRange={50}
-  scrollEnabled={true}
-  showScrollIndicator={true}
-      />  
-    </View>
-
-    Kalendarz 2
-
-    <View>
-      <Calendar
-  initialDate={'2023-01-31'}
-  minDate={'2023-01-31'}
-  maxDate={'2023-02-25'}
-  onDayPress={day => {
-    console.log('selected day', day);
-  }}
-  onDayLongPress={day => {
-    console.log('selected day', day);
-  }}
-  monthFormat={'yyyy MM'}
-  onMonthChange={month => {
-    console.log('month changed', month);
-  }}
-  hideArrows={true}
-  renderArrow={direction => <Arrow />}
-  hideExtraDays={true}
-  disableMonthChange={true}
-  firstDay={1}
-  hideDayNames={true}
-  showWeekNumbers={true}
-  onPressArrowLeft={subtractMonth => subtractMonth()}
-  onPressArrowRight={addMonth => addMonth()}
-  disableArrowLeft={true}
-  disableArrowRight={true}
-  disableAllTouchEventsForDisabledDays={true}
-  renderHeader={date => {
-  }}
-  enableSwipeMonths={true}
-/> 
-    </View>
-    */
    <NavigationContainer>
    <Drawer.Navigator screenOptions={{
     headerShown: true,
