@@ -1,7 +1,8 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { Calendar } from "react-native-calendars";
+import { CalendarList } from "react-native-calendars";
 import { LocaleConfig } from "react-native-calendars";
+import { HexColors } from "../global/globalStyles";
 
 LocaleConfig.locales["pl"] = {
   monthNames: [
@@ -44,13 +45,15 @@ LocaleConfig.locales["pl"] = {
   dayNamesShort: ["Pon.", "Wt.", "Śr.", "Czw.", "Pt.", "Sob.", "Nie."],
   today: "Dzisiaj",
 };
+
+// Localization config
 LocaleConfig.defaultLocale = "pl";
 
 const Styles = StyleSheet.create({
   container: {
-    padding: 15,
+    // padding: 15, // <-- This is ugly
     flex: 1,
-    backgroundColor: "#0E2A3E",
+    backgroundColor: HexColors.bg,
     verticalAlign: "center",
     justifyContent: "center",
   },
@@ -60,29 +63,21 @@ const Styles = StyleSheet.create({
     color: "#1A5A7D",
     fontFamily: "sans-serif-condensed",
   },
-  KalendarzAplikacji: {
-    borderRadius: 25,
-    padding: 15,
-    elevation: 2,
-    backgroundColor: "#1A5A7D",
-    color: "white",
-    borderWidth: 2,
-  },
 });
 
 export default function PillCalendar() {
   return (
     <View style={Styles.container}>
-      <Calendar
+      <CalendarList
         style={{
-          borderWidth: 1,
-          borderColor: "gray",
-          borderRadius: 25,
-          padding: 15,
+          height: "100%",
         }}
+        pagingEnabled={true}
+        hideArrows={false}
+        horizontal={true}
         theme={{
-          backgroundColor: "#ffffff",
-          calendarBackground: "#ffffff",
+          backgroundColor: HexColors.bg,
+          calendarBackground: HexColors.bg,
           textSectionTitleColor: "#b6c1cd",
           textSectionTitleDisabledColor: "#d9e1e8",
           selectedDayBackgroundColor: "#00adf5",
@@ -105,6 +100,11 @@ export default function PillCalendar() {
           textDayFontSize: 16,
           textMonthFontSize: 16,
           textDayHeaderFontSize: 16,
+          'stylesheet.day.basic': {
+            'base':{
+              height: 100,
+            }
+          }
         }}
         markedDates={{
           "2023-02-01": { marked: true, selectedColor: "1A5A7D" },
