@@ -29,7 +29,8 @@ export default function App() {
         screenOptions={{
           headerShown: true,
           headerStyle: { backgroundColor: HexColors.main },
-          headerTitleStyle: { color: "white" },
+          headerTitleStyle: { color: "white"},
+          headerTitleAlign: "center",
         }}
         drawerStyle={{
           width: 280,
