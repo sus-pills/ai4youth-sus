@@ -5,7 +5,7 @@ import { Text, View, StyleSheet } from "react-native";
 // Navigation Imports
 import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import Calendar from "./containers/calendar";
+import PillCalendar from "./containers/calendar";
 import Detector from "./containers/detector";
 import Entries from "./containers/entries";
 import Settings from "./containers/settings";
@@ -35,10 +35,10 @@ export default function App() {
         }}
         initialRouteName="Calendar"
       >
-        <Drawer.Screen name="Kalendarz" component={Kalendarz} />
-        <Drawer.Screen name="Wykryj lek" component={Detektor} />
-        <Drawer.Screen name="Wpisy" component={Wpisy} />
-        <Drawer.Screen name="Ustawienia" component={Ustawienia} />
+        <Drawer.Screen name="Kalendarz" component={PillCalendar} />
+        <Drawer.Screen name="Wykryj lek" component={Detector} />
+        <Drawer.Screen name="Wpisy" component={Entries} />
+        <Drawer.Screen name="Ustawienia" component={Settings} />
       </Drawer.Navigator>
     </NavigationContainer>
   );

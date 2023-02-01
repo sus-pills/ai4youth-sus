@@ -70,7 +70,7 @@ const Styles = StyleSheet.create({
   },
 });
 
-export default function Calendar() {
+export default function PillCalendar() {
   return (
     <View style={Styles.container}>
       <Calendar
