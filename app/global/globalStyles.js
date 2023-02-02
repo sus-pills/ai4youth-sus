@@ -13,6 +13,11 @@ export const CustomBorder = {
     "customRadius": 8,
 }
 
+export const CustomSpacing = {
+    "customPadding": 12,
+    "customMargin": 12,
+}
+
 // export const ColorsDark = {
 //     "customBackground": "#0E2A3E",
 //     "customMain": "#1A5A7D",
