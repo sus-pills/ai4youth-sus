@@ -3,7 +3,7 @@ import { View, Text, Switch } from "react-native";
 
 // Styles Imports
 import { StyleSheet } from "react-native";
-import { HexColors } from "../global/globalStyles";
+import { CustomColors } from "../global/globalStyles";
 
 const Settings = () => {
   return <View></View>;

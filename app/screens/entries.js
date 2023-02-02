@@ -3,7 +3,7 @@ import { View, Textt } from "react-native";
 
 // Styles Imports
 import { StyleSheet } from "react-native";
-import { HexColors } from "../global/globalStyles";
+import { CustomColors } from "../global/globalStyles";
 
 const Entries = () => {
   return (

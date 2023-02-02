@@ -4,7 +4,7 @@ import IconButton from "../components/iconButton";
 
 // Styles Import
 import { StyleSheet } from "react-native";
-import { HexColors } from "../global/globalStyles";
+import { CustomColors } from "../global/globalStyles";
 
 const Detector = () => {
   const [title, setTitle] = useState("Zrób zdjęcie");
@@ -20,7 +20,7 @@ const Detector = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: HexColors.customBackground,
+    backgroundColor: CustomColors.customBackground,
     padding: 5,
   },
 });

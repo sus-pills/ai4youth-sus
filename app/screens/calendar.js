@@ -4,7 +4,7 @@ import { CalendarList, LocaleConfig } from "react-native-calendars";
 
 // Styles Imports
 import { StyleSheet } from "react-native";
-import { HexColors } from "../global/globalStyles";
+import { CustomColors } from "../global/globalStyles";
 
 LocaleConfig.locales["pl"] = {
   monthNames: [
@@ -80,7 +80,7 @@ const PillCalendar = () => {
 const Styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: HexColors.bg,
+    backgroundColor: CustomColors.bg,
     verticalAlign: "center",
     justifyContent: "center",
   },

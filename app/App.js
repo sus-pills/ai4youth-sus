@@ -12,7 +12,7 @@ import Settings from "./screens/settings";
 
 // Styles Imports
 import { StyleSheet } from "react-native";
-import { HexColors } from "../global/globalStyles";
+import { CustomColors } from "./global/globalStyles";
 
 const Drawer = createDrawerNavigator();
 
@@ -22,7 +22,7 @@ export default function App() {
       <Drawer.Navigator
         screenOptions={{
           headerShown: true,
-          headerStyle: { backgroundColor: HexColors.main },
+          headerStyle: { backgroundColor: CustomColors.customMain },
           headerTitleStyle: { color: "white"},
           headerTitleAlign: "center",
         }}
