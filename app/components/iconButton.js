@@ -16,7 +16,7 @@ const IconButton = ({ title, iconName }) => {
           name={iconName}
           size={30}
           color="white"
-          style={{ marginRight: 10 }}
+          style={{ marginRight: 8 }}
         />
         {/* Title */}
         <Text style={styles.title}>{title}</Text>

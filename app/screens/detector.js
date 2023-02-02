@@ -4,13 +4,12 @@ import IconButton from "../components/iconButton";
 
 // Styles Import
 import { StyleSheet } from "react-native";
-import { CustomColors } from "../global/globalStyles";
+import { CustomColors, CustomSpacing } from "../global/globalStyles";
 
 const Detector = () => {
-  const [title, setTitle] = useState("Zrób zdjęcie");
+  const [title, setTitle] = useState("Zrób Zdjęcie");
 
   return (
-    // Button
     <View style={styles.container}>
       <IconButton title={title} iconName="photo-camera" />
     </View>
@@ -21,7 +20,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: CustomColors.customBackground,
-    padding: 5,
+    padding: CustomSpacing.customPadding,
   },
 });
 
