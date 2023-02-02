@@ -2,21 +2,12 @@ import React from "react"
 import { StyleSheet } from "react-native"
 
 export const CustomColors = {
-    "customBackground": "#FFFFFF",
-    "customMain": "#47B8E0",
-    "customSecondary": "#134074",
-    "customAffirmation": "0BC11D",
-    "customNegation": "F26419",
-}
-
-export const CustomBorder = {
-    "customRadius": 8,
-}
-
-export const CustomSpacing = {
-    "customPadding": 12,
-    "customMargin": 12,
-    "customGap": 12,
+  "customBackground": "#FFFFFF",
+  "customMain": "#47B8E0",
+  "customSecondary": "#134074",
+  "customAffirmation": "#0BC11D",
+  "customNegation": "#F26419",
+  "customDarkGray": "#666",
 }
 
 // export const ColorsDark = {
@@ -27,6 +18,26 @@ export const CustomSpacing = {
 //     "customNegation": "E75A0D",
 // }
 
-export const GlobalStyles = StyleSheet.create({
+export const CustomBorder = {
+  "customRadius": 8,
+}
 
+export const CustomSpacing = {
+  "customPadding": 6,
+  "customMargin": 12,
+  "customGap": 12,
+}
+
+export const GlobalStyles = StyleSheet.create({
+  customShadow: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+
+    elevation: 3,
+  },
 })
