@@ -1,6 +1,9 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text } from "react-native";
 import { CalendarList, LocaleConfig } from "react-native-calendars";
+
+// Styles Imports
+import { StyleSheet } from "react-native";
 import { HexColors } from "../global/globalStyles";
 
 LocaleConfig.locales["pl"] = {
@@ -48,21 +51,11 @@ LocaleConfig.locales["pl"] = {
 // Localization config
 LocaleConfig.defaultLocale = "pl";
 
-// Styles
-const Styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: HexColors.bg,
-    verticalAlign: "center",
-    justifyContent: "center",
-  },
-});
-
 const PillCalendar = () => {
   return (
     <View style={Styles.container}>
       <CalendarList
-        className="h-full"
+        style={{ height: "100%" }}
         pagingEnabled={true}
         hideArrows={false}
         horizontal={true}
@@ -82,6 +75,15 @@ const PillCalendar = () => {
       />
     </View>
   );
-}
+};
+
+const Styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: HexColors.bg,
+    verticalAlign: "center",
+    justifyContent: "center",
+  },
+});
 
 export default PillCalendar;

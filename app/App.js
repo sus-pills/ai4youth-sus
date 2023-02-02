@@ -1,6 +1,6 @@
 // Imports
 import React from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View } from "react-native";
 
 // Navigation Imports
 import { NavigationContainer } from "@react-navigation/native";
@@ -10,8 +10,9 @@ import Detector from "./screens/detector";
 import Entries from "./screens/entries";
 import Settings from "./screens/settings";
 
-// Other Imports
-import { HexColors } from "./global/globalStyles";
+// Styles Imports
+import { StyleSheet } from "react-native";
+import { HexColors } from "../global/globalStyles";
 
 const Drawer = createDrawerNavigator();
 
