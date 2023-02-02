@@ -9,7 +9,9 @@ export const CustomColors = {
     "customNegation": "F26419",
 }
 
-// export const 
+export const CustomBorder = {
+    "customRadius": 8,
+}
 
 // export const ColorsDark = {
 //     "customBackground": "#0E2A3E",
