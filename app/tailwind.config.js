@@ -2,6 +2,7 @@
 module.exports = {
   content: [
     "./components/*.js",
+    "./screens/*.js",
     "./global/*.js",
     "./routes/*.js",
     "./*.js",
