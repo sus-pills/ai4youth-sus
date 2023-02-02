@@ -1,10 +1,10 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import { createAppContainer } from "react-navigation";
 
-import PillCalendar from "../containers/calendar";
-import Detector from "../containers/detector";
-import Entries from "../containers/entries";
-import Settings from "../containers/settings";
+import PillCalendar from "../components/calendar";
+import Detector from "../components/detector";
+import Entries from "../components/entries";
+import Settings from "../components/settings";
 
 const screens = {
     PillCalendar: {

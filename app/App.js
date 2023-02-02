@@ -5,10 +5,10 @@ import { Text, View, StyleSheet } from "react-native";
 // Navigation Imports
 import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import PillCalendar from "./containers/calendar";
-import Detector from "./containers/detector";
-import Entries from "./containers/entries";
-import Settings from "./containers/settings";
+import PillCalendar from "./components/calendar";
+import Detector from "./components/detector";
+import Entries from "./components/entries";
+import Settings from "./components/settings";
 
 // Other Imports
 import { HexColors } from "./global/globalStyles";
