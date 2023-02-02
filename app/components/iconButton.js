@@ -4,12 +4,12 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 // Styles Imports
 import { StyleSheet } from "react-native";
-import { CustomBorder, CustomColors, CustomSpacing } from "../global/globalStyles";
+import { CustomBorder, CustomColors, CustomSpacing, GlobalStyles } from "../global/globalStyles";
 
 const IconButton = ({ title, iconName }) => {
   return (
     // Button
-    <TouchableOpacity style={styles.touchableOpacityButton}>
+    <TouchableOpacity style={[styles.touchableOpacityButton, GlobalStyles.customShadow]}>
       <View style={styles.container}>
         {/* Icon */}
         <MaterialIcons
@@ -29,11 +29,11 @@ const styles = StyleSheet.create({
   touchableOpacityButton: {
     backgroundColor: CustomColors.customMain,
     borderRadius: CustomBorder.customRadius,
-    padding: CustomSpacing.customPadding,
-    margin: CustomSpacing.customMargin,
+    padding: 12,
+    margin: 12,
+    marginBottom: 18,
   },
   container: {
-    // flex: 1,
     flexDirection: "row",
     justifyContent: "center",
     padding: 1,

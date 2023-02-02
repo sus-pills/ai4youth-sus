@@ -7,11 +7,18 @@ import {
   CustomColors,
   CustomBorder,
   CustomSpacing,
+  GlobalStyles,
 } from "../global/globalStyles";
 
 const Entry = ({ entry }) => {
   return (
-    <TouchableOpacity key={entry.key} style={[styles.touchableOpacityButton, {backgroundColor: entry.color}]}>
+    <TouchableOpacity
+      style={[
+        styles.touchableOpacityButton,
+        { backgroundColor: entry.color },
+        GlobalStyles.customShadow,
+      ]}
+    >
       <Text style={styles.testText}>{entry.name}</Text>
       <Text style={styles.testText}>{entry.datetime}</Text>
       <Text style={styles.testText}>{entry.period}</Text>
@@ -23,12 +30,12 @@ const styles = StyleSheet.create({
   touchableOpacityButton: {
     backgroundColor: CustomColors.customSecondary,
     borderRadius: CustomBorder.customRadius,
-    padding: CustomSpacing.customPadding,
-    gap: 12,
+    padding: 12,
+    margin: 6,
   },
-  testText: {
-    color: 'white',
-  }
+  // testText: {
+  //   color: "white",
+  // },
 });
 
 export default Entry;
