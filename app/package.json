@@ -29,6 +29,7 @@
     "react-native-screens": "~3.18.0",
     "react-native-vision-camera": "^2.15.3",
     "react-navigation": "^4.4.4",
+    "uuid": "^9.0.0",
     "yet": "^0.1.0"
   },
   "devDependencies": {
