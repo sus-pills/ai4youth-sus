@@ -34,15 +34,15 @@ LocaleConfig.locales["pl"] = {
     "Gru.",
   ],
   dayNames: [
+    "Niedziela",
     "Poniedziałek",
     "Wtorek",
     "Środa",
     "Czwartek",
     "Piątek",
     "Sobota",
-    "Niedziela",
   ],
-  dayNamesShort: ["Pon.", "Wt.", "Śr.", "Czw.", "Pt.", "Sob.", "Nie."],
+  dayNamesShort: ["N", "Pn", "Wt", "Śr", "Czw", "Pt", "Sb",],
   today: "Dzisiaj",
 };
 
@@ -52,7 +52,6 @@ LocaleConfig.defaultLocale = "pl";
 // Styles
 const Styles = StyleSheet.create({
   container: {
-    // padding: 15, // <-- This is ugly
     flex: 1,
     backgroundColor: HexColors.bg,
     verticalAlign: "center",
@@ -70,6 +69,7 @@ export default function PillCalendar() {
         pagingEnabled={true}
         hideArrows={false}
         horizontal={true}
+        firstDay={1}
         theme={{
           backgroundColor: HexColors.bg,
           calendarBackground: HexColors.bg,
