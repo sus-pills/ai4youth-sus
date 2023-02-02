@@ -16,6 +16,7 @@ export const CustomBorder = {
 export const CustomSpacing = {
     "customPadding": 12,
     "customMargin": 12,
+    "customGap": 12,
 }
 
 // export const ColorsDark = {
