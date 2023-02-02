@@ -12,7 +12,16 @@ import { CustomColors, CustomSpacing } from "../global/globalStyles";
 
 const Entries = () => {
   const [entries, setEntries] = useState([
-  //   {key: 1, name: "Witamina C", datetime: "2023-02-03 15:15:15", period: 86400, color: "red"},
+    {key: 1, name: "Witamina C", datetime: "2023-02-03 15:15:15", period: 86400, color: "red"},
+    {key: 2, name: "Witamina C", datetime: "2023-02-03 15:15:15", period: 86400, color: "red"},
+    {key: 3, name: "Witamina C", datetime: "2023-02-03 15:15:15", period: 86400, color: "red"},
+    {key: 4, name: "Witamina C", datetime: "2023-02-03 15:15:15", period: 86400, color: "red"},
+    {key: 5, name: "Witamina C", datetime: "2023-02-03 15:15:15", period: 86400, color: "red"},
+    {key: 6, name: "Witamina C", datetime: "2023-02-03 15:15:15", period: 86400, color: "red"},
+    {key: 7, name: "Witamina C", datetime: "2023-02-03 15:15:15", period: 86400, color: "red"},
+    {key: 8, name: "Witamina C", datetime: "2023-02-03 15:15:15", period: 86400, color: "red"},
+    {key: 9, name: "Witamina C", datetime: "2023-02-03 15:15:15", period: 86400, color: "red"},
+    {key: 0, name: "Witamina C", datetime: "2023-02-03 15:15:15", period: 86400, color: "red"},
   ]);
   const [title, setTitle] = useState("Dodaj Wpis");
 
@@ -22,8 +31,8 @@ const Entries = () => {
       <IconButton title={title} iconName="add" />
 
       {/* Entries */}
-      <ScrollView>
-        {entries.map(entry => <Entry entry={entry} />)}
+      <ScrollView style={styles.scrollView}>
+        {entries.map(entry => <Entry key={entry.key} entry={entry} />)}
       </ScrollView>
     </View>
   );
