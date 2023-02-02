@@ -1,0 +1,22 @@
+## Deadlines
+
+- [ ] 2023-02-03 > Stworzenie podstawy na aplikację (React Native)
+- [ ] 2023-02-05 > Stworzenie strony na Facebooku / kanału na Tiktoku
+- [ ] 2023-02-09 > Stworzenie zbiórki na projekt
+- [ ] 2023-02-12 > Dodanie zakładek do aplikacji
+- [ ] 2023-02-13 > Stworzenie wstępnej reklamy na projekt
+- [ ] 2023-02-14 > Dodanie opcji (ustawień) do aplikacji
+- [ ] 2023-02-16 > Dodanie powiadomień do aplikacji
+- [ ] 2023-02-18 > Dodanie opcji formularza (feedback) do aplikacji
+- [ ] 2023-02-19 > Ulepszenie aktualnego modelu AI.
+- [ ] 2023-02-22 > Dodanie danych treningowych AI jako zdjęć od partnerskiej firmy farmaceutycznej
+- [ ] 2023-02-24 > Dodanie podstawowych informacji o tabletkach
+- [ ] 2023-02-28 > Dodanie funkcji kalendarza do aplikacji
+- [ ] 2023-03-01 > Dodanie opcji dla osób niepełnosprawnych
+- [ ] 2023-03-02 > Znalezienie inwestora (zawarcie z nim współpracy)
+- [ ] 2023-03-03 > Stworzenie kampanii reklamowej na Facebooku (lub/i Tiktoku)
+- [ ] 2023-03-03 > Wydrukowanie plakatów/ulotek
+- [ ] 2023-03-06 > Rozwieszanie plakatów
+- [ ] 2023-03-07 > Rozdanie ulotek/wlep
+- [ ] 2023-03-07 > Wystawienie aplikacji na Google Play
+- [ ] 2023-03-12 > Reklamowanie ukończonego projektu (aplikacji)

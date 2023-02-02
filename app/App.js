@@ -1,47 +1,78 @@
 // Imports
-import React from "react";
-import { Text, View, StyleSheet } from "react-native";
+import React, { useState } from "react";
+import { Text, View } from "react-native";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 // Navigation Imports
 import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import PillCalendar from "./containers/calendar";
-import Detector from "./containers/detector";
-import Entries from "./containers/entries";
-import Settings from "./containers/settings";
+import PillCalendar from "./screens/calendar";
+import Detector from "./screens/detector";
+import Entries from "./screens/entries";
+import Settings from "./screens/settings";
 
-// Other Imports
-import { HexColors } from "./global/globalStyles";
+// Styles Imports
+import { StyleSheet } from "react-native";
+import { CustomColors } from "./global/globalStyles";
 
 const Drawer = createDrawerNavigator();
 
-const Styles = StyleSheet.create({
-  zakladka: {
-    backgroundColor: "black",
-    width: 200,
-  },
-});
-
 export default function App() {
+  const activeColor = CustomColors.customMain;
+  const inactiveColor = CustomColors.customDarkGray;
+
   return (
     <NavigationContainer>
       <Drawer.Navigator
         screenOptions={{
           headerShown: true,
-          headerStyle: { backgroundColor: HexColors.main },
-          headerTitleStyle: { color: "white"},
+          headerStyle: { backgroundColor: CustomColors.customMain },
           headerTitleAlign: "center",
+          headerTintColor: 'white',
+          drawerActiveTintColor: activeColor,
+          drawerInactiveTintColor: inactiveColor,
         }}
-        drawerStyle={{
-          width: 280,
-          backgroundColor: "#1A5A7D",
-        }}
-        initialRouteName="Calendar"
+        initialRouteName="PillCalendar"
       >
-        <Drawer.Screen name="Kalendarz" component={PillCalendar} />
-        <Drawer.Screen name="Wykryj lek" component={Detector} />
-        <Drawer.Screen name="Wpisy" component={Entries} />
-        <Drawer.Screen name="Ustawienia" component={Settings} />
+        <Drawer.Screen name="Kalendarz" component={PillCalendar} options={{
+          title: 'Kalendarz',
+          drawerIcon: ({focused, size}) => <MaterialIcons
+            name={'calendar-today'}
+            size={size}
+            color={focused ? CustomColors.customMain : inactiveColor}
+            // style={{ marginRight: 8 }}
+          />
+        }} />
+        
+        <Drawer.Screen name="Wykryj lek" component={Detector} options={{
+          title: 'Wykryj lek',
+          drawerIcon: ({focused, size}) => <MaterialIcons
+            name={'photo-camera'}
+            size={size}
+            color={focused ? CustomColors.customMain : inactiveColor}
+            // style={{ marginRight: 8 }}
+          />
+        }} />
+
+        <Drawer.Screen name="Wpisy" component={Entries} options={{
+          title: 'Wpisy',
+          drawerIcon: ({focused, size}) => <MaterialIcons
+            name={'format-list-bulleted'}
+            size={size}
+            color={focused ? CustomColors.customMain : inactiveColor}
+            // style={{ marginRight: 8 }}
+          />
+        }} />
+
+        <Drawer.Screen name="Ustawienia" component={Settings} options={{
+          title: 'Ustawienia',
+          drawerIcon: ({focused, size}) => <MaterialIcons
+            name={'settings'}
+            size={size}
+            color={focused ? CustomColors.customMain : inactiveColor}
+            // style={{ marginRight: 8 }}
+          />
+        }} />
       </Drawer.Navigator>
     </NavigationContainer>
   );
