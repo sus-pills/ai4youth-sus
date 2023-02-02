@@ -49,6 +49,7 @@ LocaleConfig.locales["pl"] = {
 // Localization config
 LocaleConfig.defaultLocale = "pl";
 
+// Styles
 const Styles = StyleSheet.create({
   container: {
     // padding: 15, // <-- This is ugly
@@ -56,12 +57,6 @@ const Styles = StyleSheet.create({
     backgroundColor: HexColors.bg,
     verticalAlign: "center",
     justifyContent: "center",
-  },
-  TekstAplikacji: {
-    fontSize: 21,
-    textAlign: "center",
-    color: "#1A5A7D",
-    fontFamily: "sans-serif-condensed",
   },
 });
 

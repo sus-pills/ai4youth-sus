@@ -15,13 +15,6 @@ import { HexColors } from "./global/globalStyles";
 
 const Drawer = createDrawerNavigator();
 
-const Styles = StyleSheet.create({
-  zakladka: {
-    backgroundColor: "black",
-    width: 200,
-  },
-});
-
 export default function App() {
   return (
     <NavigationContainer>
@@ -36,7 +29,7 @@ export default function App() {
           width: 280,
           backgroundColor: "#1A5A7D",
         }}
-        initialRouteName="Calendar"
+        initialRouteName="PillCalendar"
       >
         <Drawer.Screen name="Kalendarz" component={PillCalendar} />
         <Drawer.Screen name="Wykryj lek" component={Detector} />

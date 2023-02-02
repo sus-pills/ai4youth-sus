@@ -20,9 +20,8 @@ export default function Detector() {
   return (
     <View style={Styles.container}>
       <Text style={Styles.TekstAplikacji}>Detektor Leków</Text>
-      <Text>{"\n"}</Text>
       <Button
-        /*onPress= tu bedzie kamera sie wywoływała*/
+        // onPress={/*tu bedzie kamera sie wywoływała*/}
         title="Zrób zdjęcie"
         color="#1A5A7D"
         accessibilityLabel="Zrób zdjęcie by aplikacja wykryła tabletkę."
