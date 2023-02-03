@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     backgroundColor: CustomColors.customMain,
     borderRadius: CustomBorder.customRadius,
     padding: 12,
-    margin: 12,
+    margin: 18,
     marginBottom: 18,
   },
   container: {
