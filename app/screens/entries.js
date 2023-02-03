@@ -45,8 +45,8 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
-    paddingHorizontal: 12,
-    paddingTop: 0,
+    marginHorizontal: 12,
+    marginTop: 0,
   }
 });
 
