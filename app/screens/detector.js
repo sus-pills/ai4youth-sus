@@ -12,6 +12,8 @@ const Detector = () => {
   return (
     <View style={styles.container}>
       <IconButton title={title} iconName="photo-camera" />
+
+      {/* zdjecie */}
     </View>
   );
 };
