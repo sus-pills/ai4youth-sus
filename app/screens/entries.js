@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
-    marginHorizontal: 12,
+    marginHorizontal: 0,
     marginTop: 0,
   },
 });

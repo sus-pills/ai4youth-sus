@@ -53,7 +53,8 @@ const styles = StyleSheet.create({
     backgroundColor: CustomColors.customSecondary,
     borderRadius: CustomBorder.customRadius,
     padding: 12,
-    margin: 6,
+    marginVertical: 6,
+    marginHorizontal: 12,
 
     flexDirection: "row",
     alignItems: 'center',
