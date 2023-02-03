@@ -8,6 +8,7 @@ export const CustomColors = {
   "customAffirmation": "#0BC11D",
   "customNegation": "#F26419",
   "customDarkGray": "#666",
+  "customLightGray": "#ddd",
 }
 
 // export const ColorsDark = {
