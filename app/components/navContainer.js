@@ -8,7 +8,6 @@ import { CustomColors } from "../global/globalStyles";
 
 // Navigation Imports
 import { NavigationContainer } from "@react-navigation/native";
-// import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import PillCalendar from "../screens/calendar";
 import Detector from "../screens/detector";
