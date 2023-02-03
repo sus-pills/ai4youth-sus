@@ -9,7 +9,9 @@ import { CustomBorder, CustomColors, CustomSpacing, GlobalStyles } from "../glob
 const IconButton = ({ title, iconName }) => {
   return (
     // Button
-    <TouchableOpacity style={[styles.touchableOpacityButton, GlobalStyles.customShadow]}>
+    <TouchableOpacity 
+    activeOpacity={.4}
+      style={[styles.touchableOpacityButton, GlobalStyles.customShadow]}>
       <View style={styles.container}>
         {/* Icon */}
         <MaterialIcons
