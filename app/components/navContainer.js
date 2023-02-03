@@ -43,7 +43,6 @@ const NavContainer = () => {
                 name={"calendar"}
                 size={size}
                 color={focused ? CustomColors.customMain : inactiveColor}
-                // style={{ marginRight: 8 }}
               />
             ),
           }}
@@ -59,7 +58,6 @@ const NavContainer = () => {
                 name={"photo-camera"}
                 size={size}
                 color={focused ? CustomColors.customMain : inactiveColor}
-                // style={{ marginRight: 8 }}
               />
             ),
           }}
@@ -75,7 +73,6 @@ const NavContainer = () => {
                 name={"format-list-bulleted"}
                 size={size}
                 color={focused ? CustomColors.customMain : inactiveColor}
-                // style={{ marginRight: 8 }}
               />
             ),
           }}
@@ -91,7 +88,6 @@ const NavContainer = () => {
                 name={"settings"}
                 size={size}
                 color={focused ? CustomColors.customMain : inactiveColor}
-                // style={{ marginRight: 8 }}
               />
             ),
           }}
