@@ -42,10 +42,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: CustomColors.customBackground,
-    padding: CustomSpacing.customPadding,
   },
   scrollView: {
     flex: 1,
+    paddingHorizontal: 12,
+    paddingTop: 0,
   }
 });
 
