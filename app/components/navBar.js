@@ -14,7 +14,7 @@ import Detector from "../screens/detector";
 import Entries from "../screens/entries";
 import Settings from "../screens/settings";
 
-const NavContainer = () => {
+const NavBar = () => {
   const TabBar = createBottomTabNavigator();
   const activeColor = CustomColors.customMain;
   const inactiveColor = CustomColors.customDarkGray;
@@ -96,4 +96,4 @@ const NavContainer = () => {
   );
 };
 
-export default NavContainer;
+export default NavBar;
