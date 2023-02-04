@@ -6,11 +6,12 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { StyleSheet } from "react-native";
 import { CustomBorder, CustomColors, CustomSpacing, GlobalStyles } from "../global/globalStyles";
 
-const IconButton = ({ title, iconName }) => {
+const IconButton = ({ title, iconName, onPress }) => {
   return (
     // Button
     <TouchableOpacity 
-    activeOpacity={0.4}
+      onPress={onPress}
+      activeOpacity={0.4}
       style={[styles.touchableOpacityButton, GlobalStyles.customShadow]}>
       <View style={styles.container}>
         {/* Icon */}
