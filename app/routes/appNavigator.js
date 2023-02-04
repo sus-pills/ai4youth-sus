@@ -11,9 +11,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import PillCalendar from "../screens/calendar";
 import Detector from "../screens/detector";
-// import EntriesStack from "./entriesStack";
+import EntriesStack from "../routes/entriesStack";
 import Settings from "../screens/settings";
-import Entries from "../screens/entries";
 
 const {Navigator, Screen} = createBottomTabNavigator();
 
@@ -65,7 +64,7 @@ export const NavBar = () => {
 
       <Screen
         name="Wpisy"
-        component={Entries}
+        component={EntriesStack}
         options={{
           title: "Wpisy",
           tabBarIcon: ({ focused, size }) => (
