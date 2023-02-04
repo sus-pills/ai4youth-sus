@@ -1,0 +1,50 @@
+import React, { useState } from "react";
+import { View, TouchableOpacity, Text } from "react-native";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+
+// Styles Imports
+import { StyleSheet } from "react-native";
+import { CustomBorder, CustomColors, CustomSpacing, GlobalStyles } from "../global/globalStyles";
+
+const IconButton = ({ title, iconName, onPress }) => {
+  return (
+    // Button
+    <TouchableOpacity 
+      onPress={onPress}
+      activeOpacity={0.4}
+      style={[styles.touchableOpacityButton, GlobalStyles.customShadow]}>
+      <View style={styles.container}>
+        {/* Icon */}
+        <MaterialCommunityIcons
+          name={iconName}
+          size={30}
+          color="white"
+          style={{ marginRight: 8 }}
+        />
+        {/* Title */}
+        <Text style={styles.title}>{title}</Text>
+      </View>
+    </TouchableOpacity>
+  );
+};
+
+const styles = StyleSheet.create({
+  touchableOpacityButton: {
+    backgroundColor: CustomColors.customMain,
+    borderRadius: CustomBorder.customRadius,
+    padding: 12,
+    margin: 18,
+    marginBottom: 18,
+  },
+  container: {
+    flexDirection: "row",
+    justifyContent: "center",
+    padding: 1,
+  },
+  title: {
+    color: "white",
+    fontSize: 20,
+  },
+});
+
+export default IconButton;
