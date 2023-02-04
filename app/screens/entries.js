@@ -10,7 +10,7 @@ import Entry from "../components/entry";
 import { StyleSheet } from "react-native";
 import { CustomColors, CustomSpacing } from "../global/globalStyles";
 
-const Entries = () => {
+const Entries = ({ navigation: { navigate } }) => {
   const [entries, setEntries] = useState([
     {
       key: 1,
@@ -103,7 +103,11 @@ const Entries = () => {
       {/* Entries */}
       <ScrollView style={styles.scrollView}>
         {entries.map((entry) => (
-          <Entry key={entry.key} entry={entry} />
+          <Entry onPress={() => {
+            navigate('EntryInfo', {entry})
+          }}
+          key={entry.key} 
+          entry={entry} />
         ))}
       </ScrollView>
     </View>

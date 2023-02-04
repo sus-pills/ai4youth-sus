@@ -1,7 +1,7 @@
 // Imports
 import React from "react";
-import AppNavigator from "./routes/appNavigator";
+import AppStack from "./routes/appStack";
 
 export default function App() {
-  return <AppNavigator />;
+  return <AppStack />;
 }

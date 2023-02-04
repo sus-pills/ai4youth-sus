@@ -11,12 +11,12 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import PillCalendar from "../screens/calendar";
 import Detector from "../screens/detector";
-import EntriesStack from "../routes/entriesStack";
+import Entries from "../screens/entries";
 import Settings from "../screens/settings";
 
 const Tab = createBottomTabNavigator();
 
-export const NavBar = () => {
+export const HomeTab = () => {
   const activeColor = CustomColors.customMain;
   const inactiveColor = CustomColors.customDarkGray;
 
@@ -64,7 +64,7 @@ export const NavBar = () => {
 
       <Tab.Screen
         name="Wpisy"
-        component={EntriesStack}
+        component={Entries}
         options={{
           title: "Wpisy",
           tabBarIcon: ({ focused, size }) => (
@@ -95,12 +95,4 @@ export const NavBar = () => {
   );
 };
 
-const AppNavigator = () => {
-  return (
-    <NavigationContainer>
-      <NavBar />
-    </NavigationContainer>
-  )
-}
-
-export default AppNavigator;
+export default HomeTab;
