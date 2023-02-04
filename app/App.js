@@ -1,7 +1,7 @@
 // Imports
 import React from "react";
-import NavBar from "./routes/navBar";
+import AppNavigator from "./routes/appNavigator";
 
 export default function App() {
-  return <NavBar />;
+  return <AppNavigator />;
 }
