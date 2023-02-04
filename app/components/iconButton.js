@@ -1,25 +1,36 @@
 import React, { useState } from "react";
 import { View, TouchableOpacity, Text } from "react-native";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 // Styles Imports
 import { StyleSheet } from "react-native";
 import { CustomBorder, CustomColors, CustomSpacing, GlobalStyles } from "../global/globalStyles";
 
-const IconButton = ({ title, iconName, onPress }) => {
+const IconButton = ({ title, iconName, communityIcons, style, onPress }) => {
   return (
     <TouchableOpacity 
       onPress={onPress}
       activeOpacity={0.4}
-      style={[styles.touchableOpacityButton, GlobalStyles.customShadow]}>
+      style={[styles.touchableOpacityButton, GlobalStyles.customShadow, style]}>
       <View style={styles.container}>
         {/* Icon */}
-        <MaterialIcons
+        {communityIcons ? (
+          <MaterialCommunityIcons
           name={iconName}
           size={30}
           color="white"
-          style={{ marginRight: 8 }}
+          style={{ marginRight: title ? 8 : 0 }}
         />
+        ) : (
+          <MaterialIcons
+          name={iconName}
+          size={30}
+          color="white"
+          style={{ marginRight: title ? 8 : 0 }}
+        />
+        )}
+
         {/* Title */}
         <Text style={styles.title}>{title}</Text>
       </View>
@@ -37,7 +48,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     justifyContent: "center",
-    padding: 1,
+    padding: 2,
   },
   title: {
     color: "white",
