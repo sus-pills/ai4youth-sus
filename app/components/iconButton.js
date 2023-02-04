@@ -10,7 +10,7 @@ const IconButton = ({ title, iconName }) => {
   return (
     // Button
     <TouchableOpacity 
-    activeOpacity={.4}
+    activeOpacity={0.4}
       style={[styles.touchableOpacityButton, GlobalStyles.customShadow]}>
       <View style={styles.container}>
         {/* Icon */}

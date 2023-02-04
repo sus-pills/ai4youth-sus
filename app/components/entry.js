@@ -18,7 +18,7 @@ const dateToString = () => {
 const Entry = ({ entry }) => {
   return (
     <TouchableOpacity
-      activeOpacity={.4}
+      activeOpacity={0.4}
       style={[
         styles.touchableOpacityButton,
         {
