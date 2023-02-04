@@ -4,35 +4,34 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 // Styles Imports
 import { StyleSheet } from "react-native";
-import { CustomBorder, CustomColors, CustomSpacing, GlobalStyles } from "../global/globalStyles";
+import {
+  CustomBorder,
+  CustomColors,
+  CustomSpacing,
+  GlobalStyles,
+} from "../global/globalStyles";
 
 const IconButton = ({ affirmation, onPress }) => {
+  const [color, setColor] = useState(CustomColors.customNegation);
+  const [iconName, setIconName] = useState("close");
 
-	if (affirmation) {
-		const color = CustomColors.customAffirmation;
-		const iconName = "check";
-	}
-	else {
-		const color = CustomColors.customNegation;
-		const iconName = "close";
-	}
+  if (affirmation) {
+    setColor(CustomColors.customAffirmation);
+    setIconName("check");
+  }
 
   return (
-    <TouchableOpacity 
+    <TouchableOpacity
       onPress={onPress}
       activeOpacity={0.4}
-      style={[styles.touchableOpacityButton, GlobalStyles.customShadow, {backgroundColor: color}]}>
-      <View style={styles.container}>
-        {/* Icon */}
-        <MaterialIcons
-          name={iconName}
-          size={30}
-          color="white"
-          style={{ marginRight: 8 }}
-        />
-        {/* Title */}
-        <Text style={styles.title}>{title}</Text>
-      </View>
+      style={[
+        styles.touchableOpacityButton,
+        GlobalStyles.customShadow,
+        { backgroundColor: color },
+      ]}
+    >
+      {/* Icon */}
+      <MaterialIcons name={iconName} size={30} color="white" />
     </TouchableOpacity>
   );
 };
@@ -42,11 +41,6 @@ const styles = StyleSheet.create({
     borderRadius: CustomBorder.customRadius,
     padding: 12,
     margin: 18,
-  },
-  container: {
-    flexDirection: "row",
-    justifyContent: "center",
-    padding: 1,
   },
   title: {
     color: "white",
