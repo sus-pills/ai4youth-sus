@@ -34,7 +34,6 @@ const styles = StyleSheet.create({
     borderRadius: CustomBorder.customRadius,
     padding: 12,
     margin: 18,
-    marginBottom: 18,
   },
   container: {
     flexDirection: "row",
