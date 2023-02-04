@@ -1,6 +1,6 @@
 ## Deadlines
 
-- [ ] 2023-02-03 > Stworzenie podstawy na aplikację (React Native)
+- [x] 2023-02-03 > Stworzenie podstawy na aplikację (React Native)
 - [ ] 2023-02-05 > Stworzenie strony na Facebooku / kanału na Tiktoku
 - [ ] 2023-02-09 > Stworzenie zbiórki na projekt
 - [ ] 2023-02-12 > Dodanie zakładek do aplikacji

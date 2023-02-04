@@ -12,6 +12,8 @@ const Detector = () => {
   return (
     <View style={styles.container}>
       <IconButton title={title} iconName="photo-camera" />
+
+      {/* zdjecie */}
     </View>
   );
 };
@@ -20,7 +22,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: CustomColors.customBackground,
-    padding: CustomSpacing.customPadding,
   },
 });
 
