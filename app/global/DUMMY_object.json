@@ -6,8 +6,9 @@
     "2": "18:00:00"
   },
   "nextIntake": "2023-02-03 12:00:00",
+  "weekDays": ["Su", "St"],
   "remainingIntakes": 20,
-  "everyXthDay": 2,
+  "everyXthDay": null,
   "dosage": 10,
   "unit": "milligramy",
   "instructions": "THIS IS A DUMMY FILE THAT SERVES AS A BLUEPRINT FOR THE MEDICATION OBJECT",
