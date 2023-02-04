@@ -11,7 +11,7 @@ import {
   GlobalStyles,
 } from "../global/globalStyles";
 
-const IconButton = ({ affirmation, onPress }) => {
+const YesNoButton = ({ affirmation, onPress }) => {
   const [color, setColor] = useState(CustomColors.customNegation);
   const [iconName, setIconName] = useState("close");
 
@@ -48,4 +48,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default IconButton;
+export default YesNoButton;
