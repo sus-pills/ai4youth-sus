@@ -8,7 +8,6 @@ import { CustomBorder, CustomColors, CustomSpacing, GlobalStyles } from "../glob
 
 const IconButton = ({ title, iconName, onPress }) => {
   return (
-    // Button
     <TouchableOpacity 
       onPress={onPress}
       activeOpacity={0.4}
