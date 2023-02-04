@@ -14,14 +14,14 @@ import Detector from "../screens/detector";
 import EntriesStack from "../routes/entriesStack";
 import Settings from "../screens/settings";
 
-const {Navigator, Screen} = createBottomTabNavigator();
+const Tab = createBottomTabNavigator();
 
 export const NavBar = () => {
   const activeColor = CustomColors.customMain;
   const inactiveColor = CustomColors.customDarkGray;
 
   return (
-    <Navigator
+    <Tab.Navigator
       screenOptions={{
         headerShown: true,
         headerStyle: { backgroundColor: CustomColors.customMain },
@@ -32,7 +32,7 @@ export const NavBar = () => {
       }}
       initialRouteName="PillCalendar"
     >
-      <Screen
+      <Tab.Screen
         name="Kalendarz"
         component={PillCalendar}
         options={{
@@ -47,7 +47,7 @@ export const NavBar = () => {
         }}
       />
 
-      <Screen
+      <Tab.Screen
         name="Wykryj lek"
         component={Detector}
         options={{
@@ -62,7 +62,7 @@ export const NavBar = () => {
         }}
       />
 
-      <Screen
+      <Tab.Screen
         name="Wpisy"
         component={EntriesStack}
         options={{
@@ -77,7 +77,7 @@ export const NavBar = () => {
         }}
       />
 
-      <Screen
+      <Tab.Screen
         name="Ustawienia"
         component={Settings}
         options={{
@@ -91,7 +91,7 @@ export const NavBar = () => {
           ),
         }}
       />
-    </Navigator>
+    </Tab.Navigator>
   );
 };
 

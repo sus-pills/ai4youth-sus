@@ -1,16 +1,15 @@
 // Imports
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "react-navigation-stack";
+import { createStackNavigator } from "@react-navigation/stack";
 import { CustomColors } from "../global/globalStyles";
 // Screens Imports
 import Entries from "../screens/entries";
 import EntryInfo from "../screens/entryInfo";
 
-const {Navigator, Screen} = createStackNavigator();
+const Stack = createStackNavigator();
 
 const EntriesStack = () => (
-  <Navigator
-    headerMode='screen'
+  <Stack.Navigator
     screenOptions={{
       headerStyle: {
         backgroundColor: CustomColors.customMain,
@@ -18,23 +17,26 @@ const EntriesStack = () => (
       headerTintColor: 'white',
       headerTitleAlign: "center",
     }}
+    options={{
+      headerMode: 'screen',
+    }}
     initialRouteName="Entries"
   >
-    <Screen
+    <Stack.Screen
       name="Entries"
       component={Entries}
       options={{
-        title: "Wpisy",
+        headerShown: false,
       }}
     />
-    <Screen
+    <Stack.Screen
       name="EntryInfo"
       component={EntryInfo}
       options={{
         title: "Informacje",
       }}
     />
-  </Navigator>
+  </Stack.Navigator>
 );
 
 export default EntriesStack;
