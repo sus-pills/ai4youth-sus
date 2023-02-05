@@ -11,6 +11,6 @@
   "everyXthDay": null,
   "dosage": 10,
   "unit": "milligramy",
-  "instructions": "THIS IS A DUMMY FILE THAT SERVES AS A BLUEPRINT FOR THE MEDICATION OBJECT",
+  "instructions": null,
   "color": "#f00"
 }
