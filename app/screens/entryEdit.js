@@ -3,14 +3,13 @@ import { View, Text, StyleSheet } from "react-native";
 import IconButton from "../components/iconButton";
 import { CustomColors } from "../global/globalStyles";
 
-const EntryInfo = ({route}) => {
-
+const EntryEdit = ({ route }) => {
   const entry = route.params.entry;
 
   const times = Object.values(entry.times);
 
   return (
-    <View>
+    <View style={styles.container}>
       <View>
         <Text>{`key: ${entry.key}`}</Text>
         <Text>{`name: ${entry.name}`}</Text>
@@ -22,24 +21,40 @@ const EntryInfo = ({route}) => {
         <Text>{`everyXthDay: ${entry.everyXthDay}`}</Text>
         <Text>{`color: ${entry.color}`}</Text>
       </View>
-      <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
-        <IconButton 
-          style={[styles.button, {backgroundColor: CustomColors.customNegation}]}
+      <View style={styles.buttons}>
+        <IconButton
+          style={[
+            styles.button,
+            { backgroundColor: CustomColors.customNegation },
+          ]}
           title={"Anuluj"}
-          iconName={"close"}/>
-        <IconButton 
-          style={[styles.button, {backgroundColor: CustomColors.customAffirmation}]}
+          iconName={"close"}
+        />
+        <IconButton
+          style={[
+            styles.button,
+            { backgroundColor: CustomColors.customAffirmation },
+          ]}
           title={"Potwierdź"}
-          iconName={"check"}/>
+          iconName={"check"}
+        />
       </View>
     </View>
-  ); 
-}
+  );
+};
 
 const styles = StyleSheet.create({
+  container : {
+    flex: 1,
+    justifyContent: 'space-between',
+  },
+  buttons: { 
+    flexDirection: "row", 
+    justifyContent: "space-evenly" 
+  },
   button: {
-    width: '40%',
-  }
-})
+    width: "42%",
+  },
+});
 
-export default EntryInfo;
+export default EntryEdit;
