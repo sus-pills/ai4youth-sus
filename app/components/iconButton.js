@@ -5,34 +5,49 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 // Styles Imports
 import { StyleSheet } from "react-native";
-import { CustomBorder, CustomColors, CustomSpacing, GlobalStyles } from "../global/globalStyles";
+import {
+  CustomBorder,
+  CustomColors,
+  CustomSpacing,
+  GlobalStyles,
+} from "../global/globalStyles";
 
-const IconButton = ({ title, iconName, communityIcons, style, onPress }) => {
+const IconButton = ({
+  title,
+  iconName,
+  textColor,
+  communityIcons,
+  style,
+  onPress,
+}) => {
+  const color = textColor ? textColor : "white";
+
   return (
-    <TouchableOpacity 
+    <TouchableOpacity
       onPress={onPress}
       activeOpacity={0.4}
-      style={[styles.touchableOpacityButton, GlobalStyles.customShadow, style]}>
+      style={[styles.touchableOpacityButton, GlobalStyles.customShadow, style]}
+    >
       <View style={styles.container}>
         {/* Icon */}
         {communityIcons ? (
           <MaterialCommunityIcons
-          name={iconName}
-          size={30}
-          color="white"
-          style={{ marginRight: title ? 8 : 0 }}
-        />
+            name={iconName}
+            size={30}
+            color={color}
+            style={{ marginRight: title ? 8 : 0 }}
+          />
         ) : (
           <MaterialIcons
-          name={iconName}
-          size={30}
-          color="white"
-          style={{ marginRight: title ? 8 : 0 }}
-        />
+            name={iconName}
+            size={30}
+            color={color}
+            style={{ marginRight: title ? 8 : 0 }}
+          />
         )}
 
         {/* Title */}
-        <Text style={styles.title}>{title}</Text>
+        <Text style={[styles.title, { color: color }]}>{title}</Text>
       </View>
     </TouchableOpacity>
   );
