@@ -9,6 +9,9 @@ import HomeTab from "../routes/homeTab";
 import EntryInfo from "../screens/entryInfo";
 import EntryEdit from "../screens/entryEdit";
 
+// Components Imports
+import TrashHeaderButton from "../components/trashHeaderButton";
+
 const Stack = createStackNavigator();
 
 const appStack = () => (
@@ -47,6 +50,7 @@ const appStack = () => (
         component={EntryEdit}
         options={{
           title: "Edytuj Wpis",
+          headerRight: () => <TrashHeaderButton />,
         }}
       />
     </Stack.Navigator>
