@@ -10,7 +10,7 @@ const EntryInfo = ({route, navigation: { navigate }}) => {
 
   return (
     <View>
-      <Text>{`key: ${entry.key}`}</Text>
+      <Text>{`key: ${entry.id}`}</Text>
       <Text>{`name: ${entry.name}`}</Text>
       <Text>{`times: ${entry.times}`}</Text>
       {times.map((time, index) => (
