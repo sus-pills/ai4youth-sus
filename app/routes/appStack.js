@@ -3,6 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { spring, timing } from "react-native-reanimated";
 import { CustomColors } from "../global/globalStyles";
+
 // Screens Imports
 import HomeTab from "../routes/homeTab";
 import EntryInfo from "../screens/entryInfo";
@@ -17,11 +18,11 @@ const appStack = () => (
         headerStyle: {
           backgroundColor: CustomColors.customMain,
         },
-        headerTintColor: 'white',
+        headerTintColor: "white",
         headerTitleAlign: "center",
       }}
       options={{
-        headerMode: 'screen',
+        headerMode: "screen",
       }}
       initialRouteName="HomeTab"
     >
@@ -40,7 +41,7 @@ const appStack = () => (
           title: "Informacje o Wpisie",
         }}
       />
-      
+
       <Stack.Screen
         name="EntryEdit"
         component={EntryEdit}
