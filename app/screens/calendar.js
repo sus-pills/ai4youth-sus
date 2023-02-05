@@ -80,7 +80,7 @@ const PillCalendar = () => {
 const Styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: CustomColors.bg,
+    backgroundColor: CustomColors.customBackground,
     verticalAlign: "center",
     justifyContent: "center",
   },
