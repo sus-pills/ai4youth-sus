@@ -2,10 +2,10 @@
   "id": "n37X-1vW2",
   "name": "Vitamin C",
   "remainingIntakes": 20,
-  "times": {
-    "1": "12:00:00",
-    "2": "18:00:00"
-  },
+  "times": [
+    "12:00:00",
+    "18:00:00"
+  ],
   "nextIntake": "2023-02-03 12:00:00",
   "dosage": 10,
   "dosageUnit": "milligramy",
