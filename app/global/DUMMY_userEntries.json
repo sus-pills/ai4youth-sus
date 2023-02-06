@@ -1,16 +1,14 @@
 {
   "id": "n37X-1vW2",
   "name": "Vitamin C",
+  "remainingIntakes": 20,
   "times": {
     "1": "12:00:00",
     "2": "18:00:00"
   },
   "nextIntake": "2023-02-03 12:00:00",
-  "weekDays": ["Su", "St"],
-  "remainingIntakes": 20,
-  "everyXthDay": null,
   "dosage": 10,
-  "unit": "milligramy",
+  "dosageUnit": "milligramy",
   "instructions": null,
   "color": "#f00",
   "icon": "iconName"
