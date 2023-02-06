@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
   selected: {
     width: 64,
     height: 64,
-    borderRadius: 35,
+    borderRadius: 32,
     margin: 0,
     borderColor: CustomColors.customDarkGray,
     borderWidth: 7,
