@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text } from "react-native";
 import IconButton from "../components/iconButton";
 
-const EntryInfo = ({route, navigation: { navigate }}) => {
+const EntryInfo = ({route, navigation}) => {
 
   const entry = route.params.entry;
 
@@ -20,7 +20,7 @@ const EntryInfo = ({route, navigation: { navigate }}) => {
       <Text>{`everyXthDay: ${entry.everyXthDay}`}</Text>
       <Text>{`color: ${entry.color}`}</Text>
       <IconButton onPress={() => {
-        navigate("EntryEdit", {entry})
+        navigation.navigate("EntryEdit", {entry})
       }}
       iconName={'square-edit-outline'}
       communityIcons={true}
