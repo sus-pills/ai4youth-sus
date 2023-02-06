@@ -15,11 +15,11 @@ const EntryEdit = ({ route }) => {
 
   // Change color
   const colorsPalette = [
-    ["#ff4d4d", "#ff0000", "#b30000", "#660000"],
-    ["#ffff4d", "#ffff00", "#cccc00", "#ffa500"],
-    ["#4dff4d", "#00ff00", "#008000", "#00ffff"],
-    ["#4d4dff", "#0000ff", "#000080", "#800080"],
-    ["#ffffff", "#999999", "#000000", "#ff69b4"],
+    ["#FF9999", "#ff0000", "#800000", "#964B00"],
+    ["#FFFF99", "#ffff00", "#808000", "#ffa500"],
+    ["#99FF99", "#00ff00", "#008000", "#00ffff"],
+    ["#9999FF", "#0000ff", "#000080", "#A020F0"],
+    ["#ffffff", "#999999", "#000000", "#ff00ff"],
   ];
 
   const [selectedColor, setSelectedColor] = useState(null);
