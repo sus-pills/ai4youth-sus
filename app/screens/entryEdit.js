@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
     height: 64,
     borderRadius: 35,
     margin: 0,
-    borderColor: "red",
+    borderColor: CustomColors.customDarkGray,
     borderWidth: 7,
   },
 });
