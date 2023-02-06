@@ -13,7 +13,7 @@ import { CustomColors, CustomSpacing } from "../global/globalStyles";
 const Entries = ({ navigation: { navigate } }) => {
   const [entries, setEntries] = useState([
     {
-      id: "n37X-1vW2",
+      id: "37X-1vW2",
       name: "Vitamin C",
       times: {
         1: "12:00:00",
@@ -27,6 +27,7 @@ const Entries = ({ navigation: { navigate } }) => {
       unit: "milligramy",
       instructions: null,
       color: "#f00",
+      icon: "pill",
     },
 
     {
@@ -45,6 +46,7 @@ const Entries = ({ navigation: { navigate } }) => {
       unit: "milligrams",
       instructions: "Take with food",
       color: "#0f0",
+      icon: "pill",
     },
 
     {
@@ -62,6 +64,7 @@ const Entries = ({ navigation: { navigate } }) => {
       unit: "milligrams",
       instructions: "Take with orange juice",
       color: "#00f",
+      icon: "pill",
     },
 
     {
@@ -79,6 +82,7 @@ const Entries = ({ navigation: { navigate } }) => {
       unit: "milligrams",
       instructions: "Take with water",
       color: "#f0f",
+      icon: "pill",
     },
 
     {
@@ -96,6 +100,7 @@ const Entries = ({ navigation: { navigate } }) => {
       unit: "milligrams",
       instructions: "Take on an empty stomach",
       color: "#f80",
+      icon: "pill",
     },
 
     {
@@ -113,6 +118,7 @@ const Entries = ({ navigation: { navigate } }) => {
       unit: "micrograms",
       instructions: "Take with a meal",
       color: "#0ff",
+      icon: "pill",
     },
 
     {
@@ -130,6 +136,7 @@ const Entries = ({ navigation: { navigate } }) => {
       unit: "micrograms",
       instructions: "Take with a meal",
       color: "#ff0",
+      icon: "pill",
     },
 
     {
@@ -147,6 +154,7 @@ const Entries = ({ navigation: { navigate } }) => {
       unit: "international units",
       instructions: "Take with a meal",
       color: "#0f0",
+      icon: "pill",
     },
 
     {
@@ -164,6 +172,7 @@ const Entries = ({ navigation: { navigate } }) => {
       unit: "international units",
       instructions: "Take with a meal",
       color: "#f00",
+      icon: "pill",
     },
   ]);
   const [title, setTitle] = useState("Dodaj Wpis");

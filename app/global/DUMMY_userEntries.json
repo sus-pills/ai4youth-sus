@@ -12,5 +12,6 @@
   "dosage": 10,
   "unit": "milligramy",
   "instructions": null,
-  "color": "#f00"
+  "color": "#f00",
+  "icon": "iconName"
 }
