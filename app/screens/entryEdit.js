@@ -28,9 +28,11 @@ const EntryEdit = ({ route }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>{entry.name}</Text>
 
         <ScrollView>
+          {/* Title */}
+          <Text style={styles.title}>{entry.name}</Text>
+          
           {/* Color Box & Modal Button */}
           <View style={styles.buttons}>
             {/* Color Box */}
@@ -73,6 +75,10 @@ const EntryEdit = ({ route }) => {
               </View>
             </SingleModalButton>
           </View>
+
+          {/* Nazwa */}
+          
+
         </ScrollView>
       </View>
 
