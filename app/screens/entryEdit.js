@@ -42,16 +42,12 @@ const EntryEdit = ({ route, navigation }) => {
   // Count times
   const [times, setTimes] = useState(`${Object.keys(entry.times).length}`);
 
-  // Store values of time
-  const [timesValues, setTimesValues] = useState(() => {
-    const values = Array.from({ length: 10 }, () => "08:00")
-    for (let i = 0; i < 10; i++) 
-      values[i] = Object.values(entry.times)[i];
-    return values;
-  })
-
-  // // Create a new object that will be filled with hours.
-  // const [newObject, setNewObject] = useState({});
+  // // Store values of time
+  // const [timesValues, setTimesValues] = useState(() => {
+  //   const values = Array.from({ length: 10 }, () => "08:00");
+  //   for (let i = 0; i < 10; i++) values[i] = Object.values(entry.times)[i];
+  //   return values;
+  // });
 
   // Create list of which pickers to show
   const [showTimePicker, setShowTimePicker] = useState(
@@ -231,63 +227,23 @@ const EntryEdit = ({ route, navigation }) => {
                 </View>
               </View>
 
-              {/* times */}
-              <View style={styles.inputContainer}>
-                <InputText text={"Ile razy dziennie?"} />
-                <View style={{ flexDirection: "row" }}>
-                  <TextInput
-                    style={[styles.input, { width: "80%" }]}
-                    onChangeText={(value) => {
-                      setTimes(() => {
-                        if (value > 10) return 10;
-                        if (value < 0) return 0;
-                        else return parseInt(value);
-                      });
-
-                      for (let i = 0; i < value; i++) {
-                        
-                      }
-                    }}
-                    // onBlur={() => console.log(times)}
-                    value={`${times}`}
-                    placeholder={"np. 2"}
-                    keyboardType={"numeric"}
-                  />
-                  <IconButton
-                    iconName={"chevron-down"}
-                    communityIcons={true}
-                    style={styles.upDownButton}
-                    onPress={() => {
-                      setTimes((times ? parseInt(times) : 1) - 1);
-                    }}
-                  />
-                  <IconButton
-                    iconName={"chevron-up"}
-                    communityIcons={true}
-                    style={styles.upDownButton}
-                    onPress={() => setTimes((times ? parseInt(times) : 0) + 1)}
-                  />
-                </View>
-              </View>
-
               {/* At what hour(s)? */}
-              {times > 0 && (
-                <View style={styles.inputContainer}>
-                  <InputText
-                    chevronDouble={true}
-                    text={
-                      times == 1 ? "O której godzinie?" : "O których godzinach?"
-                    }
-                  />
-                  <View>
-                    {/* Show the list of time pickers */}
-                    {Array.from({ length: parseInt(times) }, (_, index) => (
-                      // Create the view with times
-                      <View key={`key-${index}-time`}>
-                        {/* Icon for Time Picker */}
+
+              <View style={styles.inputContainer}>
+                <InputText text={"Godziny"} />
+                <View>
+                  {/* Show the list of time pickers */}
+                  {Array.from({ length: parseInt(times) }, (_, index) => (
+                    // Create the view with times
+                    <View key={`key-${index}-time`}>
+                      {/* Hour Picker */}
+                      <View style={styles.hourButtons}>
                         <IconButton
                           textColor={"black"}
-                          style={styles.hourButton}
+                          style={[
+                            styles.hourButton,
+                            { backgroundColor: "#f6f6f6" },
+                          ]}
                           title={props.values.times[`key-${index}`]}
                           iconName={"access-time"}
                           onPress={() => {
@@ -297,52 +253,91 @@ const EntryEdit = ({ route, navigation }) => {
                           }}
                         />
 
-                        {/* Time Picker */}
-                        {showTimePicker[index] && (
-                          <RNDateTimePicker
-                            value={new Date()}
-                            mode={"time"}
-                            onChange={(value) => {
-                              // Hide the picker
-                              const newShow = [...showTimePicker];
-                              newShow[index] = false;
-                              setShowTimePicker(newShow);
+                        {/* Delete Hour Picker */}
+                        <IconButton
+                          style={styles.deleteHourButton}
+                          iconName={"delete-forever"}
+                          onPress={() => {
+                            // Create a set of current values without the current index.
+                            const newValues = Object.values(
+                              props.values.times
+                            ).filter((num) => {
+                              // Filter out the current index
+                              if (num == props.values.times[`key-${index}`])
+                                return false;
+                              return true;
+                            });
 
-                              // Check if value is set
-                              if (value.type === "set") {
-                                // Convert the value
-                                const dateValue = new Date(
-                                  value.nativeEvent.timestamp
-                                );
+                            // Assign values to keys
+                            const newTimes = {};
+                            for (let i = 0; i < newValues.length; i++) {
+                              newTimes[`key-${i}`] = newValues[i];
+                            }
 
-                                // Change the value
-                                const newValues = { ...props.values.times };
-                                newValues[`key-${index}`] =
-                                  handleDate(dateValue);
-                                props.setFieldValue("times", newValues);
-                              }
-                            }}
-                          />
-                        )}
+                            // Update variables
+                            setTimes(newValues.length);
+                            props.setFieldValue("times", newTimes);
+                          }}
+                        />
                       </View>
-                    ))}
-                  </View>
-                </View>
-              )}
 
-              {/* dosage */}
+                      {/* Time Picker */}
+                      {showTimePicker[index] && (
+                        <RNDateTimePicker
+                          value={new Date()}
+                          mode={"time"}
+                          onChange={(value) => {
+                            // Hide the picker
+                            const newShow = [...showTimePicker];
+                            newShow[index] = false;
+                            setShowTimePicker(newShow);
+
+                            // Check if value is set
+                            if (value.type === "set") {
+                              // Convert the value
+                              const dateValue = new Date(
+                                value.nativeEvent.timestamp
+                              );
+
+                              // Change the value
+                              const newValues = { ...props.values.times };
+                              newValues[`key-${index}`] = handleDate(dateValue);
+                              props.setFieldValue("times", newValues);
+                            }
+                          }}
+                        />
+                      )}
+                    </View>
+                  ))}
+
+                  {/* Add Hour Button */}
+                  <IconButton
+                    style={[styles.hourButton, styles.addHourButton]}
+                    title={"Dodaj Godzinę"}
+                    iconName={"more-time"}
+                    onPress={() => {
+                      // Create new vars
+                      const newIndex = parseInt(times);
+                      const newTimes = props.values.times;
+
+                      // Assign new values
+                      newTimes[`key-${newIndex}`] = "08:00";
+                      setTimes(newIndex + 1);
+                      props.setFieldValue("times", newTimes);
+                    }}
+                  />
+                </View>
+              </View>
+
+              {/* dosage & dosageUnit */}
               <View>
                 {/* <Text>{"Nazwa"}</Text>
                 <TextInput
                   onChangeText={props.handleChange("name")}
                   onBlur={props.handleBlur("name")}
                   value={props.values.name}
-                /> */}
-              </View>
-
-              {/* dosageUnit */}
-              <View>
-                {/* <Text>{"Nazwa"}</Text>
+                />
+                <Text>{"Nazwa"}</Text>
                 <TextInput
                   onChangeText={props.handleChange("name")}
                   onBlur={props.handleBlur("name")}
@@ -477,12 +472,27 @@ const styles = StyleSheet.create({
     fontSize: 20,
     width: "100%",
   },
+  hourButtons: {
+    flexDirection: "row",
+    marginHorizontal: "7%",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
   hourButton: {
     marginVertical: 4,
-    marginHorizontal: 28,
-    width: "86%",
+    marginHorizontal: 0,
+    width: 270,
+  },
+  deleteHourButton: {
+    marginVertical: 4,
+    marginHorizontal: 0,
+    width: 58,
     alignSelf: "center",
-    backgroundColor: "#f6f6f6",
+    backgroundColor: CustomColors.customNegation,
+  },
+  addHourButton: {
+    width: 270 + 58 + 5,
+    alignSelf: "center",
   },
   upDownButton: {
     margin: 0,
