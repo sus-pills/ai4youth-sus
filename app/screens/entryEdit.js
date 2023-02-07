@@ -6,6 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
   TextInput,
+  NativeModules,
 } from "react-native";
 import IconButton from "../components/iconButton";
 import {
@@ -19,8 +20,10 @@ import { Formik } from "formik";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { isLightColor } from "../global/globalFunctions";
 import InputText from "../components/inputText";
+import RNDateTimePicker from "@react-native-community/datetimepicker";
 
 const EntryEdit = ({ route, navigation }) => {
+  // Load params
   const entry = route.params.entry;
 
   // Change color
@@ -39,14 +42,51 @@ const EntryEdit = ({ route, navigation }) => {
   // Count times
   const [times, setTimes] = useState(`${Object.keys(entry.times).length}`);
 
-  // Create a new object that will be filled with hours.
-  const [newObject, setNewObject] = useState({});
+  // Store values of time
+  const [timesValues, setTimesValues] = useState(() => {
+    const values = Array.from({ length: 10 }, () => "08:00")
+    for (let i = 0; i < 10; i++) 
+      values[i] = Object.values(entry.times)[i];
+    return values;
+  })
+
+  // // Create a new object that will be filled with hours.
+  // const [newObject, setNewObject] = useState({});
+
+  // Create list of which pickers to show
+  const [showTimePicker, setShowTimePicker] = useState(
+    Array.from({ length: 10 }, () => false)
+  );
+
+  // Handle date
+  const handleDate = (date) => {
+    // Had to do it the old way
+    // because the toLocaleTimeString
+    // doesn't work in React Native apparently.
+
+    const hours = date.getHours().toString().padStart(2, "0");
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    return `${hours}:${minutes}`;
+  };
+
+  // Sort elements in object
+  const sortObject = (object) => {
+    const length = Object.keys(object).length;
+    const keys = Object.keys(object);
+    const values = Object.values(object).sort();
+
+    for (let i = 0; i < length; i++) {
+      object[keys[i]] = values[i];
+    }
+  };
 
   return (
     <Formik
       style={styles.container}
       initialValues={entry}
       onSubmit={(values) => {
+        sortObject(values.times);
+
         console.log(values);
         navigation.goBack();
       }}
@@ -153,41 +193,85 @@ const EntryEdit = ({ route, navigation }) => {
               {/* remainingIntakes */}
               <View style={styles.inputContainer}>
                 <InputText text={"Pozostała ilość zażyć"} />
-                <TextInput
-                  style={styles.input}
-                  onChangeText={props.handleChange("remainingIntakes")}
-                  onBlur={props.handleBlur("remainingIntakes")}
-                  value={props.values.remainingIntakes}
-                  placeholder={"np. 10"}
-                  keyboardType={"numeric"}
-                />
+                <View style={{ flexDirection: "row" }}>
+                  <TextInput
+                    style={[styles.input, { width: "80%" }]}
+                    onChangeText={props.handleChange("remainingIntakes")}
+                    onBlur={props.handleBlur("remainingIntakes")}
+                    value={`${props.values.remainingIntakes}`}
+                    placeholder={"np. 10"}
+                    keyboardType={"numeric"}
+                  />
+                  <IconButton
+                    iconName={"chevron-down"}
+                    communityIcons={true}
+                    style={styles.upDownButton}
+                    onPress={() =>
+                      props.setFieldValue(
+                        "remainingIntakes",
+                        (props.values.remainingIntakes
+                          ? parseInt(props.values.remainingIntakes)
+                          : 5) - 5
+                      )
+                    }
+                  />
+                  <IconButton
+                    iconName={"chevron-up"}
+                    communityIcons={true}
+                    style={styles.upDownButton}
+                    onPress={() =>
+                      props.setFieldValue(
+                        "remainingIntakes",
+                        (props.values.remainingIntakes
+                          ? parseInt(props.values.remainingIntakes)
+                          : 0) + 5
+                      )
+                    }
+                  />
+                </View>
               </View>
 
               {/* times */}
               <View style={styles.inputContainer}>
                 <InputText text={"Ile razy dziennie?"} />
-                <TextInput
-                  style={styles.input}
-                  onChangeText={(value) => {
-                    // Handle the number of times the person takes their pills in one day
-                    setTimes(value <= 10 && value >= 1 ? value : 0);
-                    const newTimes = {};
-                    const values = Object.values(props.values.times);
-                    for (let i = 0; i < value; i++) {
-                      newTimes[`key-${i}`] = values[i] ? values[i] : "00:00";
-                    }
-                    console.log(props.values.times, newTimes);
-                    props.setFieldValue("times", newTimes);
-                  }}
-                  // onBlur={() => console.log(times)}
-                  value={times}
-                  placeholder={"np. 2"}
-                  keyboardType={"numeric"}
-                />
+                <View style={{ flexDirection: "row" }}>
+                  <TextInput
+                    style={[styles.input, { width: "80%" }]}
+                    onChangeText={(value) => {
+                      setTimes(() => {
+                        if (value > 10) return 10;
+                        if (value < 0) return 0;
+                        else return parseInt(value);
+                      });
+
+                      for (let i = 0; i < value; i++) {
+                        
+                      }
+                    }}
+                    // onBlur={() => console.log(times)}
+                    value={`${times}`}
+                    placeholder={"np. 2"}
+                    keyboardType={"numeric"}
+                  />
+                  <IconButton
+                    iconName={"chevron-down"}
+                    communityIcons={true}
+                    style={styles.upDownButton}
+                    onPress={() => {
+                      setTimes((times ? parseInt(times) : 1) - 1);
+                    }}
+                  />
+                  <IconButton
+                    iconName={"chevron-up"}
+                    communityIcons={true}
+                    style={styles.upDownButton}
+                    onPress={() => setTimes((times ? parseInt(times) : 0) + 1)}
+                  />
+                </View>
               </View>
 
               {/* At what hour(s)? */}
-              {times > 0 ? (
+              {times > 0 && (
                 <View style={styles.inputContainer}>
                   <InputText
                     chevronDouble={true}
@@ -196,24 +280,55 @@ const EntryEdit = ({ route, navigation }) => {
                     }
                   />
                   <View>
+                    {/* Show the list of time pickers */}
                     {Array.from({ length: parseInt(times) }, (_, index) => (
-                      <TextInput
-                        key={`key-${index}-1`}
-                        value={props.values.times[`key-${index}`]}
-                        placeholder={
-                          times == 1 ? "np. 12:00" : `np. 1${index}:00`
-                        }
-                        style={[styles.input, { marginBottom: 8 }]}
-                        onChangeText={(value) => {
-                          const newValues = { ...props.values.times };
-                          newValues[`key-${index}`] = value;
-                          props.setFieldValue("times", newValues);
-                        }}
-                      />
+                      // Create the view with times
+                      <View key={`key-${index}-time`}>
+                        {/* Icon for Time Picker */}
+                        <IconButton
+                          textColor={"black"}
+                          style={styles.hourButton}
+                          title={props.values.times[`key-${index}`]}
+                          iconName={"access-time"}
+                          onPress={() => {
+                            const newShow = [...showTimePicker];
+                            newShow[index] = true;
+                            setShowTimePicker(newShow);
+                          }}
+                        />
+
+                        {/* Time Picker */}
+                        {showTimePicker[index] && (
+                          <RNDateTimePicker
+                            value={new Date()}
+                            mode={"time"}
+                            onChange={(value) => {
+                              // Hide the picker
+                              const newShow = [...showTimePicker];
+                              newShow[index] = false;
+                              setShowTimePicker(newShow);
+
+                              // Check if value is set
+                              if (value.type === "set") {
+                                // Convert the value
+                                const dateValue = new Date(
+                                  value.nativeEvent.timestamp
+                                );
+
+                                // Change the value
+                                const newValues = { ...props.values.times };
+                                newValues[`key-${index}`] =
+                                  handleDate(dateValue);
+                                props.setFieldValue("times", newValues);
+                              }
+                            }}
+                          />
+                        )}
+                      </View>
                     ))}
                   </View>
                 </View>
-              ) : null}
+              )}
 
               {/* dosage */}
               <View>
@@ -361,6 +476,20 @@ const styles = StyleSheet.create({
     padding: 8,
     fontSize: 20,
     width: "100%",
+  },
+  hourButton: {
+    marginVertical: 4,
+    marginHorizontal: 28,
+    width: "86%",
+    alignSelf: "center",
+    backgroundColor: "#f6f6f6",
+  },
+  upDownButton: {
+    margin: 0,
+    marginLeft: 4,
+    padding: 0,
+    width: "9%",
+    justifyContent: "center",
   },
 });
 
