@@ -35,7 +35,8 @@
     "react-navigation-stack": "^2.10.4",
     "uuid": "^9.0.0",
     "yet": "^0.1.0",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "@react-native-community/datetimepicker": "6.5.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
