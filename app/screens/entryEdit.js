@@ -178,7 +178,6 @@ const EntryEdit = ({ route, navigation }) => {
                     }
                     console.log(props.values.times, newTimes);
                     props.setFieldValue("times", newTimes);
-                    // props.handleChange("times")(newTimes);
                   }}
                   // onBlur={() => console.log(times)}
                   value={times}
