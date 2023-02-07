@@ -24,7 +24,6 @@ const Entry = ({ entry, onPress }) => {
         styles.touchableOpacityButton,
         {
           backgroundColor: "#f6f6f6",
-          borderColor: entry.color,
         },
         GlobalStyles.customShadow,
       ]}
