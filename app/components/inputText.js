@@ -3,11 +3,11 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { StyleSheet, Text } from "react-native";
 import { CustomColors } from "../global/globalStyles";
 
-const InputText = ({text}) => {
+const InputText = ({text, chevronDouble}) => {
   return (
     <Text style={styles.title}>
       <MaterialCommunityIcons
-        name={"chevron-double-right"}
+        name={chevronDouble ? "chevron-double-right" : "chevron-right"}
         size={24}
         color={CustomColors.customDarkGray}
       />

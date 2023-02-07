@@ -18,7 +18,7 @@ import SingleModalButton from "../components/singleModalButton";
 import { Formik } from "formik";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { isLightColor } from "../global/globalFunctions";
-import InputText from "../components/inputTitle";
+import InputText from "../components/inputText";
 
 const EntryEdit = ({ route, navigation }) => {
   const entry = route.params.entry;
@@ -190,6 +190,7 @@ const EntryEdit = ({ route, navigation }) => {
               {times > 0 ? (
                 <View style={styles.inputContainer}>
                   <InputText
+                    chevronDouble={true}
                     text={
                       times == 1 ? "O której godzinie?" : "O których godzinach?"
                     }
