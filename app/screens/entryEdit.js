@@ -219,7 +219,7 @@ const EntryEdit = ({ route, navigation }) => {
                     }
                   />
                   <TextInput
-                    style={[styles.input, { width: 232, textAlign: "center" }]}
+                    style={[styles.input, { width: 231, textAlign: "center" }]}
                     onChangeText={props.handleChange("remainingIntakes")}
                     onBlur={props.handleBlur("remainingIntakes")}
                     value={`${props.values.remainingIntakes}`}
@@ -337,6 +337,8 @@ const EntryEdit = ({ route, navigation }) => {
                         <RNDateTimePicker
                           value={new Date()}
                           mode={"time"}
+                          positiveButtonLabel={"Ok"}
+                          negativeButtonLabel={"Anuluj"}
                           onChange={(value) => {
                             // Hide the picker
                             const newShow = [...showTimePicker];
