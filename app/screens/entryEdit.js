@@ -42,13 +42,6 @@ const EntryEdit = ({ route, navigation }) => {
   // Count times
   const [times, setTimes] = useState(`${Object.keys(entry.times).length}`);
 
-  // // Store values of time
-  // const [timesValues, setTimesValues] = useState(() => {
-  //   const values = Array.from({ length: 10 }, () => "08:00");
-  //   for (let i = 0; i < 10; i++) values[i] = Object.values(entry.times)[i];
-  //   return values;
-  // });
-
   // Create list of which pickers to show
   const [showTimePicker, setShowTimePicker] = useState(
     Array.from({ length: 5 }, () => false)
@@ -276,7 +269,7 @@ const EntryEdit = ({ route, navigation }) => {
                       onPress={() => {
                         // Create new vars
                         const newIndex = parseInt(times);
-                        const newTimes = {...props.values.times};
+                        const newTimes = { ...props.values.times };
 
                         // Move values one place to the right
                         for (let i = 0; i < newIndex; i++) {
@@ -318,14 +311,13 @@ const EntryEdit = ({ route, navigation }) => {
                           iconName={"delete-forever"}
                           onPress={() => {
                             // Create a set of current values without the current index.
-                            const newValues = Object.values(
-                              props.values.times
-                            ).filter((num) => {
-                              // Filter out the current index
-                              if (num == props.values.times[`key-${index}`])
-                                return false;
-                              return true;
-                            });
+                            const inherentValues = [
+                              ...Object.values(props.values.times),
+                            ];
+
+                            // Remove the first occurrence
+                            // In case there are multiple exact times
+                            const newValues = removeFirstOccurrence(inherentValues, inherentValues[index]);
 
                             // Assign values to keys
                             const newTimes = {};
