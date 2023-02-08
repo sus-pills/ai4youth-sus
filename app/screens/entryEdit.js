@@ -284,7 +284,7 @@ const EntryEdit = ({ route, navigation }) => {
                             props.values.times[`key-${i}`];
                         }
 
-                        // Add new value on top
+                        // Add new value on the left
                         newTimes["key-0"] = "08:00";
                         setTimes(newIndex + 1);
                         props.setFieldValue("times", newTimes);
