@@ -51,7 +51,7 @@ const EntryEdit = ({ route, navigation }) => {
 
   // Create list of which pickers to show
   const [showTimePicker, setShowTimePicker] = useState(
-    Array.from({ length: 10 }, () => false)
+    Array.from({ length: 5 }, () => false)
   );
 
   // Handle date
@@ -74,6 +74,15 @@ const EntryEdit = ({ route, navigation }) => {
     for (let i = 0; i < length; i++) {
       object[keys[i]] = values[i];
     }
+  };
+
+  // Remove first occurence from array
+  const removeFirstOccurrence = (array, value) => {
+    const index = array.indexOf(value);
+    if (index === -1) {
+      return array;
+    }
+    return array.slice(0, index).concat(array.slice(index + 1));
   };
 
   return (
@@ -190,18 +199,10 @@ const EntryEdit = ({ route, navigation }) => {
               <View style={styles.inputContainer}>
                 <InputText text={"Pozostała ilość zażyć"} />
                 <View style={{ flexDirection: "row" }}>
-                  <TextInput
-                    style={[styles.input, { width: "80%" }]}
-                    onChangeText={props.handleChange("remainingIntakes")}
-                    onBlur={props.handleBlur("remainingIntakes")}
-                    value={`${props.values.remainingIntakes}`}
-                    placeholder={"np. 10"}
-                    keyboardType={"numeric"}
-                  />
                   <IconButton
-                    iconName={"chevron-down"}
+                    iconName={"chevron-double-down"}
                     communityIcons={true}
-                    style={styles.upDownButton}
+                    style={styles.downButton}
                     onPress={() =>
                       props.setFieldValue(
                         "remainingIntakes",
@@ -212,9 +213,44 @@ const EntryEdit = ({ route, navigation }) => {
                     }
                   />
                   <IconButton
+                    iconName={"chevron-down"}
+                    communityIcons={true}
+                    style={styles.downButton}
+                    onPress={() =>
+                      props.setFieldValue(
+                        "remainingIntakes",
+                        (props.values.remainingIntakes
+                          ? parseInt(props.values.remainingIntakes)
+                          : 1) - 1
+                      )
+                    }
+                  />
+                  <TextInput
+                    style={[styles.input, { width: 232, textAlign: "center" }]}
+                    onChangeText={props.handleChange("remainingIntakes")}
+                    onBlur={props.handleBlur("remainingIntakes")}
+                    value={`${props.values.remainingIntakes}`}
+                    placeholder={"np. 10"}
+                    keyboardType={"numeric"}
+                  />
+
+                  <IconButton
                     iconName={"chevron-up"}
                     communityIcons={true}
-                    style={styles.upDownButton}
+                    style={styles.upButton}
+                    onPress={() =>
+                      props.setFieldValue(
+                        "remainingIntakes",
+                        (props.values.remainingIntakes
+                          ? parseInt(props.values.remainingIntakes)
+                          : 0) + 1
+                      )
+                    }
+                  />
+                  <IconButton
+                    iconName={"chevron-double-up"}
+                    communityIcons={true}
+                    style={styles.upButton}
                     onPress={() =>
                       props.setFieldValue(
                         "remainingIntakes",
@@ -227,11 +263,34 @@ const EntryEdit = ({ route, navigation }) => {
                 </View>
               </View>
 
-              {/* At what hour(s)? */}
-
+              {/* At what hours? */}
               <View style={styles.inputContainer}>
-                <InputText text={"Godziny"} />
+                <InputText text={"O których godzinach?"} />
                 <View>
+                  {/* Add Hour Button */}
+                  {times < 5 && (
+                    <IconButton
+                      style={[styles.hourButton, styles.addHourButton]}
+                      title={"Dodaj Godzinę"}
+                      iconName={"more-time"}
+                      onPress={() => {
+                        // Create new vars
+                        const newIndex = parseInt(times);
+                        const newTimes = {...props.values.times};
+
+                        // Move values one place to the right
+                        for (let i = 0; i < newIndex; i++) {
+                          newTimes[`key-${i + 1}`] =
+                            props.values.times[`key-${i}`];
+                        }
+
+                        // Add new value on top
+                        newTimes["key-0"] = "08:00";
+                        setTimes(newIndex + 1);
+                        props.setFieldValue("times", newTimes);
+                      }}
+                    />
+                  )}
                   {/* Show the list of time pickers */}
                   {Array.from({ length: parseInt(times) }, (_, index) => (
                     // Create the view with times
@@ -309,23 +368,6 @@ const EntryEdit = ({ route, navigation }) => {
                       )}
                     </View>
                   ))}
-
-                  {/* Add Hour Button */}
-                  <IconButton
-                    style={[styles.hourButton, styles.addHourButton]}
-                    title={"Dodaj Godzinę"}
-                    iconName={"more-time"}
-                    onPress={() => {
-                      // Create new vars
-                      const newIndex = parseInt(times);
-                      const newTimes = props.values.times;
-
-                      // Assign new values
-                      newTimes[`key-${newIndex}`] = "08:00";
-                      setTimes(newIndex + 1);
-                      props.setFieldValue("times", newTimes);
-                    }}
-                  />
                 </View>
               </View>
 
@@ -494,9 +536,16 @@ const styles = StyleSheet.create({
     width: 270 + 58 + 5,
     alignSelf: "center",
   },
-  upDownButton: {
+  upButton: {
     margin: 0,
     marginLeft: 4,
+    padding: 0,
+    width: "9%",
+    justifyContent: "center",
+  },
+  downButton: {
+    margin: 0,
+    marginRight: 4,
     padding: 0,
     width: "9%",
     justifyContent: "center",
