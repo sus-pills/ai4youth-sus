@@ -42,31 +42,67 @@ const EntryEdit = ({ route, navigation }) => {
   // Count times
   const [times, setTimes] = useState(`${Object.keys(entry.times).length}`);
 
-  // Create list of which pickers to show
+  // Create list of which hour pickers to show
   const [showTimePicker, setShowTimePicker] = useState(
     Array.from({ length: 5 }, () => false)
   );
 
+  // Create day picker show on/off
+  const [showDayPicker, setShowDayPicker] = useState(false);
+
   // Handle date
-  const handleDate = (date) => {
+  const handleHour = (hour) => {
     // Had to do it the old way
     // because the toLocaleTimeString
     // doesn't work in React Native apparently.
 
-    const hours = date.getHours().toString().padStart(2, "0");
-    const minutes = date.getMinutes().toString().padStart(2, "0");
+    const hours = hour.getHours().toString().padStart(2, "0");
+    const minutes = hour.getMinutes().toString().padStart(2, "0");
     return `${hours}:${minutes}`;
   };
 
-  // Sort elements in object
-  const sortObject = (object) => {
-    const length = Object.keys(object).length;
+  const handleDate = (date, mode) => {
+    const year = date.getFullYear().toString();
+    const month = (date.getMonth() + 1).toString();
+    const day = date.getDate().toString();
+
+    const monthFullNames = {
+      1: "STYCZNIA",
+      2: "LUTEGO",
+      3: "MARCA",
+      4: "KWIETNIA",
+      5: "MAJA",
+      6: "CZERWCA",
+      7: "LIPCA",
+      8: "SIERPNIA",
+      9: "WRZEŚNIA",
+      10: "PAŹDZIERNIKA",
+      11: "LISTOPADA",
+      12: "GRUDNIA",
+    };
+
+    if (mode === "r") {
+      return `${day} ${monthFullNames[month]} ${year}`;
+    }
+
+    return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+  };
+
+  const [readableDate, setReadableDate] = useState(handleDate(new Date(entry.nextDate), "r"));
+
+  // Sorts and deletes duplicates from the given object
+  const handleObject = (object) => {
     const keys = Object.keys(object);
-    const values = Object.values(object).sort();
+    const values = [...new Set(Object.values(object))].sort();
+    const length = values.length;
+
+    const newObject = {};
 
     for (let i = 0; i < length; i++) {
-      object[keys[i]] = values[i];
+      newObject[keys[i]] = values[i];
     }
+
+    return newObject;
   };
 
   // Remove first occurence from array
@@ -83,7 +119,7 @@ const EntryEdit = ({ route, navigation }) => {
       style={styles.container}
       initialValues={entry}
       onSubmit={(values) => {
-        sortObject(values.times);
+        values.times = handleObject(values.times);
 
         console.log(values);
         navigation.goBack();
@@ -122,7 +158,7 @@ const EntryEdit = ({ route, navigation }) => {
                     props.setFieldValue(
                       "color",
                       // Don't change if null
-                      selectedColor ? selectedColor : props.values.color
+                      selectedColor || props.values.color
                     )
                   }
                 >
@@ -191,30 +227,26 @@ const EntryEdit = ({ route, navigation }) => {
               {/* remainingIntakes */}
               <View style={styles.inputContainer}>
                 <InputText text={"Pozostała ilość zażyć"} />
-                <View style={{ flexDirection: "row" }}>
+                <View style={styles.upDownInputButtons}>
                   <IconButton
                     iconName={"chevron-double-down"}
                     communityIcons={true}
-                    style={styles.downButton}
-                    onPress={() =>
-                      props.setFieldValue(
+                    style={[styles.upDownButton, styles.upDownButtonLeft]}
+                    onPress={() => {
+                      -props.setFieldValue(
                         "remainingIntakes",
-                        (props.values.remainingIntakes
-                          ? parseInt(props.values.remainingIntakes)
-                          : 5) - 5
-                      )
-                    }
+                        parseInt(props.values.remainingIntakes) - 5
+                      );
+                    }}
                   />
                   <IconButton
                     iconName={"chevron-down"}
                     communityIcons={true}
-                    style={styles.downButton}
+                    style={[styles.upDownButton, styles.upDownButtonLeft]}
                     onPress={() =>
                       props.setFieldValue(
                         "remainingIntakes",
-                        (props.values.remainingIntakes
-                          ? parseInt(props.values.remainingIntakes)
-                          : 1) - 1
+                        parseInt(props.values.remainingIntakes) - 1
                       )
                     }
                   />
@@ -230,30 +262,66 @@ const EntryEdit = ({ route, navigation }) => {
                   <IconButton
                     iconName={"chevron-up"}
                     communityIcons={true}
-                    style={styles.upButton}
+                    style={styles.upDownButton}
                     onPress={() =>
                       props.setFieldValue(
                         "remainingIntakes",
-                        (props.values.remainingIntakes
-                          ? parseInt(props.values.remainingIntakes)
-                          : 0) + 1
+                        parseInt(props.values.remainingIntakes) + 1
                       )
                     }
                   />
                   <IconButton
                     iconName={"chevron-double-up"}
                     communityIcons={true}
-                    style={styles.upButton}
+                    style={styles.upDownButton}
                     onPress={() =>
                       props.setFieldValue(
                         "remainingIntakes",
-                        (props.values.remainingIntakes
-                          ? parseInt(props.values.remainingIntakes)
-                          : 0) + 5
+                        parseInt(props.values.remainingIntakes) + 5
                       )
                     }
                   />
                 </View>
+              </View>
+
+              {/* From what day? */}
+              <View style={styles.inputContainer}>
+                <InputText text={"Od którego dnia?"} />
+                <IconButton
+                  style={[styles.dateButton]}
+                  title={readableDate}
+                  textColor={"black"}
+                  communityIcons={true}
+                  iconName={"calendar-arrow-right"}
+                  onPress={() => setShowDayPicker(true)}
+                />
+
+                {showDayPicker && (
+                  <RNDateTimePicker
+                    value={new Date()}
+                    mode={"date"}
+                    positiveButtonLabel={"Ok"}
+                    negativeButtonLabel={"Anuluj"}
+                    onChange={(value) => {
+                      // Hide the picker
+                      setShowDayPicker(false);
+
+                      // Check if value is set
+                      if (value.type === "set") {
+                        // Convert the value
+                        const newDate = handleDate(new Date(value.nativeEvent.timestamp));
+
+                        const newReadableDate = handleDate(
+                          new Date(value.nativeEvent.timestamp),
+                          "r"
+                        );
+
+                        props.setFieldValue("nextDate", newDate);
+                        setReadableDate(newReadableDate);
+                      }
+                    }}
+                  />
+                )}
               </View>
 
               {/* At what hours? */}
@@ -317,7 +385,10 @@ const EntryEdit = ({ route, navigation }) => {
 
                             // Remove the first occurrence
                             // In case there are multiple exact times
-                            const newValues = removeFirstOccurrence(inherentValues, inherentValues[index]);
+                            const newValues = removeFirstOccurrence(
+                              inherentValues,
+                              inherentValues[index]
+                            );
 
                             // Assign values to keys
                             const newTimes = {};
@@ -354,7 +425,7 @@ const EntryEdit = ({ route, navigation }) => {
 
                               // Change the value
                               const newValues = { ...props.values.times };
-                              newValues[`key-${index}`] = handleDate(dateValue);
+                              newValues[`key-${index}`] = handleHour(dateValue);
                               props.setFieldValue("times", newValues);
                             }
                           }}
@@ -505,6 +576,7 @@ const styles = StyleSheet.create({
     borderColor: CustomColors.customDarkGray,
     borderRadius: CustomBorder.customRadius,
     padding: 8,
+    marginTop: 4,
     fontSize: 20,
     width: "100%",
   },
@@ -530,19 +602,26 @@ const styles = StyleSheet.create({
     width: 270 + 58 + 5,
     alignSelf: "center",
   },
-  upButton: {
+  dateButton: {
+    margin: 4,
+    backgroundColor: "#f6f6f6",
+  },
+  upDownButton: {
     margin: 0,
     marginLeft: 4,
+    marginTop: 4,
     padding: 0,
     width: "9%",
     justifyContent: "center",
   },
-  downButton: {
-    margin: 0,
+  upDownButtonLeft: {
+    marginLeft: 0,
     marginRight: 4,
-    padding: 0,
-    width: "9%",
-    justifyContent: "center",
+  },
+  upDownInputButtons: {
+    flexDirection: "row",
+    marginTop: 4,
+    alignItems: 'flex-start'
   },
 });
 
