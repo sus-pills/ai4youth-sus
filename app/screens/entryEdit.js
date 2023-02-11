@@ -88,7 +88,9 @@ const EntryEdit = ({ route, navigation }) => {
     return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
   };
 
-  const [readableDate, setReadableDate] = useState(handleDate(new Date(entry.nextDate), "r"));
+  const [readableDate, setReadableDate] = useState(
+    handleDate(new Date(entry.nextDate), "r")
+  );
 
   // Sorts and deletes duplicates from the given object
   const handleObject = (object) => {
@@ -309,7 +311,9 @@ const EntryEdit = ({ route, navigation }) => {
                       // Check if value is set
                       if (value.type === "set") {
                         // Convert the value
-                        const newDate = handleDate(new Date(value.nativeEvent.timestamp));
+                        const newDate = handleDate(
+                          new Date(value.nativeEvent.timestamp)
+                        );
 
                         const newReadableDate = handleDate(
                           new Date(value.nativeEvent.timestamp),
@@ -605,6 +609,8 @@ const styles = StyleSheet.create({
   dateButton: {
     margin: 4,
     backgroundColor: "#f6f6f6",
+    width: 270 + 58 + 5,
+    alignSelf: "center",
   },
   upDownButton: {
     margin: 0,
@@ -621,7 +627,7 @@ const styles = StyleSheet.create({
   upDownInputButtons: {
     flexDirection: "row",
     marginTop: 4,
-    alignItems: 'flex-start'
+    alignItems: "flex-start",
   },
 });
 
