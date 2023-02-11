@@ -18,7 +18,7 @@ import {
 import SingleModalButton from "../components/singleModalButton";
 import { Formik } from "formik";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import { isLightColor } from "../global/globalFunctions";
+import { isLightColor, handleDate } from "../global/globalFunctions";
 import InputText from "../components/inputText";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 
@@ -59,33 +59,6 @@ const EntryEdit = ({ route, navigation }) => {
     const hours = hour.getHours().toString().padStart(2, "0");
     const minutes = hour.getMinutes().toString().padStart(2, "0");
     return `${hours}:${minutes}`;
-  };
-
-  const handleDate = (date, mode) => {
-    const year = date.getFullYear().toString();
-    const month = (date.getMonth() + 1).toString();
-    const day = date.getDate().toString();
-
-    const monthFullNames = {
-      1: "STYCZNIA",
-      2: "LUTEGO",
-      3: "MARCA",
-      4: "KWIETNIA",
-      5: "MAJA",
-      6: "CZERWCA",
-      7: "LIPCA",
-      8: "SIERPNIA",
-      9: "WRZEŚNIA",
-      10: "PAŹDZIERNIKA",
-      11: "LISTOPADA",
-      12: "GRUDNIA",
-    };
-
-    if (mode === "r") {
-      return `${day} ${monthFullNames[month]} ${year}`;
-    }
-
-    return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
   };
 
   const [readableDate, setReadableDate] = useState(
