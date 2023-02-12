@@ -26,6 +26,7 @@ const SingleModalButton = ({
   onAccept,
   modalStyle,
   children,
+  isLoading,
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -51,6 +52,7 @@ const SingleModalButton = ({
                   {children}
                 </View>
                 <IconButton 
+                  isLoading={isLoading}
                   iconName={'check'}
                   onPress={() => {
                     setModalVisible(false);
