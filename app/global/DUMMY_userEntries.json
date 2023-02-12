@@ -9,7 +9,7 @@
   ],
   "dosage": 10,
   "dosageUnit": "milligramy",
-  "instructions": null,
+  "information": null,
   "color": "#f00",
   "icon": "iconName"
 }
