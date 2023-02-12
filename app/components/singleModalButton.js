@@ -67,6 +67,7 @@ const SingleModalButton = ({
       </Modal>
 
       <IconButton
+        isLoading={isLoading}
         communityIcons={communityIcons}
         iconName={iconName}
         title={title}

@@ -33,7 +33,7 @@ const IconButton = ({
         {/* Icon */}
         {isLoading ? (
           <ActivityIndicator
-            size={30}
+            size={31} // <-- Has to be 31 otherwise one pixel is off
             color={color}
             style={{ marginRight: title ? 8 : 0 }}
           />
