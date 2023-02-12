@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, TouchableOpacity, Text } from "react-native";
+import { View, TouchableOpacity, Text, ActivityIndicator } from "react-native";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
@@ -19,6 +19,7 @@ const IconButton = ({
   communityIcons,
   style,
   onPress,
+  isLoading,
 }) => {
   const color = textColor ? textColor : "white";
 
@@ -30,7 +31,13 @@ const IconButton = ({
     >
       <View style={styles.container}>
         {/* Icon */}
-        {communityIcons ? (
+        {isLoading ? (
+          <ActivityIndicator
+            size={30}
+            color={color}
+            style={{ marginRight: title ? 8 : 0 }}
+          />
+        ) : communityIcons ? (
           <MaterialCommunityIcons
             name={iconName}
             size={30}
