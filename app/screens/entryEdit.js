@@ -439,7 +439,7 @@ const EntryEdit = ({ route, navigation }) => {
                   onChangeText={props.handleChange("information")}
                   onBlur={props.handleBlur("information")}
                   value={props.values.information}
-                  placeholder={"(opcjonalne) np. Zażyć po jedzeniu"}
+                  placeholder={"(opcjonalne) np. Zażyj po posiłku"}
                 />
               </View>
             </ScrollView>
