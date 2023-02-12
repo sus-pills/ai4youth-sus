@@ -416,7 +416,7 @@ const EntryEdit = ({ route, navigation }) => {
 
               {/* dosage & dosageUnit */}
               <View style={styles.inputContainer}>
-                <InputText text={"Miarka jednego zażycia"} />
+                <InputText text={"Dawkowanie"} />
                 <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'space-between', width: "100%"}}>
                   <TextInput
                     onChangeText={props.handleChange("dosage")}
