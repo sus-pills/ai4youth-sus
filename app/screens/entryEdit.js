@@ -81,29 +81,6 @@ const EntryEdit = ({ route, navigation }) => {
   ];
   const [selectedColor, setSelectedColor] = useState(null);
 
-  // Loading buttons
-  const [loadingButtons, setLoadingButtons] = useState({
-    changeColor: false,
-    approveChangeColor: false,
-    dateChange: false,
-    addHour: false,
-    editHour: Array.from({ length: 5 }, () => false),
-    deleteHour: Array.from({ length: 5 }, () => false),
-    approveForm: false,
-  });
-
-  // Handle Loading Buttons state
-  const handleLoadingButtons = (name, value) => {
-    // Load the button states
-    const newLoadingButtons = loadingButtons;
-
-    // Change the desired button state
-    newLoadingButtons[name] = value;
-
-    // Update all buttons
-    setLoadingButtons(newLoadingButtons);
-  };
-
   // Choose icons
   const icons = ["pill", "needle", "bottle-tonic-plus", "medical-bag"];
 
@@ -207,19 +184,16 @@ const EntryEdit = ({ route, navigation }) => {
                   buttonStyle={styles.changeColor}
                   iconName={"color-lens"}
                   title={"Zmień Kolor"}
-                  isLoading={loadingButtons.approveChangeColor}
                   // Clear the color picker upon leaving
                   onLeave={() => setSelectedColor(null)}
                   // Change Color on Accept
-                  onAccept={() => {
-                    handleLoadingButtons("approveChangeColor", true)
+                  onAccept={() =>
                     props.setFieldValue(
                       "color",
                       // Don't change if null
                       selectedColor || props.values.color
-                    );
-                    handleLoadingButtons("approveChangeColor", false)
-                  }}
+                    )
+                  }
                 >
                   {/* Color Palette */}
                   <View style={styles.colorPickerContaier}>
@@ -361,15 +335,12 @@ const EntryEdit = ({ route, navigation }) => {
               <View style={styles.inputContainer}>
                 <InputText text={"Od którego dnia?"} />
                 <IconButton
-                  isLoading={loadingButtons.dateChange}
                   style={[styles.dateButton]}
                   title={readableDate}
                   textColor={"black"}
                   communityIcons={true}
                   iconName={"calendar-start"}
-                  onPress={() => {
-                    handleLoadingButtons("dateChange", true)
-                    setShowDayPicker(true)}}
+                  onPress={() => setShowDayPicker(true)}
                 />
 
                 {showDayPicker && (
@@ -397,7 +368,6 @@ const EntryEdit = ({ route, navigation }) => {
                         props.setFieldValue("nextDate", newDate);
                         setReadableDate(newReadableDate);
                       }
-                      handleLoadingButtons("dateChange", false)
                     }}
                   />
                 )}
