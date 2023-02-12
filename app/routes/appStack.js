@@ -1,4 +1,5 @@
 // Imports
+import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { spring, timing } from "react-native-reanimated";
@@ -10,51 +11,53 @@ import EntryInfo from "../screens/entryInfo";
 import EntryEdit from "../screens/entryEdit";
 
 // Components Imports
-import TrashHeaderButton from "../components/trashHeaderButton";
+
 
 const Stack = createStackNavigator();
 
-const appStack = () => (
-  <NavigationContainer>
-    <Stack.Navigator
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: CustomColors.customMain,
-        },
-        headerTintColor: "white",
-        headerTitleAlign: "center",
-      }}
-      options={{
-        headerMode: "screen",
-      }}
-      initialRouteName="HomeTab"
-    >
-      <Stack.Screen
-        name="HomeTab"
-        component={HomeTab}
-        options={{
-          headerShown: false,
-        }}
-      />
+const appStack = () => {
 
-      <Stack.Screen
-        name="EntryInfo"
-        component={EntryInfo}
-        options={{
-          title: "Informacje o Wpisie",
+  return (
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: CustomColors.customMain,
+          },
+          headerTintColor: "white",
+          headerTitleAlign: "center",
         }}
-      />
+        options={{
+          headerMode: "screen",
+        }}
+        initialRouteName="HomeTab"
+      >
+        <Stack.Screen
+          name="HomeTab"
+          component={HomeTab}
+          options={{
+            headerShown: false,
+          }}
+        />
 
-      <Stack.Screen
-        name="EntryEdit"
-        component={EntryEdit}
-        options={{
-          title: "Edytuj Wpis",
-          headerRight: () => <TrashHeaderButton />,
-        }}
-      />
-    </Stack.Navigator>
-  </NavigationContainer>
-);
+        <Stack.Screen
+          name="EntryInfo"
+          component={EntryInfo}
+          options={{
+            title: "Informacje o Wpisie",
+          }}
+        />
+
+        <Stack.Screen
+          name="EntryEdit"
+          component={EntryEdit}
+          options={{
+            title: "Edytuj Wpis",
+          }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
 
 export default appStack;

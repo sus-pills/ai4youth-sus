@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   TextInput,
   NativeModules,
+  BackHandler,
+  Alert,
 } from "react-native";
 import IconButton from "../components/iconButton";
 import {
@@ -21,10 +23,56 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { isLightColor, handleDate } from "../global/globalFunctions";
 import InputText from "../components/inputText";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
+import { HeaderBackButton } from "@react-navigation/elements";
+import TrashHeaderButton from "../components/trashHeaderButton";
 
 const EntryEdit = ({ route, navigation }) => {
   // Load params
   const entry = route.params.entry;
+
+  // Exit Without Changes Alert
+  const exitWithoutChanges = () => {
+    Alert.alert(
+      "Wyjść z Edycji Wpisu?",
+      "Wszelkie zmiany NIE zostaną zapisane.",
+      [
+        {
+          text: "Nie",
+          onPress: () => null,
+          style: "cancel",
+        },
+        {
+          text: "Tak",
+          onPress: () => navigation.goBack(),
+        },
+      ],
+      {
+        cancelable: false,
+      }
+    );
+    return true;
+  };
+
+  // Listen for system exit
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener("hardwareBackPress", () =>
+      exitWithoutChanges()
+    );
+    return () => backHandler.remove();
+  }, []);
+
+  // Change goBack button function
+  navigation.setOptions({
+    headerLeft: () => (
+      <HeaderBackButton
+        tintColor="white"
+        onPress={() => exitWithoutChanges()}
+      />
+    ),
+    headerRight: () => (
+      <TrashHeaderButton onPress={() => console.log("delete")} />
+    ),
+  });
 
   // Change color
   const colorsPalette = [
@@ -61,6 +109,7 @@ const EntryEdit = ({ route, navigation }) => {
     return `${hours}:${minutes}`;
   };
 
+  // Readable date in format of "21 MARCA 2023"
   const [readableDate, setReadableDate] = useState(
     handleDate(new Date(entry.nextDate), "r")
   );
@@ -96,7 +145,8 @@ const EntryEdit = ({ route, navigation }) => {
       onSubmit={(values) => {
         values.times = handleObject(values.times);
 
-        console.log(values);
+        console.log("INITIAL", entry);
+        console.log("CHANGED", values);
         navigation.goBack();
       }}
     >
@@ -416,15 +466,20 @@ const EntryEdit = ({ route, navigation }) => {
               {/* dosage & dosageUnit */}
               <View style={styles.inputContainer}>
                 <InputText text={"Dawkowanie"} />
-                <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'space-between', width: "100%"}}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "space-between",
+                    width: "100%",
+                  }}
+                >
                   <TextInput
                     onChangeText={props.handleChange("dosage")}
                     onBlur={props.handleBlur("dosage")}
                     value={props.values.dosage}
                     placeholder={"(opcjonalne) np. 0,5 tabletki"}
-                    style={[
-                      styles.input, 
-                    ]}
+                    style={[styles.input]}
                   />
                 </View>
               </View>
@@ -448,6 +503,7 @@ const EntryEdit = ({ route, navigation }) => {
           <View style={styles.buttons}>
             {/* Calncel Button */}
             <IconButton
+              onPress={() => exitWithoutChanges()}
               style={[
                 styles.button,
                 { backgroundColor: CustomColors.customNegation },
