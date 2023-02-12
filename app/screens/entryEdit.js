@@ -20,7 +20,6 @@ import { Formik } from "formik";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { isLightColor, handleDate } from "../global/globalFunctions";
 import InputText from "../components/inputText";
-import ExpandableList from "../components/expandableList";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 
 const EntryEdit = ({ route, navigation }) => {
