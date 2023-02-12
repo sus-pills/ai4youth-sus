@@ -20,6 +20,7 @@ import { Formik } from "formik";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { isLightColor, handleDate } from "../global/globalFunctions";
 import InputText from "../components/inputText";
+import ExpandableList from "../components/expandableList";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 
 const EntryEdit = ({ route, navigation }) => {
@@ -226,7 +227,7 @@ const EntryEdit = ({ route, navigation }) => {
                     }
                   />
                   <TextInput
-                    style={[styles.input, { width: 231, textAlign: "center" }]}
+                    style={[styles.input, { width: 184, textAlign: "center" }]}
                     onChangeText={props.handleChange("remainingIntakes")}
                     onBlur={props.handleBlur("remainingIntakes")}
                     value={`${props.values.remainingIntakes}`}
@@ -267,7 +268,7 @@ const EntryEdit = ({ route, navigation }) => {
                   title={readableDate}
                   textColor={"black"}
                   communityIcons={true}
-                  iconName={"calendar-arrow-right"}
+                  iconName={"calendar-start"}
                   onPress={() => setShowDayPicker(true)}
                 />
 
@@ -414,29 +415,32 @@ const EntryEdit = ({ route, navigation }) => {
               </View>
 
               {/* dosage & dosageUnit */}
-              <View>
-                {/* <Text>{"Nazwa"}</Text>
-                <TextInput
-                  onChangeText={props.handleChange("name")}
-                  onBlur={props.handleBlur("name")}
-                  value={props.values.name}
-                />
-                <Text>{"Nazwa"}</Text>
-                <TextInput
-                  onChangeText={props.handleChange("name")}
-                  onBlur={props.handleBlur("name")}
-                  value={props.values.name}
-                /> */}
+              <View style={styles.inputContainer}>
+                <InputText text={"Miarka jednego zażycia"} />
+                <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'space-between', width: "100%"}}>
+                  <TextInput
+                    onChangeText={props.handleChange("dosage")}
+                    onBlur={props.handleBlur("dosage")}
+                    value={props.values.dosage}
+                    placeholder={"(opcjonalne) np. 0,5 tabletki"}
+                    style={[
+                      styles.input, 
+                    ]}
+                  />
+                </View>
               </View>
 
               {/* instructions */}
-              <View>
-                {/* <Text>{"Nazwa"}</Text>
+              <View style={styles.inputContainer}>
+                <InputText text={"Informacje dodatkowe"} />
                 <TextInput
-                  onChangeText={props.handleChange("name")}
-                  onBlur={props.handleBlur("name")}
-                  value={props.values.name}
-                /> */}
+                  multiline
+                  style={styles.input}
+                  onChangeText={props.handleChange("information")}
+                  onBlur={props.handleBlur("information")}
+                  value={props.values.information}
+                  placeholder={"(opcjonalne) np. Zażyć po jedzeniu"}
+                />
               </View>
             </ScrollView>
           </View>
@@ -590,8 +594,9 @@ const styles = StyleSheet.create({
     marginLeft: 4,
     marginTop: 4,
     padding: 0,
-    width: "9%",
+    width: "12%",
     justifyContent: "center",
+    alignContent: "center",
   },
   upDownButtonLeft: {
     marginLeft: 0,
