@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import {
   View,
-  Text,
   StyleSheet,
   ScrollView,
   TouchableOpacity,
   TextInput,
-  NativeModules,
   BackHandler,
   Alert,
 } from "react-native";
@@ -14,7 +12,6 @@ import IconButton from "../components/iconButton";
 import {
   CustomBorder,
   CustomColors,
-  CustomSpacing,
   GlobalStyles,
 } from "../global/globalStyles";
 import SingleModalButton from "../components/singleModalButton";
@@ -84,8 +81,38 @@ const EntryEdit = ({ route, navigation }) => {
   ];
   const [selectedColor, setSelectedColor] = useState(null);
 
+  // Loading buttons
+  const [loadingButtons, setLoadingButtons] = useState({
+    changeColor: false,
+    approveChangeColor: false,
+
+  })
+
+  // Handle Loading Buttons state
+  const handleLoadingButtons = (name, value) => {
+    // Load the button states
+    const newLoadingButtons = loadingButtons;
+
+    // Change the desired button state
+    newLoadingButtons[name] = value;
+
+    // Update all buttons
+    setLoadingButtons(newLoadingButtons);
+  }
+
   // Choose icons
   const icons = ["pill", "needle", "bottle-tonic-plus", "medical-bag"];
+
+  // Handle remaining intakes
+  const handleRemainingIntakes = (value, num) => {
+    const newValue = value + num;
+
+    // Return a new value
+    if (newValue >= 0 && !isNaN(newValue)) return parseInt(newValue);
+
+    // handle new bad values
+    return 0;
+  };
 
   // Count times
   const [times, setTimes] = useState(`${Object.keys(entry.times).length}`);
@@ -253,17 +280,23 @@ const EntryEdit = ({ route, navigation }) => {
               <View style={styles.inputContainer}>
                 <InputText text={"Pozostała ilość zażyć"} />
                 <View style={styles.upDownInputButtons}>
+                  {/* Decrease by 5 */}
                   <IconButton
                     iconName={"chevron-double-down"}
                     communityIcons={true}
                     style={[styles.upDownButton, styles.upDownButtonLeft]}
-                    onPress={() => {
-                      -props.setFieldValue(
+                    onPress={() =>
+                      props.setFieldValue(
                         "remainingIntakes",
-                        parseInt(props.values.remainingIntakes) - 5
-                      );
-                    }}
+                        handleRemainingIntakes(
+                          props.values.remainingIntakes,
+                          -5
+                        )
+                      )
+                    }
                   />
+
+                  {/* Decrease by 1 */}
                   <IconButton
                     iconName={"chevron-down"}
                     communityIcons={true}
@@ -271,10 +304,15 @@ const EntryEdit = ({ route, navigation }) => {
                     onPress={() =>
                       props.setFieldValue(
                         "remainingIntakes",
-                        parseInt(props.values.remainingIntakes) - 1
+                        handleRemainingIntakes(
+                          props.values.remainingIntakes,
+                          -1
+                        )
                       )
                     }
                   />
+
+                  {/* Show Remaining intakes */}
                   <TextInput
                     style={[styles.input, { width: 184, textAlign: "center" }]}
                     onChangeText={props.handleChange("remainingIntakes")}
@@ -284,6 +322,7 @@ const EntryEdit = ({ route, navigation }) => {
                     keyboardType={"numeric"}
                   />
 
+                  {/* Increase by 1 */}
                   <IconButton
                     iconName={"chevron-up"}
                     communityIcons={true}
@@ -291,10 +330,12 @@ const EntryEdit = ({ route, navigation }) => {
                     onPress={() =>
                       props.setFieldValue(
                         "remainingIntakes",
-                        parseInt(props.values.remainingIntakes) + 1
+                        handleRemainingIntakes(props.values.remainingIntakes, 1)
                       )
                     }
                   />
+
+                  {/* Increase by 5 */}
                   <IconButton
                     iconName={"chevron-double-up"}
                     communityIcons={true}
@@ -302,7 +343,7 @@ const EntryEdit = ({ route, navigation }) => {
                     onPress={() =>
                       props.setFieldValue(
                         "remainingIntakes",
-                        parseInt(props.values.remainingIntakes) + 5
+                        handleRemainingIntakes(props.values.remainingIntakes, 5)
                       )
                     }
                   />
