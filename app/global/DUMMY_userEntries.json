@@ -1,0 +1,14 @@
+{
+  "id": "n37X-1vW2",
+  "name": "Vitamin C",
+  "remainingIntakes": 20,
+  "nextDate": "2023-02-15",
+  "times": {
+    "key-0": "12:00:00",
+    "key-1": "18:00:00"
+  },
+  "dosage": 10,
+  "information": null,
+  "color": "#f00",
+  "icon": "iconName"
+}

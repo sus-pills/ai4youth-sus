@@ -10,87 +10,154 @@ import Entry from "../components/entry";
 import { StyleSheet } from "react-native";
 import { CustomColors, CustomSpacing } from "../global/globalStyles";
 
-const Entries = () => {
+const Entries = ({ navigation: { navigate } }) => {
   const [entries, setEntries] = useState([
     {
-      key: 1,
+      id: "1",
       name: "Vitamin C",
-      times: { 1: "12:00:00", 2: "18:00:00" },
-      nextIntake: "2023-02-03 12:00:00",
-      everyXthDay: 2,
+      remainingIntakes: 20,
+      nextDate: "2023-02-15",
+      times: {
+        "key-0": "12:00",
+        "key-1": "18:00",
+      },
+      dosage: "100 mg",
+      information: "Take after a meal",
       color: "#f00",
+      icon: "pill",
     },
     {
-      key: 2,
+      id: "2",
       name: "Calcium",
-      times: { 1: "08:00:00", 2: "14:00:00", 3: "20:00:00" },
-      nextIntake: "2023-02-03 08:00:00",
-      everyXthDay: 1,
+      remainingIntakes: 30,
+      nextDate: "2022-12-01",
+      times: {
+        "key-0": "08:00",
+        "key-1": "14:00",
+        "key-2": "20:00",
+      },
+      dosage: "500 mg",
+      information: "Take with food",
       color: "#0f0",
+      icon: "pill",
     },
     {
-      key: 3,
+      id: "3",
       name: "Iron",
-      times: { 1: "09:00:00", 2: "15:00:00" },
-      nextIntake: "2023-02-03 09:00:00",
-      everyXthDay: 3,
+      remainingIntakes: 25,
+      nextDate: "2022-11-17",
+      times: {
+        "key-0": "10:00",
+        "key-1": "15:00",
+      },
+      dosage: "200 mg",
+      information: "Take with a glass of orange juice",
       color: "#00f",
+      icon: "needle",
     },
     {
-      key: 4,
+      id: "4",
       name: "Zinc",
-      times: { 1: "10:00:00", 2: "16:00:00", 3: "22:00:00" },
-      nextIntake: "2023-02-03 10:00:00",
-      everyXthDay: 2,
+      remainingIntakes: 40,
+      nextDate: "2022-10-22",
+      times: {
+        "key-0": "09:00",
+        "key-1": "12:00",
+        "key-2": "18:00",
+      },
+      dosage: "150 mg",
+      information: "Take before a meal",
       color: "#ff0",
+      icon: "bottle-tonic-plus",
     },
     {
-      key: 5,
-      name: "Magnesium",
-      times: { 1: "11:00:00", 2: "17:00:00" },
-      nextIntake: "2023-02-03 11:00:00",
-      everyXthDay: 1,
+      id: "5",
+      name: "Vitamin B12",
+      remainingIntakes: 50,
+      nextDate: "2022-09-19",
+      times: {
+        "key-0": "07:00",
+        "key-1": "13:00",
+        "key-2": "19:00",
+      },
+      dosage: "500 mcg",
+      information: "Take with water",
       color: "#f0f",
+      icon: "pill",
     },
     {
-      key: 6,
-      name: "Potassium",
-      times: { 1: "07:00:00", 2: "13:00:00", 3: "19:00:00" },
-      nextIntake: "2023-02-03 07:00:00",
-      everyXthDay: 1,
+      id: "6",
+      name: "Magnesium",
+      remainingIntakes: 35,
+      nextDate: "2022-08-15",
+      times: {
+        "key-0": "06:00",
+        "key-1": "12:00",
+        "key-2": "20:00",
+      },
+      dosage: "400 mg",
+      information: "Take with a meal",
       color: "#0ff",
+      icon: "medical-bag",
     },
     {
-      key: 7,
+      id: "7",
       name: "Omega-3",
-      times: { 1: "06:00:00", 2: "12:00:00" },
-      nextIntake: "2023-02-03 06:00:00",
-      everyXthDay: 3,
-      color: "#f90",
+      remainingIntakes: 60,
+      nextDate: "2022-07-12",
+      times: {
+        "key-0": "08:00",
+        "key-1": "14:00",
+      },
+      dosage: "1000 mg",
+      information: "Take with food",
+      color: "#f80",
+      icon: "pill",
     },
     {
-      key: 8,
-      name: "Probiotics",
-      times: { 1: "05:00:00", 2: "11:00:00", 3: "17:00:00" },
-      nextIntake: "2023-02-03 05:00:00",
-      everyXthDay: 2,
-      color: "#9f0",
+      id: "8",
+      name: "Folic Acid",
+      remainingIntakes: 45,
+      nextDate: "2022-06-17",
+      times: {
+        "key-0": "09:00",
+        "key-1": "16:00",
+        "key-2": "22:00",
+      },
+      dosage: "400 mcg",
+      information: "Take with a glass of water",
+      color: "#8f0",
+      icon: "bottle-tonic-plus",
     },
     {
-      key: 9,
+      id: "9",
       name: "Vitamin D",
-      times: { 1: "04:00:00", 2: "10:00:00" },
-      nextIntake: "2023-02-03 04:00:00",
-      everyXthDay: 1,
-      color: "#f09",
+      remainingIntakes: 55,
+      nextDate: "2022-05-22",
+      times: {
+        "key-0": "07:00",
+        "key-1": "13:00",
+        "key-2": "20:00",
+      },
+      dosage: "1000 IU",
+      information: "Take after a meal",
+      color: "#0f8",
+      icon: "needle",
     },
     {
-      key: 10,
-      name: "Turmeric",
-      times: { 1: "03:00:00", 2: "09:00:00", 3: "15:00:00" },
-      nextIntake: "2023-02-03 03:00:00",
-      everyXthDay: 2,
-      color: "#90f",
+      id: "10",
+      name: "Probiotic",
+      remainingIntakes: 50,
+      nextDate: "2022-04-19",
+      times: {
+        "key-0": "06:00",
+        "key-1": "12:00",
+        "key-2": "18:00",
+      },
+      dosage: "1 capsule",
+      information: "Take with a glass of water",
+      color: "#f08",
+      icon: "medical-bag",
     },
   ]);
   const [title, setTitle] = useState("Dodaj Wpis");
@@ -103,7 +170,13 @@ const Entries = () => {
       {/* Entries */}
       <ScrollView style={styles.scrollView}>
         {entries.map((entry) => (
-          <Entry key={entry.key} entry={entry} />
+          <Entry
+            onPress={() => {
+              navigate("EntryInfo", { entry });
+            }}
+            key={entry.id}
+            entry={entry}
+          />
         ))}
       </ScrollView>
     </View>

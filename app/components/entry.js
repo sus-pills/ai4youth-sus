@@ -15,15 +15,15 @@ const dateToString = () => {
 
 }
 
-const Entry = ({ entry }) => {
+const Entry = ({ entry, onPress }) => {
   return (
     <TouchableOpacity
+      onPress={onPress}
       activeOpacity={0.4}
       style={[
         styles.touchableOpacityButton,
         {
           backgroundColor: "#f6f6f6",
-          borderColor: entry.color,
         },
         GlobalStyles.customShadow,
       ]}
