@@ -31,7 +31,7 @@ const EntryEdit = ({ route, navigation }) => {
   const exitWithoutChanges = () => {
     Alert.alert(
       "Wyjść z Edycji Wpisu?",
-      "Wszelkie zmiany NIE zostaną zapisane.",
+      "Wszelkie zmiany zostaną utracone.",
       [
         {
           text: "Nie",
@@ -44,7 +44,7 @@ const EntryEdit = ({ route, navigation }) => {
         },
       ],
       {
-        cancelable: false,
+        cancelable: true,
       }
     );
     return true;
