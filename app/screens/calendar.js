@@ -52,6 +52,15 @@ LocaleConfig.locales["pl"] = {
 LocaleConfig.defaultLocale = "pl";
 
 const PillCalendar = () => {
+  const calendarTheme = {
+    "stylesheet.day.basic": {
+      base: {
+        height: 100,
+      },
+    },
+    backgroundColor: "#f00"
+  }
+
   return (
     <View style={Styles.container}>
       <CalendarList
@@ -60,13 +69,9 @@ const PillCalendar = () => {
         hideArrows={false}
         horizontal={true}
         firstDay={1}
-        theme={{
-          "stylesheet.day.basic": {
-            base: {
-              height: 100,
-            },
-          },
-        }}
+        theme={
+          calendarTheme
+        }
         markedDates={
           {
             /* Tutaj będą wstawiane daty z wpisów */
