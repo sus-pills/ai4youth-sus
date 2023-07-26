@@ -1,13 +1,28 @@
-import React from "react";
-import { View, Text, Switch } from "react-native";
+import React, { useState } from 'react';
+import { View, TextInput, Button } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Styles Imports
-import { StyleSheet } from "react-native";
-import { CustomColors } from "../global/globalStyles";
+const SettingsScreen = () => {
+  const [inputFontSize, setInputFontSize] = useState('16'); // Default font size
 
-const Settings = () => {
-  return <View></View>;
+  const handleFontSizeChange = async (newFontSize) => {
+    // Save the new font size to AsyncStorage
+    try {
+      await AsyncStorage.setItem('@font_size', JSON.stringify(parseInt(newFontSize)));
+    } catch (error) {
+      console.log('Error saving:', error);
+    }
+  };
+
+  return (
+    <View>
+      <TextInput
+        value={inputFontSize}
+        onChangeText={setInputFontSize}
+      />
+      <Button title="Save" onPress={() => handleFontSizeChange(inputFontSize)} />
+    </View>
+  );
 };
-/* W switchu jeśli tryb dla daltonistów pokażą się typy. Trinatopia i tym podobne*/
 
-export default Settings;
+export default SettingsScreen;
