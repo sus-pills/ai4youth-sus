@@ -15,18 +15,18 @@ export const handleDate = (date, mode) => {
   const day = date.getDate().toString();
 
   const monthFullNames = {
-    1: "STYCZNIA",
-    2: "LUTEGO",
-    3: "MARCA",
-    4: "KWIETNIA",
-    5: "MAJA",
-    6: "CZERWCA",
-    7: "LIPCA",
-    8: "SIERPNIA",
-    9: "WRZEŚNIA",
-    10: "PAŹDZIERNIKA",
-    11: "LISTOPADA",
-    12: "GRUDNIA",
+    1: "JANUARY",
+    2: "FEBRUARY",
+    3: "MARCH",
+    4: "APRIL",
+    5: "MAY",
+    6: "JUNE",
+    7: "JULY",
+    8: "AUGUST",
+    9: "SEPTEMBER",
+    10: "OCTOBER",
+    11: "NOVERMBER",
+    12: "DECEMBER",
   };
 
   if (mode === "r") {
