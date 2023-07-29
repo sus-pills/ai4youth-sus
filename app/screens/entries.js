@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, ScrollView } from "react-native";
-import { v4 as uuidv4 } from "uuid";
 
 // Custom Imports
 import IconButton from "../components/iconButton";
@@ -9,10 +8,6 @@ import Entry from "../components/entry";
 // Styles Imports
 import { StyleSheet } from "react-native";
 import { CustomColors, CustomSpacing } from "../global/globalStyles";
-
-// ! DELETE THIS LATER
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useIsFocused } from '@react-navigation/native';
 
 const Entries = ({ navigation: { navigate } }) => {
   const [entries, setEntries] = useState([
@@ -164,38 +159,10 @@ const Entries = ({ navigation: { navigate } }) => {
       icon: "medical-bag",
     },
   ]);
-  const [title, setTitle] = useState("Dodaj Wpis");
-
-  // ! DELETE THIS LATER
-  const isFocused = useIsFocused()
-  const [fontSize, setFontSize] = useState(16);
-  useEffect(() => {
-    // Load the font size setting from AsyncStorage when the component mounts
-    const loadFontSize = async () => {
-      try {
-        const storedFontSize = await AsyncStorage.getItem('@font_size');
-        if (storedFontSize) {
-          console.log(typeof(JSON.parse(storedFontSize)), JSON.parse(storedFontSize))
-          setFontSize(JSON.parse(storedFontSize));
-        }
-      } catch (error) {
-        console.log('Error loading font size:', error);
-      }
-    };
-
-
-    if (isFocused){
-      loadFontSize();
-    }
-  }, [isFocused]);
+  const [title, setTitle] = useState("Add Entry");
 
   return (
     <View style={styles.container}>
-
-      {/* ! DELETE THIS LATER */}
-      <Text style={{ fontSize: fontSize }}>
-        This is a dummy text of font size {fontSize}
-      </Text>
 
       {/* Button */}
       <IconButton title={title} iconName="add" />

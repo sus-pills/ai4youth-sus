@@ -7,7 +7,7 @@ import { StyleSheet } from "react-native";
 import { CustomColors, CustomSpacing } from "../global/globalStyles";
 
 const Detector = () => {
-  const [title, setTitle] = useState("Zrób Zdjęcie");
+  const [title, setTitle] = useState("Take a Photo");
 
   return (
     <View style={styles.container}>

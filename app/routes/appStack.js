@@ -44,7 +44,7 @@ const appStack = () => {
           name="EntryInfo"
           component={EntryInfo}
           options={{
-            title: "Informacje o Wpisie",
+            title: "Entry Information",
           }}
         />
 
@@ -52,7 +52,7 @@ const appStack = () => {
           name="EntryEdit"
           component={EntryEdit}
           options={{
-            title: "Edytuj Wpis",
+            title: "Edit Entry",
           }}
         />
       </Stack.Navigator>

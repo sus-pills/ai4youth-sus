@@ -6,51 +6,6 @@ import { CalendarList, LocaleConfig } from "react-native-calendars";
 import { StyleSheet } from "react-native";
 import { CustomColors } from "../global/globalStyles";
 
-LocaleConfig.locales["pl"] = {
-  monthNames: [
-    "Styczeń",
-    "Luty",
-    "Marzec",
-    "Kwiecień",
-    "Maj",
-    "Czerwiec",
-    "Lipiec",
-    "Sierpień",
-    "Wrzesień",
-    "Październik",
-    "Listopad",
-    "Grudzień",
-  ],
-  monthNamesShort: [
-    "Sty.",
-    "Luty",
-    "Mar.",
-    "Kwi.",
-    "Maj",
-    "Cze.",
-    "Lip.",
-    "Sie.",
-    "Wrz.",
-    "Paź.",
-    "Lis.",
-    "Gru.",
-  ],
-  dayNames: [
-    "Niedziela",
-    "Poniedziałek",
-    "Wtorek",
-    "Środa",
-    "Czwartek",
-    "Piątek",
-    "Sobota",
-  ],
-  dayNamesShort: ["N", "Pon", "Wt", "Śr", "Czw", "Pt", "Sob"],
-  today: "Dzisiaj",
-};
-
-// Localization config
-LocaleConfig.defaultLocale = "pl";
-
 const PillCalendar = () => {
   const calendarTheme = {
     "stylesheet.day.basic": {

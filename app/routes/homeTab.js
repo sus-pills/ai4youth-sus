@@ -33,10 +33,10 @@ export const HomeTab = () => {
       initialRouteName="PillCalendar"
     >
       <Tab.Screen
-        name="Kalendarz"
+        name="Calendar"
         component={PillCalendar}
         options={{
-          title: "Kalendarz",
+          title: "Calendar",
           tabBarIcon: ({ focused, size }) => (
             <MaterialCommunityIcons
               name={"calendar"}
@@ -48,10 +48,10 @@ export const HomeTab = () => {
       />
 
       <Tab.Screen
-        name="Wykryj lek"
+        name="Camera"
         component={Detector}
         options={{
-          title: "Wykryj lek",
+          title: "Camera",
           tabBarIcon: ({ focused, size }) => (
             <MaterialIcons
               name={"photo-camera"}
@@ -63,10 +63,10 @@ export const HomeTab = () => {
       />
 
       <Tab.Screen
-        name="Wpisy"
+        name="Entries"
         component={Entries}
         options={{
-          title: "Wpisy",
+          title: "Entries",
           tabBarIcon: ({ focused, size }) => (
             <MaterialIcons
               name={"format-list-bulleted"}
@@ -78,10 +78,10 @@ export const HomeTab = () => {
       />
 
       <Tab.Screen
-        name="Ustawienia"
+        name="Options"
         component={Settings}
         options={{
-          title: "Ustawienia",
+          title: "Options",
           tabBarIcon: ({ focused, size }) => (
             <MaterialIcons
               name={"settings"}
