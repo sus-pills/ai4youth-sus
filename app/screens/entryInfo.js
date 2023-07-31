@@ -24,7 +24,7 @@ const EntryInfo = ({route, navigation}) => {
       }}
       iconName={'square-edit-outline'}
       communityIcons={true}
-      title={'Edytuj'} />
+      title={'Edit'} />
     </View>
   ) ; 
 }

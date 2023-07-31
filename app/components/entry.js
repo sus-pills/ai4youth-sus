@@ -35,7 +35,7 @@ const Entry = ({ entry, onPress }) => {
         </View>
 
         <Text style={styles.body}>
-          {"Naciśnij, aby uzyskać więcej informacji"}
+          {"Press to access more information"}
         </Text>
       </View>
 

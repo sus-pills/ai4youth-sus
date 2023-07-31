@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, ScrollView } from "react-native";
-import { v4 as uuidv4 } from "uuid";
 
 // Custom Imports
 import IconButton from "../components/iconButton";
@@ -160,10 +159,11 @@ const Entries = ({ navigation: { navigate } }) => {
       icon: "medical-bag",
     },
   ]);
-  const [title, setTitle] = useState("Dodaj Wpis");
+  const [title, setTitle] = useState("Add Entry");
 
   return (
     <View style={styles.container}>
+
       {/* Button */}
       <IconButton title={title} iconName="add" />
 
