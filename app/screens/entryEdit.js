@@ -30,7 +30,7 @@ const EntryEdit = ({ route, navigation }) => {
   // Exit Without Changes Alert
   const exitWithoutChanges = () => {
     Alert.alert(
-      "Exit entry edit screen?",
+      "Exit 'Edit Entry' screen?",
       "All unsaved changes will be lost.",
       [
         {
@@ -41,6 +41,29 @@ const EntryEdit = ({ route, navigation }) => {
         {
           text: "Yes",
           onPress: () => navigation.goBack(),
+        },
+      ],
+      {
+        cancelable: true,
+      }
+    );
+    return true;
+  };
+
+  // Exit With Changes Alert
+  const exitSave = (saveFunction) => {
+    Alert.alert(
+      "Save changes?",
+      "This entry's data will be overwritten.",
+      [
+        {
+          text: "No",
+          onPress: () => null,
+          style: "cancel",
+        },
+        {
+          text: "Yes",
+          onPress: () => saveFunction(),
         },
       ],
       {
@@ -536,7 +559,7 @@ const EntryEdit = ({ route, navigation }) => {
 
             {/* Approve Button */}
             <IconButton
-              onPress={props.handleSubmit}
+              onPress={() => exitSave(props.handleSubmit)}
               style={[
                 styles.button,
                 { backgroundColor: CustomColors.customAffirmation },
