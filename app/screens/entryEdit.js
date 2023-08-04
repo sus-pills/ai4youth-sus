@@ -333,7 +333,7 @@ const EntryEdit = ({ route, navigation }) => {
 
               {/* From what day? */}
               <View style={styles.inputContainer}>
-                <InputText text={"From which day?"} />
+                <InputText text={"From what day?"} />
                 <IconButton
                   style={[styles.dateButton]}
                   title={readableDate}
@@ -375,7 +375,7 @@ const EntryEdit = ({ route, navigation }) => {
 
               {/* At what hours? */}
               <View style={styles.inputContainer}>
-                <InputText text={"At which hours?"} />
+                <InputText text={"At what hours?"} />
                 <View>
                   {/* Add Hour Button */}
                   {times < 5 && (
