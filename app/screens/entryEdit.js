@@ -523,7 +523,7 @@ const EntryEdit = ({ route, navigation }) => {
 
           {/* Buttons Cancel / Approve */}
           <View style={styles.buttons}>
-            {/* Calncel Button */}
+            {/* Cancel Button */}
             <IconButton
               onPress={() => exitWithoutChanges()}
               style={[
