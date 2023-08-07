@@ -22,6 +22,7 @@ import InputText from "../components/inputText";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import { HeaderBackButton } from "@react-navigation/elements";
 import TrashHeaderButton from "../components/trashHeaderButton";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const EntryEdit = ({ route, navigation }) => {
   // Load params
@@ -73,10 +74,53 @@ const EntryEdit = ({ route, navigation }) => {
     return true;
   };
 
+  // Delete the entry Alert
+  const exitDelete = (deleteFunction) => {
+    Alert.alert(
+      "Delete this entry?",
+      "The entry will be lost forever.",
+      [
+        {
+          text: "Back",
+          onPress: () => null,
+          style: "cancel",
+        },
+        {
+          text: "Delete",
+          onPress: () => deleteFunction(),
+        },
+      ],
+      {
+        cancelable: true,
+      }
+    );
+    return true;
+  }
+
+  // Handle the deleted entry
+  const handleEntryDelete = async () => {
+    // ! HERE
+    try {
+      // Remove the subsequent entry
+      const fetchedData = await AsyncStorage.getItem('@entries')
+      const data = fetchedData? JSON.parse(fetchedData) : []
+      const filteredData = data.filter((obj) => obj.id !== entry.id)
+      
+      // Update the AsyncStorage
+      const processedData = JSON.stringify(filteredData)
+      await AsyncStorage.setItem('@entries', processedData)
+
+      // Go back to 'Entries'
+      navigation.popToTop()
+    } catch (error) {
+      console.error('Error deleting entry:', error)
+    }
+  }
+
   // Listen for system exit
   useEffect(() => {
     const backHandler = BackHandler.addEventListener("hardwareBackPress", () =>
-      exitWithoutChanges()
+      exitWithoutChanges(),
     );
     return () => backHandler.remove();
   }, []);
@@ -90,7 +134,7 @@ const EntryEdit = ({ route, navigation }) => {
       />
     ),
     headerRight: () => (
-      <TrashHeaderButton onPress={() => console.log("delete")} />
+      <TrashHeaderButton onPress={() => exitDelete(handleEntryDelete)} />
     ),
   });
 
