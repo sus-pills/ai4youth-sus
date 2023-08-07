@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, ScrollView } from "react-native";
-import { v4 as uuidv4 } from "uuid";
 
 // Custom Imports
 import IconButton from "../components/iconButton";
@@ -9,6 +8,10 @@ import Entry from "../components/entry";
 // Styles Imports
 import { StyleSheet } from "react-native";
 import { CustomColors, CustomSpacing } from "../global/globalStyles";
+
+import { useFocusEffect, useIsFocused } from '@react-navigation/native';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { initializeAsyncStorage } from "../global/globalFunctions";
 
 const Entries = ({ navigation: { navigate } }) => {
   const [entries, setEntries] = useState([
@@ -160,15 +163,84 @@ const Entries = ({ navigation: { navigate } }) => {
       icon: "medical-bag",
     },
   ]);
-  const [title, setTitle] = useState("Dodaj Wpis");
+  const [title, setTitle] = useState("Add Entry");
 
+  const [options, setOptions] = useState(null);
+  const [fontSize, setFontSize] = useState('medium');
+  const [darkModeEnabled, setDarkModeEnabled] = useState(false);
+  const [contrastModeEnabled, setContrastModeEnabled] = useState(false);
+  const [colorblindMode, setColorblindMode] = useState('normal');
+  const getOptionsFromAsyncStorage = async () => {
+    try {
+      const options = await AsyncStorage.getItem("@options");
+      console.log("Fetched options:", options);
+      setOptions(JSON.parse(options));
+    } catch (error) {
+      console.log("Error fetching options:", error);
+    }
+  };
+  useFocusEffect(
+    React.useCallback(() => {
+      getOptionsFromAsyncStorage();
+      initializeAsyncStorage();
+    }, [])
+  );
+  useEffect(() => {
+    // This will be called whenever the 'options' state changes
+    const firstParameter = options?.font_size;
+    const secondParameter = options?.dark_mode;
+    const thirdParameter = options?.contrast_mode
+    const fourthParameter = options?.colorblind_mode;
+    console.log("Font Size:", firstParameter);
+    console.log("Dark Mode:", secondParameter);
+    console.log("High Contrast Mode:", thirdParameter);
+    console.log("Colorblind mode:", fourthParameter);
+  }, [options]);
+
+  const firstParameter = options?.font_size;
+  const integerFP = parseInt(firstParameter)
+  console.log(firstParameter)
+  const fontSizeStyle = isNaN(integerFP) ? { fontSize: 16 } : { fontSize: integerFP };
+  console.log(fontSizeStyle)
+  const secondParameter = options?.dark_mode;
+  const thirdParameter = options?.contrast_mode
+  const fourthParameter = options?.colorblind_mode;
+  const fontSizeInteger = parseInt(firstParameter)
+  const darkModeBool = secondParameter
+  const contrastBool = parseInt(thirdParameter)
+  const colorblindString = fourthParameter
+
+
+  var colorBackground;
+  var colorText;
+  var colorMain;
+  var colorSecondary;
+  var colorG = "#0AAE1A";
+  var colorR = "#E75A0D"
+  if (darkModeBool === true)
+  {
+    console.log("Ciemny motyw")
+    var colorBackground = "#0E2A3E";
+    var colorText = "white";
+    var colorMain = "#1A5A7D";
+    var colorSecondary = "#0B344E";
+  }
+  else
+  {
+    console.log("Biały motyw")
+    var colorBackground = "#FFFFFF";
+    var colorText = "black";
+    var colorMain = "#47B8E0";
+    var colorSecondary = "#134074";
+  }
   return (
-    <View style={styles.container}>
+    <View style={[styles.container,{backgroundColor: colorBackground}]}>
+
       {/* Button */}
-      <IconButton title={title} iconName="add" />
+      <IconButton title={title} style={{backgroundColor: colorMain}} iconName="add" />
 
       {/* Entries */}
-      <ScrollView style={styles.scrollView}>
+      <ScrollView style={[styles.scrollView]}>
         {entries.map((entry) => (
           <Entry
             onPress={() => {

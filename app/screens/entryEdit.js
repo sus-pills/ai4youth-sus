@@ -30,21 +30,21 @@ const EntryEdit = ({ route, navigation }) => {
   // Exit Without Changes Alert
   const exitWithoutChanges = () => {
     Alert.alert(
-      "Wyjść z Edycji Wpisu?",
-      "Wszelkie zmiany NIE zostaną zapisane.",
+      "Exit entry edit screen?",
+      "All unsaved changes will be lost.",
       [
         {
-          text: "Nie",
+          text: "No",
           onPress: () => null,
           style: "cancel",
         },
         {
-          text: "Tak",
+          text: "Yes",
           onPress: () => navigation.goBack(),
         },
       ],
       {
-        cancelable: false,
+        cancelable: true,
       }
     );
     return true;
@@ -183,7 +183,7 @@ const EntryEdit = ({ route, navigation }) => {
                 <SingleModalButton
                   buttonStyle={styles.changeColor}
                   iconName={"color-lens"}
-                  title={"Zmień Kolor"}
+                  title={"Change color"}
                   // Clear the color picker upon leaving
                   onLeave={() => setSelectedColor(null)}
                   // Change Color on Accept
@@ -247,19 +247,19 @@ const EntryEdit = ({ route, navigation }) => {
 
               {/* name */}
               <View style={styles.inputContainer}>
-                <InputText text={"Nazwa"} />
+                <InputText text={"Name"} />
                 <TextInput
                   style={styles.input}
                   onChangeText={props.handleChange("name")}
                   onBlur={props.handleBlur("name")}
                   value={props.values.name}
-                  placeholder={"np. Insulina"}
+                  placeholder={"e.g. Insuline"}
                 />
               </View>
 
               {/* remainingIntakes */}
               <View style={styles.inputContainer}>
-                <InputText text={"Pozostała ilość zażyć"} />
+                <InputText text={"Remaining intakes"} />
                 <View style={styles.upDownInputButtons}>
                   {/* Decrease by 5 */}
                   <IconButton
@@ -277,7 +277,7 @@ const EntryEdit = ({ route, navigation }) => {
                     }
                   />
 
-                  {/* Decrease by 1 */}
+                  {/* Decrease the number by 1 */}
                   <IconButton
                     iconName={"chevron-down"}
                     communityIcons={true}
@@ -303,7 +303,7 @@ const EntryEdit = ({ route, navigation }) => {
                     keyboardType={"numeric"}
                   />
 
-                  {/* Increase by 1 */}
+                  {/* Increase the number by 1 */}
                   <IconButton
                     iconName={"chevron-up"}
                     communityIcons={true}
@@ -333,7 +333,7 @@ const EntryEdit = ({ route, navigation }) => {
 
               {/* From what day? */}
               <View style={styles.inputContainer}>
-                <InputText text={"Od którego dnia?"} />
+                <InputText text={"From which day?"} />
                 <IconButton
                   style={[styles.dateButton]}
                   title={readableDate}
@@ -348,7 +348,7 @@ const EntryEdit = ({ route, navigation }) => {
                     value={new Date()}
                     mode={"date"}
                     positiveButtonLabel={"Ok"}
-                    negativeButtonLabel={"Anuluj"}
+                    negativeButtonLabel={"Cancel"}
                     onChange={(value) => {
                       // Hide the picker
                       setShowDayPicker(false);
@@ -375,13 +375,13 @@ const EntryEdit = ({ route, navigation }) => {
 
               {/* At what hours? */}
               <View style={styles.inputContainer}>
-                <InputText text={"O których godzinach?"} />
+                <InputText text={"At which hours?"} />
                 <View>
                   {/* Add Hour Button */}
                   {times < 5 && (
                     <IconButton
                       style={[styles.hourButton, styles.addHourButton]}
-                      title={"Dodaj Godzinę"}
+                      title={"Add time"}
                       iconName={"more-time"}
                       onPress={() => {
                         // Create new vars
@@ -458,7 +458,7 @@ const EntryEdit = ({ route, navigation }) => {
                           value={new Date()}
                           mode={"time"}
                           positiveButtonLabel={"Ok"}
-                          negativeButtonLabel={"Anuluj"}
+                          negativeButtonLabel={"Cancel"}
                           onChange={(value) => {
                             // Hide the picker
                             const newShow = [...showTimePicker];
@@ -487,7 +487,7 @@ const EntryEdit = ({ route, navigation }) => {
 
               {/* dosage & dosageUnit */}
               <View style={styles.inputContainer}>
-                <InputText text={"Dawkowanie"} />
+                <InputText text={"Dosage"} />
                 <View
                   style={{
                     flexDirection: "row",
@@ -500,7 +500,7 @@ const EntryEdit = ({ route, navigation }) => {
                     onChangeText={props.handleChange("dosage")}
                     onBlur={props.handleBlur("dosage")}
                     value={props.values.dosage}
-                    placeholder={"(opcjonalne) np. 0,5 tabletki"}
+                    placeholder={"(optional) e.g. 2 pills"}
                     style={[styles.input]}
                   />
                 </View>
@@ -508,14 +508,14 @@ const EntryEdit = ({ route, navigation }) => {
 
               {/* instructions */}
               <View style={styles.inputContainer}>
-                <InputText text={"Informacje dodatkowe"} />
+                <InputText text={"Additional information"} />
                 <TextInput
                   multiline
                   style={styles.input}
                   onChangeText={props.handleChange("information")}
                   onBlur={props.handleBlur("information")}
                   value={props.values.information}
-                  placeholder={"(opcjonalne) np. Zażyj po posiłku"}
+                  placeholder={"(optional) e.g. Take after a meal"}
                 />
               </View>
             </ScrollView>
@@ -530,7 +530,7 @@ const EntryEdit = ({ route, navigation }) => {
                 styles.button,
                 { backgroundColor: CustomColors.customNegation },
               ]}
-              title={"Anuluj"}
+              title={"Cancel"}
               iconName={"close"}
             />
 
@@ -541,7 +541,7 @@ const EntryEdit = ({ route, navigation }) => {
                 styles.button,
                 { backgroundColor: CustomColors.customAffirmation },
               ]}
-              title={"Potwierdź"}
+              title={"Save"}
               iconName={"check"}
             />
           </View>

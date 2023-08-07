@@ -9,6 +9,7 @@ import { CustomColors } from "../global/globalStyles";
 import HomeTab from "../routes/homeTab";
 import EntryInfo from "../screens/entryInfo";
 import EntryEdit from "../screens/entryEdit";
+
 // Components Imports
 
 
@@ -31,7 +32,6 @@ const appStack = () => {
         }}
         initialRouteName="HomeTab"
       >
-
         <Stack.Screen
           name="HomeTab"
           component={HomeTab}
@@ -44,7 +44,7 @@ const appStack = () => {
           name="EntryInfo"
           component={EntryInfo}
           options={{
-            title: "Informacje o Wpisie",
+            title: "Entry Information",
           }}
         />
 
@@ -52,7 +52,7 @@ const appStack = () => {
           name="EntryEdit"
           component={EntryEdit}
           options={{
-            title: "Edytuj Wpis",
+            title: "Edit Entry",
           }}
         />
       </Stack.Navigator>

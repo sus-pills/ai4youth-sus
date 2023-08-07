@@ -1,12 +1,11 @@
 // Imports
-import React from "react";
-import { View } from "react-native";
+import React, { useState, useEffect } from 'react';
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 // Styles Imports
 import { CustomColors } from "../global/globalStyles";
-import { StyleSheet } from "react-native";
+
 // Navigation Imports
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -14,7 +13,11 @@ import PillCalendar from "../screens/calendar";
 import Detector from "../screens/detector";
 import Entries from "../screens/entries";
 import Settings from "../screens/settings";
-import Start from "../screens/start";
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect, useIsFocused } from '@react-navigation/native';
+import { initializeAsyncStorage } from "../global/globalFunctions";
+
 const Tab = createBottomTabNavigator();
 
 export const HomeTab = () => {
@@ -27,32 +30,17 @@ export const HomeTab = () => {
         headerShown: true,
         headerStyle: { backgroundColor: CustomColors.customMain },
         headerTitleAlign: "center",
-        headerTintColor: "white",
+        headerTintColor: 'white',
         tabBarActiveTintColor: activeColor,
         tabBarInactiveTintColor: inactiveColor,
-        style: { position: 'absolute', bottom: 0 },
       }}
       initialRouteName="PillCalendar"
     >
-      <Tab.Screen style={Styles.paddingM}
-        name="Start"
-        component={Start}
-        options={{
-          title: "Start",
-          tabBarIcon: ({ focused, size }) => (
-            <MaterialIcons
-              name={"star"}
-              size={size}
-              color={focused ? CustomColors.customMain : inactiveColor}
-            />
-          ),
-        }}
-      />
-      <Tab.Screen style={Styles.paddingM}
-        name="Kalendarz"
+      <Tab.Screen
+        name="Calendar"
         component={PillCalendar}
         options={{
-          title: "Kalendarz",
+          title: "Calendar",
           tabBarIcon: ({ focused, size }) => (
             <MaterialCommunityIcons
               name={"calendar"}
@@ -63,11 +51,11 @@ export const HomeTab = () => {
         }}
       />
 
-      <Tab.Screen style={Styles.paddingM}
-        name="Wykryj lek"
+      <Tab.Screen
+        name="Camera"
         component={Detector}
         options={{
-          title: "Wykryj lek",
+          title: "Camera",
           tabBarIcon: ({ focused, size }) => (
             <MaterialIcons
               name={"photo-camera"}
@@ -78,11 +66,11 @@ export const HomeTab = () => {
         }}
       />
 
-      <Tab.Screen style={Styles.paddingM}
-        name="Wpisy"
+      <Tab.Screen
+        name="Entries"
         component={Entries}
         options={{
-          title: "Wpisy",
+          title: "Entries",
           tabBarIcon: ({ focused, size }) => (
             <MaterialIcons
               name={"format-list-bulleted"}
@@ -93,11 +81,11 @@ export const HomeTab = () => {
         }}
       />
 
-      <Tab.Screen style={Styles.paddingM}
-        name="Ustawienia"
+      <Tab.Screen
+        name="Options"
         component={Settings}
         options={{
-          title: "Ustawienia",
+          title: "Options",
           tabBarIcon: ({ focused, size }) => (
             <MaterialIcons
               name={"settings"}
@@ -110,11 +98,5 @@ export const HomeTab = () => {
     </Tab.Navigator>
   );
 };
-
-const Styles = StyleSheet.create({
-  paddingM: {
-    marginLeft: 5,
-  },
-});
 
 export default HomeTab;

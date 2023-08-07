@@ -1,6 +1,40 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import hexRgb from "hex-rgb";
 
+export const initializeAsyncStorage = async () => {
+  /* 
+    Initializes the async storage component with all keys predefined.
+    * PLEASE! Use the '@' prefix for storage key names, like '@key1' (It is purely conventional).
+    Storage checking / creation follows a simple pattern:
+      Await stored value IF exists || Await new value IF doesn't exist
+  */
+
+  // Default options for the storage
+  const DEFAULT_OPTIONS = {
+    font_size: 16,
+    dark_mode: false,
+    contrast_mode: false,
+    colorblind_mode: 'normal',
+  };
+
+  try {
+    // Options
+    await AsyncStorage.getItem("@options") ||
+      AsyncStorage.setItem("@options", JSON.stringify(DEFAULT_OPTIONS));
+
+    // Medication Entries
+    await AsyncStorage.getItem("@entries") ||
+      AsyncStorage.setItem("@entries", JSON.stringify([]));
+
+    // Add other things in the future here
+    // ...
+  } catch (error) {
+    console.log("Error initializing AsyncStorage:", error);
+  }
+};
+
 export const isLightColor = (bgColor) => {
+  /* Checks whether the provided color is light or dark */
 
   const rgb = hexRgb(bgColor ? bgColor : "#000");
 
@@ -15,18 +49,18 @@ export const handleDate = (date, mode) => {
   const day = date.getDate().toString();
 
   const monthFullNames = {
-    1: "STYCZNIA",
-    2: "LUTEGO",
-    3: "MARCA",
-    4: "KWIETNIA",
-    5: "MAJA",
-    6: "CZERWCA",
-    7: "LIPCA",
-    8: "SIERPNIA",
-    9: "WRZEŚNIA",
-    10: "PAŹDZIERNIKA",
-    11: "LISTOPADA",
-    12: "GRUDNIA",
+    1: "JANUARY",
+    2: "FEBRUARY",
+    3: "MARCH",
+    4: "APRIL",
+    5: "MAY",
+    6: "JUNE",
+    7: "JULY",
+    8: "AUGUST",
+    9: "SEPTEMBER",
+    10: "OCTOBER",
+    11: "NOVERMBER",
+    12: "DECEMBER",
   };
 
   if (mode === "r") {
