@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { View, Text, ScrollView } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useIsFocused } from "@react-navigation/native";
+import { useFocusEffect } from "@react-navigation/native";
 
 // Custom Imports
 import IconButton from "../components/iconButton";
@@ -16,7 +16,6 @@ const Entries = ({ navigation: { navigate } }) => {
 
   // Entries array
   const [entries, setEntries] = useState([]);
-  const isFocused = useIsFocused();
 
   // Fetch Data
   const fetchDataFromStorage = async () => {
@@ -31,9 +30,9 @@ const Entries = ({ navigation: { navigate } }) => {
 
   // All effects on the screen
   useEffect(() => {
-    if (isFocused)
-      fetchDataFromStorage();
-  }, [isFocused]);
+    // Check for data
+    fetchDataFromStorage();
+  }, [fetchDataFromStorage]);
 
   return (
     <View style={styles.container}>
