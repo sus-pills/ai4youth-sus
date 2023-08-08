@@ -93,7 +93,17 @@ const EntryEdit = ({ route, navigation }) => {
         data[entryIndex] = updatedEntry;
         const processedData = JSON.stringify(data);
         await AsyncStorage.setItem("@entries", processedData);
+
+        // Update the route params
+        navigation.setParams({ entry: updatedEntry })
       }
+
+      // Go back
+      navigation.navigate({
+        name: "EntryInfo",
+        params: { entry: updatedEntry },
+        merge: true,
+      })
     } catch (error) {
       console.error("Error updating entry:", error);
     }
@@ -246,7 +256,6 @@ const EntryEdit = ({ route, navigation }) => {
 
         // Handle the entry update and exit
         handleEntryUpdate(values);
-        navigation.popToTop();
       }}
     >
       {(props) => (
