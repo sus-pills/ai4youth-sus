@@ -74,6 +74,31 @@ const EntryEdit = ({ route, navigation }) => {
     return true;
   };
 
+  // Handle the updated entry
+  const handleEntryUpdate = async (updatedEntry) => {
+    try {
+      // Load all entries
+      const fetchedData = await AsyncStorage.getItem("@entries");
+      const data = fetchedData ? JSON.parse(fetchedData) : [];
+
+      // Find the index
+      const entryIndex = data.findIndex((oldEntry) => oldEntry.id === updatedEntry.id);
+
+      //  If the entry exists and is in fact different...
+      if (
+        entryIndex !== -1 &&
+        JSON.stringify(data[entryIndex]) !== JSON.stringify(updatedEntry)
+      ) {
+        // Update the AsyncStorage
+        data[entryIndex] = updatedEntry;
+        const processedData = JSON.stringify(data);
+        await AsyncStorage.setItem("@entries", processedData);
+      }
+    } catch (error) {
+      console.error("Error updating entry:", error);
+    }
+  };
+
   // Delete the entry Alert
   const exitDelete = (deleteFunction) => {
     Alert.alert(
@@ -95,32 +120,31 @@ const EntryEdit = ({ route, navigation }) => {
       }
     );
     return true;
-  }
+  };
 
   // Handle the deleted entry
   const handleEntryDelete = async () => {
-    // ! HERE
     try {
       // Remove the subsequent entry
-      const fetchedData = await AsyncStorage.getItem('@entries')
-      const data = fetchedData? JSON.parse(fetchedData) : []
-      const filteredData = data.filter((obj) => obj.id !== entry.id)
-      
+      const fetchedData = await AsyncStorage.getItem("@entries");
+      const data = fetchedData ? JSON.parse(fetchedData) : [];
+      const filteredData = data.filter((oldEntry) => oldEntry.id !== entry.id);
+
       // Update the AsyncStorage
-      const processedData = JSON.stringify(filteredData)
-      await AsyncStorage.setItem('@entries', processedData)
+      const processedData = JSON.stringify(filteredData);
+      await AsyncStorage.setItem("@entries", processedData);
 
       // Go back to 'Entries'
-      navigation.popToTop()
+      navigation.popToTop();
     } catch (error) {
-      console.error('Error deleting entry:', error)
+      console.error("Error deleting entry:", error);
     }
-  }
+  };
 
   // Listen for system exit
   useEffect(() => {
     const backHandler = BackHandler.addEventListener("hardwareBackPress", () =>
-      exitWithoutChanges(),
+      exitWithoutChanges()
     );
     return () => backHandler.remove();
   }, []);
@@ -220,9 +244,9 @@ const EntryEdit = ({ route, navigation }) => {
       onSubmit={(values) => {
         values.times = handleObject(values.times);
 
-        console.log("INITIAL", entry);
-        console.log("CHANGED", values);
-        navigation.goBack();
+        // Handle the entry update and exit
+        handleEntryUpdate(values);
+        navigation.popToTop();
       }}
     >
       {(props) => (
