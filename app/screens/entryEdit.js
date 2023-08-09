@@ -220,7 +220,7 @@ const EntryEdit = ({ route, navigation }) => {
 
   // Readable date in format of "21 MARCA 2023"
   const [readableDate, setReadableDate] = useState(
-    handleDate(new Date(entry.nextDate), "r")
+    handleDate(new Date(entry.startDate), "r")
   );
 
   // Sorts and deletes duplicates from the given object
@@ -465,7 +465,7 @@ const EntryEdit = ({ route, navigation }) => {
                           "r"
                         );
 
-                        props.setFieldValue("nextDate", newDate);
+                        props.setFieldValue("startDate", newDate);
                         setReadableDate(newReadableDate);
                       }
                     }}
