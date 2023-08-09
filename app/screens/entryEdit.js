@@ -446,7 +446,7 @@ const EntryEdit = ({ route, navigation }) => {
                   onPress={() => setShowDayPicker(true)}
                 />
 
-                // TODO: Put this in a separate component
+                {/* // TODO: Put this in a separate component */}
                 {showDayPicker && (
                   <RNDateTimePicker
                     value={new Date()}
@@ -481,7 +481,7 @@ const EntryEdit = ({ route, navigation }) => {
               <View style={styles.inputContainer}>
                 <InputText text={"At what hours?"} />
                 <View>
-                  // TODO: Put this in a separate component
+                  {/* // TODO: Put this in a separate component */}
                   {/* Add Hour Button */}
                   {times < 5 && (
                     <IconButton
@@ -506,7 +506,7 @@ const EntryEdit = ({ route, navigation }) => {
                       }}
                     />
                   )}
-                  // TODO: Put this in a separate component
+                  {/* // TODO: Put this in a separate component */}
                   {/* Show the list of time pickers */}
                   {Array.from({ length: parseInt(times) }, (_, index) => (
                     // Create the view with times
@@ -527,7 +527,7 @@ const EntryEdit = ({ route, navigation }) => {
                             setShowTimePicker(newShow);
                           }}
                         />
-                        // TODO: Put this in a separate component
+                        {/* // TODO: Put this in a separate component */}
                         {/* Delete Hour Picker */}
                         <IconButton
                           style={styles.deleteHourButton}
@@ -557,7 +557,7 @@ const EntryEdit = ({ route, navigation }) => {
                           }}
                         />
                       </View>
-                      // TODO: Put this in a separate component
+                      {/* // TODO: Put this in a separate component */}
                       {/* Time Picker */}
                       {showTimePicker[index] && (
                         <RNDateTimePicker
