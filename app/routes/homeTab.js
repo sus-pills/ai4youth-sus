@@ -15,25 +15,52 @@ import Entries from "../screens/entries";
 import Settings from "../screens/settings";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useFocusEffect, useIsFocused } from '@react-navigation/native';
+import { useFocusEffect, useIsFocused, isFocused } from '@react-navigation/native';
 import { initializeAsyncStorage } from "../global/globalFunctions";
 
 const Tab = createBottomTabNavigator();
 
-export const HomeTab = () => {
-  const activeColor = CustomColors.customMain;
-  const inactiveColor = CustomColors.customDarkGray;
+export const HomeTab = ({darkModeEnabled}) => {
+  const isFocused = useIsFocused();
+  const activeColor = "#5317FF";
+  const inactiveColor = "#2DDD5D";
 
+  const [isDarkMode, setIsDarkMode] = useState(darkModeEnabled);
+  
+  useEffect(() => {
+    const fetchDarkModeSetting = async () => {
+      try {
+        const darkModeSetting = await AsyncStorage.getItem("@darkModeEnabled");
+        setIsDarkMode(JSON.parse(darkModeSetting));
+      } catch (error) {
+        console.log("Error fetching dark mode setting:", error);
+      }
+    };
+    
+    fetchDarkModeSetting();
+  }, [isFocused]);
+
+  const color = isDarkMode ? activeColor : inactiveColor;
+  console.log(isDarkMode + " = SETINGFEA DARK MDOE HOMTETAB")
   return (
     <Tab.Navigator
       screenOptions={{
+        headerStyle: {
+      backgroundColor: 'black',
+      elevation: 10, // Adjust this value to control shadow intensity (Android)
+      shadowOpacity: 0.5, // Adjust this value to control shadow intensity (iOS)
+    },
         headerShown: true,
-        headerStyle: { backgroundColor: CustomColors.customMain },
+        headerStyle: { backgroundColor: "black" },
         headerTitleAlign: "center",
+        headerShadowVisible: false,
         headerTintColor: 'white',
-        tabBarActiveTintColor: activeColor,
-        tabBarInactiveTintColor: inactiveColor,
+        tabBarActiveTintColor: CustomColors.customMain,
+        tabBarInactiveTintColor: "white",
+        tabBarBackgroundColor: "black",
+        
       }}
+      
       initialRouteName="PillCalendar"
     >
       <Tab.Screen
@@ -45,9 +72,13 @@ export const HomeTab = () => {
             <MaterialCommunityIcons
               name={"calendar"}
               size={size}
-              color={focused ? CustomColors.customMain : inactiveColor}
+              color={focused ? CustomColors.customMain : "white"}
             />
           ),
+          tabBarStyle: {
+            borderTopWidth: 0, // Remove the gray line
+            backgroundColor: "black",
+          },
         }}
       />
 
@@ -60,9 +91,15 @@ export const HomeTab = () => {
             <MaterialIcons
               name={"photo-camera"}
               size={size}
-              color={focused ? CustomColors.customMain : inactiveColor}
+              color={focused ? CustomColors.customMain : "white"}
+          
             />
+            
           ),
+          tabBarStyle: {
+            borderTopWidth: 0, // Remove the gray line
+            backgroundColor: "black",
+          },
         }}
       />
 
@@ -75,9 +112,13 @@ export const HomeTab = () => {
             <MaterialIcons
               name={"format-list-bulleted"}
               size={size}
-              color={focused ? CustomColors.customMain : inactiveColor}
+              color={focused ? CustomColors.customMain : "white"}
             />
           ),
+          tabBarStyle: {
+            borderTopWidth: 0, // Remove the gray line
+            backgroundColor: "black",
+          },
         }}
       />
 
@@ -90,9 +131,13 @@ export const HomeTab = () => {
             <MaterialIcons
               name={"settings"}
               size={size}
-              color={focused ? CustomColors.customMain : inactiveColor}
+              color={focused ? CustomColors.customMain : "white"}
             />
           ),
+          tabBarStyle: {
+            borderTopWidth: 0, // Remove the gray line
+            backgroundColor: "black",
+          },
         }}
       />
     </Tab.Navigator>

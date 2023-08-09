@@ -1,19 +1,52 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { View, Text } from "react-native";
 import IconButton from "../components/iconButton";
 
 // Styles Import
 import { StyleSheet } from "react-native";
-import { CustomColors, CustomSpacing } from "../global/globalStyles";
+import { CustomColors, CustomSpacing, ColorsDark } from "../global/globalStyles";
 
 //
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect, useIsFocused } from '@react-navigation/native';
 import { initializeAsyncStorage } from "../global/globalFunctions";
 import ImagePicker from "react-native-image-picker";
+import { color } from "react-native-reanimated";
+import { Animated, Easing, ImageBackground } from 'react-native';
+import backgroundImage1 from '../img/atlo.png';
+import backgroundImage2 from '../img/atlo2.png';
 
 const Detector = () => {
   const [title, setTitle] = useState("Take a Photo");
+  const INPUT_RANGE_START = 0;
+  const INPUT_RANGE_END = 1;
+  const OUTPUT_RANGE_START = -281;
+  const OUTPUT_RANGE_END = 0;
+  const ANIMATION_TO_VALUE = 1;
+  const ANIMATION_DURATION = 25000;
+  const initialValue = 0;
+  const translateValue = useRef(new Animated.Value(initialValue)).current;
+
+  useEffect(() => {
+    const translate = () => {
+      translateValue.setValue(initialValue);
+      Animated.timing(translateValue, {
+        toValue: ANIMATION_TO_VALUE,
+        duration: ANIMATION_DURATION,
+        easing: Easing.linear,
+        useNativeDriver: true,
+      }).start(() => translate());
+    };
+
+    translate();
+  }, [translateValue]);
+
+  const translateAnimation = translateValue.interpolate({
+    inputRange: [INPUT_RANGE_START, INPUT_RANGE_END],
+    outputRange: [OUTPUT_RANGE_START, OUTPUT_RANGE_END],
+  });
+
+  const AnimetedImage = Animated.createAnimatedComponent(ImageBackground);
 
   const [options, setOptions] = useState(null);
   const [fontSize, setFontSize] = useState('medium');
@@ -67,22 +100,26 @@ const Detector = () => {
   var colorSecondary;
   var colorG = "#0AAE1A";
   var colorR = "#E75A0D"
+  var backgroundImage
   if (darkModeBool === true)
   {
-    console.log("Ciemny motyw")
-    var colorBackground = "#0E2A3E";
-    var colorText = "white";
-    var colorMain = "#1A5A7D";
-    var colorSecondary = "#0B344E";
+    console.log("Ciemny motyw");
+    colorBackground = ColorsDark.customBackground;
+    colorText = ColorsDark.customText;
+    colorMain = ColorsDark.customMain;
+    colorSecondary = ColorsDark.customSecondary;
+    backgroundImage = backgroundImage2
   }
   else
   {
-    console.log("Biały motyw")
-    var colorBackground = "#FFFFFF";
-    var colorText = "black";
-    var colorMain = "#47B8E0";
-    var colorSecondary = "#134074";
+    console.log("Biały motyw");
+    colorBackground = CustomColors.customBackground;
+    colorText = CustomColors.customText;
+    colorMain = CustomColors.customMain;
+    colorSecondary = CustomColors.customSecondary;
+    backgroundImage = backgroundImage1
   }
+  //console.log('DarkModeBool = '+darkModeBool)
 
   const handleCameraPress = () => {
     // Set options for the ImagePicker
@@ -108,8 +145,23 @@ const Detector = () => {
 
   return (
       <View style={[styles.container,{backgroundColor: colorBackground}]}>
-        <IconButton title={title} iconName="photo-camera" onPress={handleCameraPress} />
+        <AnimetedImage 
+            resizeMode="repeat" 
+            style={[styles.background,{
+                transform: [
+                    {
+                      translateX: translateAnimation,
+                    },
+                    {
+                      translateY: translateAnimation,
+                    },
+                  ],
+            }]}
+            source={backgroundImage} />
+        <View style={styles.centeredContent}>
+        <IconButton title={title} iconName="photo-camera" style={[{width: 255,backgroundColor: colorMain}]}onPress={handleCameraPress} />
         {/* ... Your other components ... */}
+        </View>
       </View>
   );
 };
@@ -120,5 +172,25 @@ const styles = StyleSheet.create({
     backgroundColor: CustomColors.customBackground,
     fontSize: 16,
   },
+  centeredContent: {
+    flex: 1,
+    justifyContent: "center", // Center vertically
+    alignItems: "center", // Center horizontally
+  },
+  background: {
+    position: 'absolute',
+    width: 1200,
+    height: 1200,
+    top: 0,
+    opacity: 0.2,
+    transform: [
+      {
+        translateX: 0,
+      },
+      {
+        translateY: 0,
+      },
+    ],      
+  }, 
 });
 export default Detector;

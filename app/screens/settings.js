@@ -1,12 +1,45 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, Switch, StyleSheet, TouchableOpacity } from 'react-native';
 import { Picker } from '@react-native-picker/picker'
 import { initializeAsyncStorage } from "../global/globalFunctions"; // Import the initializeAsyncStorage function
 import { useFocusEffect, useIsFocused } from '@react-navigation/native';
-import {CustomColors} from "../global/globalStyles";
+import {CustomColors, ColorsDark} from "../global/globalStyles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Animated, Easing, ImageBackground } from 'react-native';
+import backgroundImage1 from '../img/atlo.png';
+import backgroundImage2 from '../img/atlo2.png';
 
-const SettingsScreen = () => {
+
+const SettingsScreen = ( { isDarkMode, setIsDarkMode }) => {
+  const INPUT_RANGE_START = 0;
+  const INPUT_RANGE_END = 1;
+  const OUTPUT_RANGE_START = -281;
+  const OUTPUT_RANGE_END = 0;
+  const ANIMATION_TO_VALUE = 1;
+  const ANIMATION_DURATION = 25000;
+  const initialValue = 0;
+  const translateValue = useRef(new Animated.Value(initialValue)).current;
+
+  useEffect(() => {
+    const translate = () => {
+      translateValue.setValue(initialValue);
+      Animated.timing(translateValue, {
+        toValue: ANIMATION_TO_VALUE,
+        duration: ANIMATION_DURATION,
+        easing: Easing.linear,
+        useNativeDriver: true,
+      }).start(() => translate());
+    };
+
+    translate();
+  }, [translateValue]);
+
+  const translateAnimation = translateValue.interpolate({
+    inputRange: [INPUT_RANGE_START, INPUT_RANGE_END],
+    outputRange: [OUTPUT_RANGE_START, OUTPUT_RANGE_END],
+  });
+
+  const AnimetedImage = Animated.createAnimatedComponent(ImageBackground);
 
   const [options, setOptions] = useState(null);
   const [fontSize, setFontSize] = useState('medium');
@@ -40,18 +73,32 @@ const SettingsScreen = () => {
     getOptionsFromAsyncStorage();
   };
 
-  const toggleDarkMode = (darkModeEnabled) => {
-    setDarkModeEnabled(darkModeEnabled);
+  const toggleDarkMode = async (isEnabled) => {
+    setDarkModeEnabled(isEnabled);
+    try {
+      await AsyncStorage.setItem("@darkModeEnabled", JSON.stringify(isEnabled));
+      setIsDarkMode(isEnabled);
+    } catch (error) {
+      console.log("Error saving dark mode setting:", error);
+    }
+
+    // Update options in AsyncStorage
     const currentOptions = options ? { ...options } : {};
-    currentOptions.dark_mode = darkModeEnabled;
-    AsyncStorage.setItem("@options", JSON.stringify(currentOptions));
-    getOptionsFromAsyncStorage();
+    currentOptions.dark_mode = isEnabled;
+    AsyncStorage.setItem('@options', JSON.stringify(currentOptions))
+      .then(() => {
+        getOptionsFromAsyncStorage();
+      })
+      .catch((error) => {
+        console.log('Error toggling dark mode:', error);
+      });
   };
 
-  // colorblind, high contrast , wszstkie screeny settingsy 
+  // Rest of your component
 
 
 
+  
 
   // const handleFontSizeChange = (fontSize) => {
   //   setFontSize(fontSize);
@@ -128,27 +175,47 @@ const SettingsScreen = () => {
   var colorSecondary;
   var colorG = "#0AAE1A";
   var colorR = "#E75A0D"
-  var colorButton = 'white'
+  var backgroundImage
   if (darkModeBool === true)
   {
-    console.log("Ciemny motyw")
-    colorBackground = "#0E2A3E";
-    colorText = "white";
-    colorMain = "#1A5A7D";
-    colorSecondary = "#0B344E";
+    console.log("Ciemny motyw");
+    colorBackground = ColorsDark.customBackground;
+    colorText = ColorsDark.customText;
+    colorMain = ColorsDark.customMain;
+    colorSecondary = ColorsDark.customSecondary;
+    backgroundImage = backgroundImage2
   }
   else
   {
-    console.log("Biały motyw")
-    colorBackground = "#FFFFFF";
-    colorText = "black";
-    colorMain = "#47B8E0";
-    colorSecondary = "#134074";
+    console.log("Biały motyw");
+    colorBackground = CustomColors.customBackground;
+    colorText = CustomColors.customText;
+    colorMain = CustomColors.customMain;
+    colorSecondary = CustomColors.customSecondary;
+    backgroundImage = backgroundImage1
   }
-  console.log('DarkModeBool = '+darkModeBool)
+  //console.log('DarkModeBool = '+darkModeBool)
+  var colorButton = 'white'
 
+  if (!options) {
+    // Options are not yet loaded, you might want to show a loading indicator or placeholder
+    return null;
+  }
   return (
     <View style={[styles.container,{backgroundColor: colorBackground}]}>
+      <AnimetedImage 
+            resizeMode="repeat" 
+            style={[styles.background,{
+                transform: [
+                    {
+                      translateX: translateAnimation,
+                    },
+                    {
+                      translateY: translateAnimation,
+                    },
+                  ],
+            }]}
+            source={backgroundImage} />
       <View style={styles.setting}>
         <Text style={[styles.label,fontSizeStyle,{color: colorText}]}>Font Size</Text>
         <Picker
@@ -231,6 +298,21 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
+  background: {
+    position: 'absolute',
+    width: 1200,
+    height: 1200,
+    top: 0,
+    opacity: 0.2,
+    transform: [
+      {
+        translateX: 0,
+      },
+      {
+        translateY: 0,
+      },
+    ],      
+  }, 
 });
 
 export default SettingsScreen;

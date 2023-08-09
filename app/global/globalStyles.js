@@ -7,17 +7,19 @@ export const CustomColors = {
   "customSecondary": "#134074",
   "customAffirmation": "#0BC11D",
   "customNegation": "#F26419",
-  "customDarkGray": "#666",
-  "customLightGray": "#ddd",
+  "customDarkGray": "#666666",
+  "customLightGray": "#dddddd",
+  "customText": "#000000",
 }
 
-// export const ColorsDark = {
-//     "customBackground": "#0E2A3E",
-//     "customMain": "#1A5A7D",
-//     "customSecondary": "#0B344E",
-//     "customAffirmation": "0AAE1A",
-//     "customNegation": "E75A0D",
-// }
+export const ColorsDark = {
+  "customBackground": "#0E2A3E",
+  "customMain": "#1A5A7D",
+  "customSecondary": "#0B344E",
+  "customAffirmation": "#0AAE1A",
+  "customNegation": "#E75A0D",
+  "customText": "#FFFFFF",
+}
 
 export const CustomBorder = {
   "customRadius": 8,

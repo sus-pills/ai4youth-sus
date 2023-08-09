@@ -1,15 +1,52 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from 'react';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect, useIsFocused } from '@react-navigation/native';
 import { initializeAsyncStorage } from "../global/globalFunctions";
-import { View, Text } from "react-native";
+import { View, Text, Image } from "react-native";
 import { CalendarList, LocaleConfig } from "react-native-calendars";
 
 // Styles Imports
 import { StyleSheet } from "react-native";
-import { CustomColors } from "../global/globalStyles";
+import { CustomColors,ColorsDark } from "../global/globalStyles";
+import { Animated, Easing, ImageBackground } from 'react-native';
+import backgroundImage1 from '../img/atlo.png';
+import backgroundImage2 from '../img/atlo2.png';
 
+
+
+import gif from "../img/calendar.gif"
 const PillCalendar = () => {
+
+  const INPUT_RANGE_START = 0;
+  const INPUT_RANGE_END = 1;
+  const OUTPUT_RANGE_START = -281;
+  const OUTPUT_RANGE_END = 0;
+  const ANIMATION_TO_VALUE = 1;
+  const ANIMATION_DURATION = 25000;
+  const initialValue = 0;
+  const translateValue = useRef(new Animated.Value(initialValue)).current;
+
+  useEffect(() => {
+    const translate = () => {
+      translateValue.setValue(initialValue);
+      Animated.timing(translateValue, {
+        toValue: ANIMATION_TO_VALUE,
+        duration: ANIMATION_DURATION,
+        easing: Easing.linear,
+        useNativeDriver: true,
+      }).start(() => translate());
+    };
+
+    translate();
+  }, [translateValue]);
+
+  const translateAnimation = translateValue.interpolate({
+    inputRange: [INPUT_RANGE_START, INPUT_RANGE_END],
+    outputRange: [OUTPUT_RANGE_START, OUTPUT_RANGE_END],
+  });
+
+  const AnimetedImage = Animated.createAnimatedComponent(ImageBackground);
+
   const [calendarBackground, setCalendarBackground] = useState(CustomColors.customBackground);
   const [colorBackground, setColorBackground] = useState('#FFFFFF');
   const [colorText, setColorText] = useState('#FFFFFF');
@@ -85,19 +122,29 @@ const PillCalendar = () => {
   const fontSizeInteger = parseInt(firstParameter)
   const darkModeBool = secondParameter
   const contrastBool = parseInt(thirdParameter)
-  const colorblindString = fourthParameter
-
+  const colorblindString = fourthParameter;
+  var backgroundImage;
   useEffect(() => {
     if (darkModeBool === true) {
-      setColorBackground("#0E2A3E"); // Set the dark mode background color
-      setColorText("#FFFFFF");
+      setColorBackground(ColorsDark.customBackground); // Set the dark mode background color
+      setColorText(ColorsDark.customText);
     } else {
-      setColorBackground("#FFFFFF"); // Set the light mode background color
-      setColorText("#000000");
+      setColorBackground(CustomColors.customBackground); // Set the light mode background color
+      setColorText(CustomColors.customText);
     }
     setCalendarKey(new Date().toString());
   }, [darkModeBool]);
-
+  if (darkModeBool==true)
+  {
+    console.log(backgroundImage+" BAKCROUND IMAGE")
+    backgroundImage = backgroundImage1
+    console.log(backgroundImage+" BAKCROUND IMAGE")
+  }
+  else
+  {
+    backgroundImage = backgroundImage1
+    console.log(backgroundImage+" BAKCROUND IMAGE")
+  }
   // useEffect(() => {
   //   if (options) {
   //     const darkModeBool = options?.dark_mode;
@@ -111,7 +158,6 @@ const PillCalendar = () => {
     const loadingTimeout = setTimeout(() => {
       setIsLoading(false);
     }, 2000); // Adjust the delay time as needed
-
     return () => clearTimeout(loadingTimeout);
   }, []);
 
@@ -184,6 +230,17 @@ const PillCalendar = () => {
         color: colorText,
       },
     },
+    "stylesheet.calendar.header": {
+      header: {
+        backgroundColor: "BLACK", // Apply the background color to the custom header
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        paddingLeft: 10,
+        paddingRight: 10,
+      },
+    },
+
     calendarBackground: colorBackground,
     dayTextColor: colorText,
     monthTextColor: colorText,
@@ -192,7 +249,20 @@ const PillCalendar = () => {
   if (isLoading) {
     return (
       <View style={[Styles.container, { backgroundColor: colorBackground }]}>
-        <Text>Loading...</Text>
+        <AnimetedImage 
+            resizeMode="repeat" 
+            style={[Styles.background,{
+                transform: [
+                    {
+                      translateX: translateAnimation,
+                    },
+                    {
+                      translateY: translateAnimation,
+                    },
+                  ],
+            }]}
+            source={backgroundImage} />
+        <Image source={gif} style={{width: 265, height: 265}}/>
       </View>
     );
   }
@@ -202,6 +272,19 @@ const PillCalendar = () => {
     if (isLoading) {
       return (
         <View style={[Styles.container, { backgroundColor: colorBackground }]}>
+          <AnimetedImage 
+            resizeMode="repeat" 
+            style={[Styles.background,{
+                transform: [
+                    {
+                      translateX: translateAnimation,
+                    },
+                    {
+                      translateY: translateAnimation,
+                    },
+                  ],
+            }]}
+            source={backgroundImage} />
           <Text>Loading...</Text>
         </View>
       );
@@ -209,7 +292,20 @@ const PillCalendar = () => {
     else {
       return (
     <View style={[Styles.container,{backgroundColor: colorBackground}]}>
-      <View style={Styles.calendarContainer}>
+      <AnimetedImage 
+            resizeMode="repeat" 
+            style={[Styles.background,{
+                transform: [
+                    {
+                      translateX: translateAnimation,
+                    },
+                    {
+                      translateY: translateAnimation,
+                    },
+                  ],
+            }]}
+            source={backgroundImage} />
+      <View style={[Styles.calendarContainer]}>
       <CalendarList
         key={calendarKey} // Use the key to force re-rendering
         style={{
@@ -264,9 +360,25 @@ const Styles = StyleSheet.create({
   calendarContainer: {
     justifyContent: "center",
     alignItems: "center",
-    height: "57%",
+    height: "100%",
     fontSize: 25,
   },
+
+  background: {
+    position: 'absolute',
+    width: 1200,
+    height: 1200,
+    top: 0,
+    opacity: 0.2,
+    transform: [
+      {
+        translateX: 0,
+      },
+      {
+        translateY: 0,
+      },
+    ],      
+  }, 
 });
 
 export default PillCalendar;

@@ -1,8 +1,8 @@
-// Imports
+// appStack.js
+
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { spring, timing } from "react-native-reanimated";
 import { CustomColors } from "../global/globalStyles";
 
 // Screens Imports
@@ -10,35 +10,32 @@ import HomeTab from "../routes/homeTab";
 import EntryInfo from "../screens/entryInfo";
 import EntryEdit from "../screens/entryEdit";
 
-// Components Imports
-
-
 const Stack = createStackNavigator();
 
-const appStack = () => {
-
+const AppStack = ({isDarkMode, setIsDarkMode}) => {
   return (
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
           headerStyle: {
-            backgroundColor: CustomColors.customMain,
+            backgroundColor: "black",
           },
           headerTintColor: "white",
           headerTitleAlign: "center",
-        }}
-        options={{
-          headerMode: "screen",
         }}
         initialRouteName="HomeTab"
       >
         <Stack.Screen
           name="HomeTab"
-          component={HomeTab}
           options={{
             headerShown: false,
           }}
-        />
+          >
+            {props => (
+            <HomeTab {...props} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
+          )}
+
+        </Stack.Screen>
 
         <Stack.Screen
           name="EntryInfo"
@@ -60,4 +57,4 @@ const appStack = () => {
   );
 };
 
-export default appStack;
+export default AppStack;

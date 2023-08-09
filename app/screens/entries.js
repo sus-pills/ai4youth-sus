@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { View, Text, ScrollView } from "react-native";
 
 // Custom Imports
@@ -7,13 +7,64 @@ import Entry from "../components/entry";
 
 // Styles Imports
 import { StyleSheet } from "react-native";
-import { CustomColors, CustomSpacing } from "../global/globalStyles";
+import { CustomColors, CustomSpacing, ColorsDark } from "../global/globalStyles";
 
 import { useFocusEffect, useIsFocused } from '@react-navigation/native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { initializeAsyncStorage } from "../global/globalFunctions";
+import { Animated, Easing, ImageBackground } from 'react-native';
+import backgroundImage1 from '../img/atlo.png';
+import backgroundImage2 from '../img/atlo2.png';
+
 
 const Entries = ({ navigation: { navigate } }) => {
+  const INPUT_RANGE_START = 0;
+  const INPUT_RANGE_END = 1;
+  const OUTPUT_RANGE_START = -281;
+  const OUTPUT_RANGE_END = 0;
+  const ANIMATION_TO_VALUE = 1;
+  const ANIMATION_DURATION = 25000;
+  const initialValue = 0;
+  const translateValue = useRef(new Animated.Value(initialValue)).current;
+
+  useEffect(() => {
+    const translate = () => {
+      if (!animationPaused) {
+        translateValue.setValue(initialValue);
+        Animated.timing(translateValue, {
+          toValue: ANIMATION_TO_VALUE,
+          duration: ANIMATION_DURATION,
+          easing: Easing.linear,
+          useNativeDriver: true,
+        }).start(() => translate());
+      }
+    };
+
+    translate();
+  }, [animationPaused]);
+
+  const translateAnimation = translateValue.interpolate({
+    inputRange: [INPUT_RANGE_START, INPUT_RANGE_END],
+    outputRange: [OUTPUT_RANGE_START, OUTPUT_RANGE_END],
+  });
+  const [animationPaused, setAnimationPaused] = useState(false);
+  const AnimetedImage = Animated.createAnimatedComponent(ImageBackground);
+  useEffect(() => {
+    if (!animationPaused) {
+      // Only start the animation if it's not paused
+      const translate = () => {
+        translateValue.setValue(initialValue);
+        Animated.timing(translateValue, {
+          toValue: ANIMATION_TO_VALUE,
+          duration: ANIMATION_DURATION,
+          easing: Easing.linear,
+          useNativeDriver: true,
+        }).start(() => translate());
+      };
+
+      translate();
+    }
+  }, [animationPaused, translateValue]);
   const [entries, setEntries] = useState([
     {
       id: "1",
@@ -165,7 +216,7 @@ const Entries = ({ navigation: { navigate } }) => {
   ]);
   const [title, setTitle] = useState("Add Entry");
 
-  const [options, setOptions] = useState(null);
+  const [options, setOptions] = useState({});
   const [fontSize, setFontSize] = useState('medium');
   const [darkModeEnabled, setDarkModeEnabled] = useState(false);
   const [contrastModeEnabled, setContrastModeEnabled] = useState(false);
@@ -187,14 +238,16 @@ const Entries = ({ navigation: { navigate } }) => {
   );
   useEffect(() => {
     // This will be called whenever the 'options' state changes
-    const firstParameter = options?.font_size;
-    const secondParameter = options?.dark_mode;
-    const thirdParameter = options?.contrast_mode
-    const fourthParameter = options?.colorblind_mode;
-    console.log("Font Size:", firstParameter);
-    console.log("Dark Mode:", secondParameter);
-    console.log("High Contrast Mode:", thirdParameter);
-    console.log("Colorblind mode:", fourthParameter);
+    if (options) {
+      const firstParameter = options?.font_size;
+      const secondParameter = options?.dark_mode;
+      const thirdParameter = options?.contrast_mode;
+      const fourthParameter = options?.colorblind_mode;
+      console.log("Font Size:", firstParameter);
+      console.log("Dark Mode:", secondParameter);
+      console.log("High Contrast Mode:", thirdParameter);
+      console.log("Colorblind mode:", fourthParameter);
+    }
   }, [options]);
 
   const firstParameter = options?.font_size;
@@ -217,25 +270,42 @@ const Entries = ({ navigation: { navigate } }) => {
   var colorSecondary;
   var colorG = "#0AAE1A";
   var colorR = "#E75A0D"
+  var backgroundImage
   if (darkModeBool === true)
   {
-    console.log("Ciemny motyw")
-    var colorBackground = "#0E2A3E";
-    var colorText = "white";
-    var colorMain = "#1A5A7D";
-    var colorSecondary = "#0B344E";
+    console.log("Ciemny motyw");
+    colorBackground = ColorsDark.customBackground;
+    colorText = ColorsDark.customText;
+    colorMain = ColorsDark.customMain;
+    colorSecondary = ColorsDark.customSecondary;
+    backgroundImage = backgroundImage2
   }
   else
   {
-    console.log("Biały motyw")
-    var colorBackground = "#FFFFFF";
-    var colorText = "black";
-    var colorMain = "#47B8E0";
-    var colorSecondary = "#134074";
+    console.log("Biały motyw");
+    colorBackground = CustomColors.customBackground;
+    colorText = CustomColors.customText;
+    colorMain = CustomColors.customMain;
+    colorSecondary = CustomColors.customSecondary;
+    backgroundImage = backgroundImage1
   }
+  //console.log('DarkModeBool = '+darkModeBool)
+  //console.log('DarkModeBool = '+darkModeBool)
   return (
     <View style={[styles.container,{backgroundColor: colorBackground}]}>
-
+<AnimetedImage 
+            resizeMode="repeat" 
+            style={[styles.background,{
+                transform: [
+                    {
+                      translateX: translateAnimation,
+                    },
+                    {
+                      translateY: translateAnimation,
+                    },
+                  ],
+            }]}
+            source={backgroundImage} />
       {/* Button */}
       <IconButton title={title} style={{backgroundColor: colorMain}} iconName="add" />
 
@@ -243,6 +313,7 @@ const Entries = ({ navigation: { navigate } }) => {
       <ScrollView style={[styles.scrollView]}>
         {entries.map((entry) => (
           <Entry
+            options={options}
             onPress={() => {
               navigate("EntryInfo", { entry });
             }}
@@ -265,6 +336,21 @@ const styles = StyleSheet.create({
     marginHorizontal: 0,
     marginTop: 0,
   },
+  background: {
+    position: 'absolute',
+    width: 1200,
+    height: 1200,
+    top: 0,
+    opacity: 0.2,
+    transform: [
+      {
+        translateX: 0,
+      },
+      {
+        translateY: 0,
+      },
+    ],      
+  }, 
 });
 
 export default Entries;

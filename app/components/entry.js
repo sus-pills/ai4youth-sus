@@ -1,7 +1,10 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect, useIsFocused } from '@react-navigation/native';
+import { initializeAsyncStorage } from "../global/globalFunctions";
+import ImagePicker from "react-native-image-picker";
 // Styles Imports
 import { StyleSheet } from "react-native";
 import {
@@ -9,13 +12,39 @@ import {
   CustomBorder,
   CustomSpacing,
   GlobalStyles,
+  ColorsDark
 } from "../global/globalStyles";
+
 
 const dateToString = () => {
 
 }
 
-const Entry = ({ entry, onPress }) => {
+const Entry = ({ entry, options, onPress }) => {
+  const { font_size,dark_mode } = options
+  const firstParameter = options?.font_size;
+  const integerFP = parseInt(font_size);
+  const fontSizeStyle = isNaN(integerFP) ? { fontSize: 16 } : { fontSize: integerFP };
+  
+  const darkModeBool = dark_mode;
+  
+  var colorBackground;
+  var colorText;
+  var colorMain;
+  var colorSecondary;
+  
+  if (darkModeBool === true) {
+    colorBackground = ColorsDark.customBackground;
+    colorText = ColorsDark.customText;
+    colorMain = ColorsDark.customMain;
+    colorSecondary = ColorsDark.customSecondary;
+  } else {
+    colorBackground = CustomColors.customBackground;
+    colorText = CustomColors.customText;
+    colorMain = CustomColors.customMain;
+    colorSecondary = CustomColors.customSecondary;
+  }
+
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -23,7 +52,7 @@ const Entry = ({ entry, onPress }) => {
       style={[
         styles.touchableOpacityButton,
         {
-          backgroundColor: "#f6f6f6",
+          backgroundColor: colorMain,
         },
         GlobalStyles.customShadow,
       ]}
@@ -31,10 +60,10 @@ const Entry = ({ entry, onPress }) => {
       <View>
         <View style={styles.head}>
           <View style={[styles.colorDot, { backgroundColor: entry.color }]}></View>
-          <Text style={{fontSize: 20}}>{entry.name}</Text>
+          <Text style={{fontSize: 20, color: colorText}}>{entry.name}</Text>
         </View>
 
-        <Text style={styles.body}>
+        <Text style={{color: colorText}}>
           {"Press to access more information"}
         </Text>
       </View>
@@ -42,7 +71,7 @@ const Entry = ({ entry, onPress }) => {
       <MaterialIcons
         name={"info"}
         size={40}
-        color="#999"
+        color={colorSecondary}
       />
     </TouchableOpacity>
   );
