@@ -199,14 +199,17 @@ const EntryEdit = ({ route, navigation }) => {
     return 0;
   };
 
+  // TODO: Put this in a separate component
   // Count times
   const [times, setTimes] = useState(`${Object.keys(entry.times).length}`);
 
+  // TODO: Put this in a separate component
   // Create list of which hour pickers to show
   const [showTimePicker, setShowTimePicker] = useState(
     Array.from({ length: 5 }, () => false)
   );
 
+  // TODO: Put this in a separate component
   // Create day picker show on/off
   const [showDayPicker, setShowDayPicker] = useState(false);
 
@@ -221,6 +224,7 @@ const EntryEdit = ({ route, navigation }) => {
     return `${hours}:${minutes}`;
   };
 
+  // TODO: Put this in a separate component
   // Readable date in format of today
   const [readableDate, setReadableDate] = useState(
     handleDate(new Date(entry.startDate), "r")
@@ -241,6 +245,7 @@ const EntryEdit = ({ route, navigation }) => {
     return newObject;
   };
 
+  // TODO: Put this in a separate component
   // Remove first occurence from array
   const removeFirstOccurrence = (array, value) => {
     const index = array.indexOf(value);
