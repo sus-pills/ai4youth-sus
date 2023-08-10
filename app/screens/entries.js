@@ -37,7 +37,13 @@ const Entries = ({ navigation: { navigate } }) => {
   return (
     <View style={styles.container}>
       {/* Button */}
-      <IconButton title={title} iconName="add" />
+      <IconButton
+        title={title}
+        iconName="add"
+        onPress={() => {
+          navigate("EntryAdd");
+        }}
+      />
 
       {/* Entries */}
       <ScrollView style={styles.scrollView}>
