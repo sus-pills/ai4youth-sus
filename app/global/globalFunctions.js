@@ -20,10 +20,10 @@ export const initializeAsyncStorage = async () => {
     id: "0",
     name: "Vitamin C",
     remainingIntakes: 20,
-    nextDate: "2023-02-15",
+    startDate: "2023-02-15",
     times: {
-      "key-0": "12:00",
-      "key-1": "18:00",
+      "time-0": "12:00",
+      "time-1": "18:00",
     },
     dosage: "100 mg",
     information: "Take after a meal",
@@ -32,6 +32,10 @@ export const initializeAsyncStorage = async () => {
   }];
 
   try {
+
+    // ! DELETE THIS LATER
+    await AsyncStorage.clear()
+
     // Options
     await AsyncStorage.getItem("@options") ||
       await AsyncStorage.setItem("@options", JSON.stringify(DEFAULT_OPTIONS));
