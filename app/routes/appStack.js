@@ -9,6 +9,7 @@ import { CustomColors } from "../global/globalStyles";
 import HomeTab from "../routes/homeTab";
 import EntryInfo from "../screens/entryInfo";
 import EntryEdit from "../screens/entryEdit";
+import EntryAdd from "../screens/entryAdd";
 
 // Components Imports
 
@@ -53,6 +54,14 @@ const appStack = () => {
           component={EntryEdit}
           options={{
             title: "Edit Entry",
+          }}
+        />
+        
+        <Stack.Screen
+          name="EntryAdd"
+          component={EntryAdd}
+          options={{
+            title: "Add Entry",
           }}
         />
       </Stack.Navigator>

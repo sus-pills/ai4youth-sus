@@ -22,6 +22,10 @@ import InputText from "../components/inputText";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import { HeaderBackButton } from "@react-navigation/elements";
 import TrashHeaderButton from "../components/trashHeaderButton";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+// TODO: Look for other TODOs in this file!
+// ! A lot of lines here share code with entryAdd.js
 
 const EntryEdit = ({ route, navigation }) => {
   // Load params
@@ -30,7 +34,7 @@ const EntryEdit = ({ route, navigation }) => {
   // Exit Without Changes Alert
   const exitWithoutChanges = () => {
     Alert.alert(
-      "Exit entry edit screen?",
+      "Exit 'Edit Entry' screen?",
       "All unsaved changes will be lost.",
       [
         {
@@ -50,6 +54,106 @@ const EntryEdit = ({ route, navigation }) => {
     return true;
   };
 
+  // Exit With Changes Alert
+  const exitSave = (saveFunction) => {
+    Alert.alert(
+      "Save changes?",
+      "This entry's data will be overwritten.",
+      [
+        {
+          text: "No",
+          onPress: () => null,
+          style: "cancel",
+        },
+        {
+          text: "Yes",
+          onPress: () => saveFunction(),
+        },
+      ],
+      {
+        cancelable: true,
+      }
+    );
+    return true;
+  };
+
+  // Handle the updated entry
+  const handleEntryUpdate = async (updatedEntry) => {
+    try {
+      // Load all entries
+      const fetchedData = await AsyncStorage.getItem("@entries");
+      const data = fetchedData ? JSON.parse(fetchedData) : [];
+
+      // Find the index
+      const entryIndex = data.findIndex((oldEntry) => oldEntry.id === updatedEntry.id);
+
+      //  If the entry exists and is in fact different...
+      if (
+        entryIndex !== -1 &&
+        JSON.stringify(data[entryIndex]) !== JSON.stringify(updatedEntry)
+      ) {
+        // Update the AsyncStorage
+        data[entryIndex] = updatedEntry;
+        const processedData = JSON.stringify(data);
+        await AsyncStorage.setItem("@entries", processedData);
+
+        // Update the route params
+        navigation.setParams({ entry: updatedEntry })
+      }
+
+      // Go back
+      navigation.navigate({
+        name: "EntryInfo",
+        params: { entry: updatedEntry },
+        merge: true,
+      })
+    } catch (error) {
+      console.error("Error updating entry:", error);
+    }
+  };
+
+  // Delete the entry Alert
+  const exitDelete = (deleteFunction) => {
+    Alert.alert(
+      "Delete this entry?",
+      "The entry will be lost forever.",
+      [
+        {
+          text: "Back",
+          onPress: () => null,
+          style: "cancel",
+        },
+        {
+          text: "Delete",
+          onPress: () => deleteFunction(),
+        },
+      ],
+      {
+        cancelable: true,
+      }
+    );
+    return true;
+  };
+
+  // Handle the deleted entry
+  const handleEntryDelete = async () => {
+    try {
+      // Remove the subsequent entry
+      const fetchedData = await AsyncStorage.getItem("@entries");
+      const data = fetchedData ? JSON.parse(fetchedData) : [];
+      const filteredData = data.filter((oldEntry) => oldEntry.id !== entry.id);
+
+      // Update the AsyncStorage
+      const processedData = JSON.stringify(filteredData);
+      await AsyncStorage.setItem("@entries", processedData);
+
+      // Go back to 'Entries'
+      navigation.popToTop();
+    } catch (error) {
+      console.error("Error deleting entry:", error);
+    }
+  };
+
   // Listen for system exit
   useEffect(() => {
     const backHandler = BackHandler.addEventListener("hardwareBackPress", () =>
@@ -67,7 +171,7 @@ const EntryEdit = ({ route, navigation }) => {
       />
     ),
     headerRight: () => (
-      <TrashHeaderButton onPress={() => console.log("delete")} />
+      <TrashHeaderButton onPress={() => exitDelete(handleEntryDelete)} />
     ),
   });
 
@@ -95,14 +199,17 @@ const EntryEdit = ({ route, navigation }) => {
     return 0;
   };
 
+  // TODO: Put this in a separate component
   // Count times
   const [times, setTimes] = useState(`${Object.keys(entry.times).length}`);
 
+  // TODO: Put this in a separate component
   // Create list of which hour pickers to show
   const [showTimePicker, setShowTimePicker] = useState(
     Array.from({ length: 5 }, () => false)
   );
 
+  // TODO: Put this in a separate component
   // Create day picker show on/off
   const [showDayPicker, setShowDayPicker] = useState(false);
 
@@ -117,9 +224,10 @@ const EntryEdit = ({ route, navigation }) => {
     return `${hours}:${minutes}`;
   };
 
-  // Readable date in format of "21 MARCA 2023"
+  // TODO: Put this in a separate component
+  // Readable date in format of today
   const [readableDate, setReadableDate] = useState(
-    handleDate(new Date(entry.nextDate), "r")
+    handleDate(new Date(entry.startDate), "r")
   );
 
   // Sorts and deletes duplicates from the given object
@@ -137,6 +245,7 @@ const EntryEdit = ({ route, navigation }) => {
     return newObject;
   };
 
+  // TODO: Put this in a separate component
   // Remove first occurence from array
   const removeFirstOccurrence = (array, value) => {
     const index = array.indexOf(value);
@@ -153,9 +262,8 @@ const EntryEdit = ({ route, navigation }) => {
       onSubmit={(values) => {
         values.times = handleObject(values.times);
 
-        console.log("INITIAL", entry);
-        console.log("CHANGED", values);
-        navigation.goBack();
+        // Handle the entry update and exit
+        handleEntryUpdate(values);
       }}
     >
       {(props) => (
@@ -333,7 +441,7 @@ const EntryEdit = ({ route, navigation }) => {
 
               {/* From what day? */}
               <View style={styles.inputContainer}>
-                <InputText text={"From which day?"} />
+                <InputText text={"From what day?"} />
                 <IconButton
                   style={[styles.dateButton]}
                   title={readableDate}
@@ -343,6 +451,7 @@ const EntryEdit = ({ route, navigation }) => {
                   onPress={() => setShowDayPicker(true)}
                 />
 
+                {/* // TODO: Put this in a separate component */}
                 {showDayPicker && (
                   <RNDateTimePicker
                     value={new Date()}
@@ -365,7 +474,7 @@ const EntryEdit = ({ route, navigation }) => {
                           "r"
                         );
 
-                        props.setFieldValue("nextDate", newDate);
+                        props.setFieldValue("startDate", newDate);
                         setReadableDate(newReadableDate);
                       }
                     }}
@@ -375,8 +484,9 @@ const EntryEdit = ({ route, navigation }) => {
 
               {/* At what hours? */}
               <View style={styles.inputContainer}>
-                <InputText text={"At which hours?"} />
+                <InputText text={"At what hours?"} />
                 <View>
+                  {/* // TODO: Put this in a separate component */}
                   {/* Add Hour Button */}
                   {times < 5 && (
                     <IconButton
@@ -401,6 +511,7 @@ const EntryEdit = ({ route, navigation }) => {
                       }}
                     />
                   )}
+                  {/* // TODO: Put this in a separate component */}
                   {/* Show the list of time pickers */}
                   {Array.from({ length: parseInt(times) }, (_, index) => (
                     // Create the view with times
@@ -421,7 +532,7 @@ const EntryEdit = ({ route, navigation }) => {
                             setShowTimePicker(newShow);
                           }}
                         />
-
+                        {/* // TODO: Put this in a separate component */}
                         {/* Delete Hour Picker */}
                         <IconButton
                           style={styles.deleteHourButton}
@@ -451,7 +562,7 @@ const EntryEdit = ({ route, navigation }) => {
                           }}
                         />
                       </View>
-
+                      {/* // TODO: Put this in a separate component */}
                       {/* Time Picker */}
                       {showTimePicker[index] && (
                         <RNDateTimePicker
@@ -523,7 +634,7 @@ const EntryEdit = ({ route, navigation }) => {
 
           {/* Buttons Cancel / Approve */}
           <View style={styles.buttons}>
-            {/* Calncel Button */}
+            {/* Cancel Button */}
             <IconButton
               onPress={() => exitWithoutChanges()}
               style={[
@@ -536,7 +647,7 @@ const EntryEdit = ({ route, navigation }) => {
 
             {/* Approve Button */}
             <IconButton
-              onPress={props.handleSubmit}
+              onPress={() => exitSave(props.handleSubmit)}
               style={[
                 styles.button,
                 { backgroundColor: CustomColors.customAffirmation },
