@@ -7,9 +7,8 @@ import { HeaderBackButton } from "@react-navigation/elements";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Formik } from "formik";
-import { handleDate } from "../global/globalFunctions";
-import RNDateTimePicker from "@react-native-community/datetimepicker";
 import DayPicker from "../components/dayPicker";
+import HourManager from "../components/hourManager";
 
 // TODO: Look for other TODOs in this file!
 // ! A lot of lines here share code with entryEdit.js
@@ -22,7 +21,8 @@ const EntryAdd = ({ route, navigation }) => {
     name: null,
     remainingIntakes: null,
     startDate: new Date(),
-    times: {},
+    hours: {},
+    dates: {},
     dosage: null,
     information: null,
     color: `#${Math.floor(Math.random() * 0x1000000)
@@ -33,16 +33,6 @@ const EntryAdd = ({ route, navigation }) => {
 
   // Current Step
   const [currentStep, setCurrentStep] = useState(0);
-
-  // TODO: Put this in a separate component
-  // Count times
-  const [times, setTimes] = useState(0);
-
-  // TODO: Put this in a separate component
-  // Create list of which hour pickers to show
-  const [showTimePicker, setShowTimePicker] = useState(
-    Array.from({ length: 5 }, () => false)
-  );
 
   // Handle Previous / Continue
   const handleStepChange = (stepInterval) => {
@@ -91,16 +81,6 @@ const EntryAdd = ({ route, navigation }) => {
       }
     );
     return true;
-  };
-
-  // TODO: Put this in a separate component
-  // Remove first occurence from array
-  const removeFirstOccurrence = (array, value) => {
-    const index = array.indexOf(value);
-    if (index === -1) {
-      return array;
-    }
-    return array.slice(0, index).concat(array.slice(index + 1));
   };
 
   // Add cancel button
@@ -165,109 +145,10 @@ const EntryAdd = ({ route, navigation }) => {
               
               {/* Times */}
               <Text>At what hours?</Text>
-              <View>
-                {/* // TODO: Put this in a separate component */}
-                {/* Add Hour Button */}
-                {times < 5 && (
-                  <IconButton
-                    title={"Add time"}
-                    iconName={"more-time"}
-                    onPress={() => {
-                      // Create new vars
-                      const newIndex = parseInt(times);
-                      const newTimes = { ...props.values.hours };
-
-                      // Move values one place to the right
-                      for (let i = 0; i < newIndex; i++) {
-                        newTimes[`key-${i + 1}`] =
-                          props.values.hours[`key-${i}`];
-                      }
-
-                      // Add new value on the left
-                      newTimes["key-0"] = "08:00";
-                      setTimes(newIndex + 1);
-                      props.setFieldValue("times", newTimes);
-                    }}
-                  />
-                )}
-                {/* // TODO: Put this in a separate component */}
-                {/* Show the list of time pickers */}
-                {Array.from({ length: parseInt(times) }, (_, index) => (
-                  // Create the view with times
-                  <View key={`key-${index}-time`}>
-                    {/* Hour Picker */}
-                    <View>
-                      <IconButton
-                        textColor={"black"}
-                        title={props.values.hours[`key-${index}`]}
-                        iconName={"access-time"}
-                        onPress={() => {
-                          const newShow = [...showTimePicker];
-                          newShow[index] = true;
-                          setShowTimePicker(newShow);
-                        }}
-                      />
-                      {/* // TODO: Put this in a separate component */}
-                      {/* Delete Hour Picker */}
-                      <IconButton
-                        iconName={"delete-forever"}
-                        onPress={() => {
-                          // Create a set of current values without the current index.
-                          const inherentValues = [
-                            ...Object.values(props.values.hours),
-                          ];
-
-                          // Remove the first occurrence
-                          // In case there are multiple exact times
-                          const newValues = removeFirstOccurrence(
-                            inherentValues,
-                            inherentValues[index]
-                          );
-
-                          // Assign values to keys
-                          const newTimes = {};
-                          for (let i = 0; i < newValues.length; i++) {
-                            newTimes[`key-${i}`] = newValues[i];
-                          }
-
-                          // Update variables
-                          setTimes(newValues.length);
-                          props.setFieldValue("times", newTimes);
-                        }}
-                      />
-                    </View>
-                    {/* // TODO: Put this in a separate component */}
-                    {/* Time Picker */}
-                    {showTimePicker[index] && (
-                      <RNDateTimePicker
-                        value={new Date()}
-                        mode={"time"}
-                        positiveButtonLabel={"Ok"}
-                        negativeButtonLabel={"Cancel"}
-                        onChange={(value) => {
-                          // Hide the picker
-                          const newShow = [...showTimePicker];
-                          newShow[index] = false;
-                          setShowTimePicker(newShow);
-
-                          // Check if value is set
-                          if (value.type === "set") {
-                            // Convert the value
-                            const dateValue = new Date(
-                              value.nativeEvent.hourstamp
-                            );
-
-                            // Change the value
-                            const newValues = { ...props.values.hours };
-                            newValues[`key-${index}`] = handleHour(dateValue);
-                            props.setFieldValue("times", newValues);
-                          }
-                        }}
-                      />
-                    )}
-                  </View>
-                ))}
-              </View>
+              <HourManager
+                props={props}
+                currentHours={entry.hours}
+              />
             </View>
           )}
 
