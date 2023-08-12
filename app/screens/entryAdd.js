@@ -9,6 +9,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Formik } from "formik";
 import { handleDate } from "../global/globalFunctions";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
+import DayPickerButton from "../components/dayPickerButton";
 
 // TODO: Look for other TODOs in this file!
 // ! A lot of lines here share code with entryEdit.js
@@ -20,7 +21,7 @@ const EntryAdd = ({ route, navigation }) => {
     id: uuid.v4(),
     name: null,
     remainingIntakes: null,
-    startDate: null,
+    startDate: new Date(),
     times: {},
     dosage: null,
     information: null,
@@ -34,10 +35,6 @@ const EntryAdd = ({ route, navigation }) => {
   const [currentStep, setCurrentStep] = useState(0);
 
   // TODO: Put this in a separate component
-  //  Day Picker
-  const [showDayPicker, setShowDayPicker] = useState(false);
-
-  // TODO: Put this in a separate component
   // Count times
   const [times, setTimes] = useState(0);
 
@@ -45,12 +42,6 @@ const EntryAdd = ({ route, navigation }) => {
   // Create list of which hour pickers to show
   const [showTimePicker, setShowTimePicker] = useState(
     Array.from({ length: 5 }, () => false)
-  );
-
-  // TODO: Put this in a separate component
-  // Readable date in format of today
-  const [readableDate, setReadableDate] = useState(
-    handleDate(new Date(entry.startDate), "r")
   );
 
   // Handle Previous / Continue
@@ -138,7 +129,7 @@ const EntryAdd = ({ route, navigation }) => {
           {/* Name */}
           {currentStep === 0 && (
             <View>
-              <Text>Enter the name of your medication</Text>
+              <Text>Medication name</Text>
               <TextInput
                 value={props.values.name}
                 onChangeText={(text) => (props.values.name = text)}
@@ -149,12 +140,13 @@ const EntryAdd = ({ route, navigation }) => {
           {/* Remaining Intakes */}
           {currentStep === 1 && (
             <View>
-              <Text>Enter the number of intakes you have yet to take</Text>
+              <Text>Number of intakes</Text>
               <TextInput
                 value={props.values.remainingIntakes}
                 onChangeText={(text) =>
                   (props.values.remainingIntakes = parseInt(text))
                 }
+                keyboardType="numeric"
               />
             </View>
           )}
@@ -164,44 +156,13 @@ const EntryAdd = ({ route, navigation }) => {
             <View>
               {/* Start Date */}
               <Text>
-                At what day do you want to start taking your medication?
+                Start date
               </Text>
-              <IconButton
-                title={readableDate}
-                textColor={"black"}
-                communityIcons={true}
-                iconName={"calendar-start"}
-                onPress={() => setShowDayPicker(true)}
+              <DayPickerButton
+                props={props}
+                currentDate={entry.startDate}
               />
-              {/* // TODO: Put this in a separate component */}
-              {showDayPicker && (
-                <RNDateTimePicker
-                  value={new Date()}
-                  mode={"date"}
-                  positiveButtonLabel={"Ok"}
-                  negativeButtonLabel={"Cancel"}
-                  onChange={(value) => {
-                    // Hide the picker
-                    setShowDayPicker(false);
-
-                    // Check if value is set
-                    if (value.type === "set") {
-                      // Convert the value
-                      const newDate = handleDate(
-                        new Date(value.nativeEvent.timestamp)
-                      );
-
-                      const newReadableDate = handleDate(
-                        new Date(value.nativeEvent.timestamp),
-                        "r"
-                      );
-
-                      props.setFieldValue("startDate", newDate);
-                      setReadableDate(newReadableDate);
-                    }
-                  }}
-                />
-              )}
+              
               {/* Times */}
               <Text>At what hours?</Text>
               <View>
