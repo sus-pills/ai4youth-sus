@@ -24,6 +24,7 @@ import { HeaderBackButton } from "@react-navigation/elements";
 import TrashHeaderButton from "../components/trashHeaderButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DayPicker from "../components/dayPicker";
+import HourManager from "../components/hourManager";
 
 // TODO: Look for other TODOs in this file!
 // ! A lot of lines here share code with entryAdd.js
@@ -202,27 +203,6 @@ const EntryEdit = ({ route, navigation }) => {
     return 0;
   };
 
-  // TODO: Put this in a separate component
-  // Count times
-  const [times, setTimes] = useState(`${Object.keys(entry.times).length}`);
-
-  // TODO: Put this in a separate component
-  // Create list of which hour pickers to show
-  const [showTimePicker, setShowTimePicker] = useState(
-    Array.from({ length: 5 }, () => false)
-  );
-
-  // Handle date
-  const handleHour = (hour) => {
-    // Had to do it the old way
-    // because the toLocaleTimeString
-    // doesn't work in React Native apparently.
-
-    const hours = hour.getHours().toString().padStart(2, "0");
-    const minutes = hour.getMinutes().toString().padStart(2, "0");
-    return `${hours}:${minutes}`;
-  };
-
   // Sorts and deletes duplicates from the given object
   const handleObject = (object) => {
     const keys = Object.keys(object);
@@ -238,25 +218,16 @@ const EntryEdit = ({ route, navigation }) => {
     return newObject;
   };
 
-  // TODO: Put this in a separate component
-  // Remove first occurence from array
-  const removeFirstOccurrence = (array, value) => {
-    const index = array.indexOf(value);
-    if (index === -1) {
-      return array;
-    }
-    return array.slice(0, index).concat(array.slice(index + 1));
-  };
-
   return (
     <Formik
       style={styles.container}
       initialValues={entry}
       onSubmit={(values) => {
-        values.times = handleObject(values.times);
+        values.hours = handleObject(values.hours);
 
         // Handle the entry update and exit
         handleEntryUpdate(values);
+        console.log("New object: ", values)
       }}
     >
       {(props) => (
@@ -440,120 +411,11 @@ const EntryEdit = ({ route, navigation }) => {
               />
 
               {/* At what hours? */}
-              <View style={styles.inputContainer}>
-                <InputTitle text={"At what hours?"} />
-
-                {/* // TODO: START - hourAdd component */}
-                <View>
-                  {/* Add Hour Button */}
-                  {times < 5 && (
-                    <IconButton
-                      style={[styles.hourButton, styles.addHourButton]}
-                      title={"Add time"}
-                      iconName={"more-time"}
-                      onPress={() => {
-                        // Create new vars
-                        const newIndex = parseInt(times);
-                        const newTimes = { ...props.values.times };
-
-                        // Move values one place to the right
-                        for (let i = 0; i < newIndex; i++) {
-                          newTimes[`key-${i + 1}`] =
-                            props.values.times[`key-${i}`];
-                        }
-
-                        // Add new value on the left
-                        newTimes["key-0"] = "08:00";
-                        setTimes(newIndex + 1);
-                        props.setFieldValue("times", newTimes);
-                      }}
-                    />
-                  )}
-
-                  {/* Show the list of time pickers */}
-                  {Array.from({ length: parseInt(times) }, (_, index) => (
-                    // Create the view with times
-                    <View key={`key-${index}-time`}>
-                      {/* Hour Picker */}
-                      <View style={styles.hourButtons}>
-                        <IconButton
-                          textColor={"black"}
-                          style={[
-                            styles.hourButton,
-                            { backgroundColor: "#f6f6f6" },
-                          ]}
-                          title={props.values.times[`key-${index}`]}
-                          iconName={"access-time"}
-                          onPress={() => {
-                            const newShow = [...showTimePicker];
-                            newShow[index] = true;
-                            setShowTimePicker(newShow);
-                          }}
-                        />
-
-                        {/* Delete Hour Picker */}
-                        <IconButton
-                          style={styles.deleteHourButton}
-                          iconName={"delete-forever"}
-                          onPress={() => {
-                            // Create a set of current values without the current index.
-                            const inherentValues = [
-                              ...Object.values(props.values.times),
-                            ];
-
-                            // Remove the first occurrence
-                            // In case there are multiple exact times
-                            const newValues = removeFirstOccurrence(
-                              inherentValues,
-                              inherentValues[index]
-                            );
-
-                            // Assign values to keys
-                            const newTimes = {};
-                            for (let i = 0; i < newValues.length; i++) {
-                              newTimes[`key-${i}`] = newValues[i];
-                            }
-
-                            // Update variables
-                            setTimes(newValues.length);
-                            props.setFieldValue("times", newTimes);
-                          }}
-                        />
-                      </View>
-
-                      {/* Time Picker */}
-                      {showTimePicker[index] && (
-                        <RNDateTimePicker
-                          value={new Date()}
-                          mode={"time"}
-                          positiveButtonLabel={"Ok"}
-                          negativeButtonLabel={"Cancel"}
-                          onChange={(value) => {
-                            // Hide the picker
-                            const newShow = [...showTimePicker];
-                            newShow[index] = false;
-                            setShowTimePicker(newShow);
-
-                            // Check if value is set
-                            if (value.type === "set") {
-                              // Convert the value
-                              const dateValue = new Date(
-                                value.nativeEvent.timestamp
-                              );
-
-                              // Change the value
-                              const newValues = { ...props.values.times };
-                              newValues[`key-${index}`] = handleHour(dateValue);
-                              props.setFieldValue("times", newValues);
-                            }
-                          }}
-                        />
-                      )}
-                    </View>
-                  ))}
-                </View>
-                {/* // TODO: END - hourAdd component */}
-              </View>
+              <HourManager
+                props={props}
+                currentHours={entry.hours}
+                text={"At what hours?"}
+              />
 
               {/* dosage & dosageUnit */}
               <View style={styles.inputContainer}>
@@ -707,34 +569,6 @@ const styles = StyleSheet.create({
     marginTop: 4,
     fontSize: 20,
     width: "100%",
-  },
-  hourButtons: {
-    flexDirection: "row",
-    marginHorizontal: "7%",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  hourButton: {
-    marginVertical: 4,
-    marginHorizontal: 0,
-    width: 270,
-  },
-  deleteHourButton: {
-    marginVertical: 4,
-    marginHorizontal: 0,
-    width: 58,
-    alignSelf: "center",
-    backgroundColor: CustomColors.customNegation,
-  },
-  addHourButton: {
-    width: 270 + 58 + 5,
-    alignSelf: "center",
-  },
-  dateButton: {
-    margin: 4,
-    backgroundColor: "#f6f6f6",
-    width: 270 + 58 + 5,
-    alignSelf: "center",
   },
   upDownButton: {
     margin: 0,

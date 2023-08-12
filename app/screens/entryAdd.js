@@ -175,12 +175,12 @@ const EntryAdd = ({ route, navigation }) => {
                     onPress={() => {
                       // Create new vars
                       const newIndex = parseInt(times);
-                      const newTimes = { ...props.values.times };
+                      const newTimes = { ...props.values.hours };
 
                       // Move values one place to the right
                       for (let i = 0; i < newIndex; i++) {
                         newTimes[`key-${i + 1}`] =
-                          props.values.times[`key-${i}`];
+                          props.values.hours[`key-${i}`];
                       }
 
                       // Add new value on the left
@@ -199,7 +199,7 @@ const EntryAdd = ({ route, navigation }) => {
                     <View>
                       <IconButton
                         textColor={"black"}
-                        title={props.values.times[`key-${index}`]}
+                        title={props.values.hours[`key-${index}`]}
                         iconName={"access-time"}
                         onPress={() => {
                           const newShow = [...showTimePicker];
@@ -214,7 +214,7 @@ const EntryAdd = ({ route, navigation }) => {
                         onPress={() => {
                           // Create a set of current values without the current index.
                           const inherentValues = [
-                            ...Object.values(props.values.times),
+                            ...Object.values(props.values.hours),
                           ];
 
                           // Remove the first occurrence
@@ -254,11 +254,11 @@ const EntryAdd = ({ route, navigation }) => {
                           if (value.type === "set") {
                             // Convert the value
                             const dateValue = new Date(
-                              value.nativeEvent.timestamp
+                              value.nativeEvent.hourstamp
                             );
 
                             // Change the value
-                            const newValues = { ...props.values.times };
+                            const newValues = { ...props.values.hours };
                             newValues[`key-${index}`] = handleHour(dateValue);
                             props.setFieldValue("times", newValues);
                           }

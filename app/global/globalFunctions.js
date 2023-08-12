@@ -21,9 +21,10 @@ export const initializeAsyncStorage = async () => {
     name: "Vitamin C",
     remainingIntakes: 20,
     startDate: "2023-02-15",
-    times: {
-      "time-0": "12:00",
-      "time-1": "18:00",
+    dates: {},
+    hours: {
+      "hour-0": "12:00",
+      "hour-1": "18:00",
     },
     dosage: "100 mg",
     information: "Take after a meal",
