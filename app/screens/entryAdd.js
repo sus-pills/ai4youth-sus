@@ -9,7 +9,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Formik } from "formik";
 import { handleDate } from "../global/globalFunctions";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
-import DayPickerButton from "../components/dayPickerButton";
+import DayPicker from "../components/dayPicker";
 
 // TODO: Look for other TODOs in this file!
 // ! A lot of lines here share code with entryEdit.js
@@ -158,7 +158,7 @@ const EntryAdd = ({ route, navigation }) => {
               <Text>
                 Start date
               </Text>
-              <DayPickerButton
+              <DayPicker
                 props={props}
                 currentDate={entry.startDate}
               />

@@ -5,7 +5,7 @@ import { handleDate } from "../global/globalFunctions";
 import InputTitle from "./inputTitle";
 import IconButton from "./iconButton";
 
-const DayPickerButton = ({ props, currentDate, text }) => {
+const DayPicker = ({ props, currentDate, text }) => {
   // Day picker toggle on/off
   const [showDayPicker, setShowDayPicker] = useState(false);
 
@@ -74,4 +74,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DayPickerButton;
+export default DayPicker;

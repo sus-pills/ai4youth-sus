@@ -23,7 +23,7 @@ import RNDateTimePicker from "@react-native-community/datetimepicker";
 import { HeaderBackButton } from "@react-navigation/elements";
 import TrashHeaderButton from "../components/trashHeaderButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import DayPickerButton from "../components/dayPickerButton";
+import DayPicker from "../components/dayPicker";
 
 // TODO: Look for other TODOs in this file!
 // ! A lot of lines here share code with entryAdd.js
@@ -433,7 +433,7 @@ const EntryEdit = ({ route, navigation }) => {
               </View>
 
               {/* From what day? */}
-              <DayPickerButton
+              <DayPicker
                 props={props}
                 currentDate={entry.startDate}
                 text={"From what day?"}
