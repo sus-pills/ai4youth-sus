@@ -18,7 +18,7 @@ import SingleModalButton from "../components/singleModalButton";
 import { Formik } from "formik";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { isLightColor, handleDate } from "../global/globalFunctions";
-import InputText from "../components/inputText";
+import InputTitle from "../components/inputTitle";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import { HeaderBackButton } from "@react-navigation/elements";
 import TrashHeaderButton from "../components/trashHeaderButton";
@@ -355,7 +355,7 @@ const EntryEdit = ({ route, navigation }) => {
 
               {/* name */}
               <View style={styles.inputContainer}>
-                <InputText text={"Name"} />
+                <InputTitle text={"Name"} />
                 <TextInput
                   style={styles.input}
                   onChangeText={props.handleChange("name")}
@@ -367,7 +367,7 @@ const EntryEdit = ({ route, navigation }) => {
 
               {/* remainingIntakes */}
               <View style={styles.inputContainer}>
-                <InputText text={"Remaining intakes"} />
+                <InputTitle text={"Remaining intakes"} />
                 <View style={styles.upDownInputButtons}>
                   {/* Decrease by 5 */}
                   <IconButton
@@ -441,7 +441,7 @@ const EntryEdit = ({ route, navigation }) => {
 
               {/* From what day? */}
               <View style={styles.inputContainer}>
-                <InputText text={"From what day?"} />
+                <InputTitle text={"From what day?"} />
                 <IconButton
                   style={[styles.dateButton]}
                   title={readableDate}
@@ -485,7 +485,7 @@ const EntryEdit = ({ route, navigation }) => {
 
               {/* At what hours? */}
               <View style={styles.inputContainer}>
-                <InputText text={"At what hours?"} />
+                <InputTitle text={"At what hours?"} />
 
                 {/* // TODO: START - hourAdd component */}
                 <View>
@@ -601,7 +601,7 @@ const EntryEdit = ({ route, navigation }) => {
 
               {/* dosage & dosageUnit */}
               <View style={styles.inputContainer}>
-                <InputText text={"Dosage"} />
+                <InputTitle text={"Dosage"} />
                 <View
                   style={{
                     flexDirection: "row",
@@ -622,7 +622,7 @@ const EntryEdit = ({ route, navigation }) => {
 
               {/* instructions */}
               <View style={styles.inputContainer}>
-                <InputText text={"Additional information"} />
+                <InputTitle text={"Additional information"} />
                 <TextInput
                   multiline
                   style={styles.input}
