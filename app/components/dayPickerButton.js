@@ -5,7 +5,7 @@ import { handleDate } from "../global/globalFunctions";
 import InputTitle from "./inputTitle";
 import IconButton from "./iconButton";
 
-const DayPickerButton = ({props, currentDate}) => {
+const DayPickerButton = ({ props, currentDate, text }) => {
   // Day picker toggle on/off
   const [showDayPicker, setShowDayPicker] = useState(false);
 
@@ -16,6 +16,10 @@ const DayPickerButton = ({props, currentDate}) => {
 
   return (
     <View style={styles.inputContainer}>
+      {/* Title of the button */}
+      {text && <InputTitle text={text} />}
+      
+      {/* Button */}
       <IconButton
         style={styles.dateButton}
         title={readableDate}
@@ -23,9 +27,11 @@ const DayPickerButton = ({props, currentDate}) => {
         communityIcons={true}
         iconName={"calendar-start"}
         onPress={() => {
-          setShowDayPicker(true)}}
+          setShowDayPicker(true);
+        }}
       />
 
+      {/* Built-in modal */}
       {showDayPicker && (
         <RNDateTimePicker
           value={new Date()}

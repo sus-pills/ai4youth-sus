@@ -433,7 +433,6 @@ const EntryEdit = ({ route, navigation }) => {
               </View>
 
               {/* From what day? */}
-              <InputTitle text={"From what day?"} />
               <DayPickerButton props={props} currentDate={entry.startDate} />
 
               {/* At what hours? */}
