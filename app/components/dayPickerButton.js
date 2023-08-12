@@ -16,7 +16,6 @@ const DayPickerButton = ({props, currentDate}) => {
 
   return (
     <View style={styles.inputContainer}>
-      <InputTitle text={"From what day?"} />
       <IconButton
         style={styles.dateButton}
         title={readableDate}

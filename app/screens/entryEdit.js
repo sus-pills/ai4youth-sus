@@ -86,7 +86,9 @@ const EntryEdit = ({ route, navigation }) => {
       const data = fetchedData ? JSON.parse(fetchedData) : [];
 
       // Find the index
-      const entryIndex = data.findIndex((oldEntry) => oldEntry.id === updatedEntry.id);
+      const entryIndex = data.findIndex(
+        (oldEntry) => oldEntry.id === updatedEntry.id
+      );
 
       //  If the entry exists and is in fact different...
       if (
@@ -99,7 +101,7 @@ const EntryEdit = ({ route, navigation }) => {
         await AsyncStorage.setItem("@entries", processedData);
 
         // Update the route params
-        navigation.setParams({ entry: updatedEntry })
+        navigation.setParams({ entry: updatedEntry });
       }
 
       // Go back
@@ -107,7 +109,7 @@ const EntryEdit = ({ route, navigation }) => {
         name: "EntryInfo",
         params: { entry: updatedEntry },
         merge: true,
-      })
+      });
     } catch (error) {
       console.error("Error updating entry:", error);
     }
@@ -209,7 +211,7 @@ const EntryEdit = ({ route, navigation }) => {
   const [showTimePicker, setShowTimePicker] = useState(
     Array.from({ length: 5 }, () => false)
   );
-  
+
   // Handle date
   const handleHour = (hour) => {
     // Had to do it the old way
@@ -431,10 +433,8 @@ const EntryEdit = ({ route, navigation }) => {
               </View>
 
               {/* From what day? */}
-              <DayPickerButton 
-                props={props} 
-                currentDate={entry.startDate} 
-              />
+              <InputTitle text={"From what day?"} />
+              <DayPickerButton props={props} currentDate={entry.startDate} />
 
               {/* At what hours? */}
               <View style={styles.inputContainer}>
@@ -466,7 +466,7 @@ const EntryEdit = ({ route, navigation }) => {
                       }}
                     />
                   )}
-                  
+
                   {/* Show the list of time pickers */}
                   {Array.from({ length: parseInt(times) }, (_, index) => (
                     // Create the view with times
@@ -487,7 +487,7 @@ const EntryEdit = ({ route, navigation }) => {
                             setShowTimePicker(newShow);
                           }}
                         />
-                        
+
                         {/* Delete Hour Picker */}
                         <IconButton
                           style={styles.deleteHourButton}
@@ -517,7 +517,7 @@ const EntryEdit = ({ route, navigation }) => {
                           }}
                         />
                       </View>
-                      
+
                       {/* Time Picker */}
                       {showTimePicker[index] && (
                         <RNDateTimePicker
