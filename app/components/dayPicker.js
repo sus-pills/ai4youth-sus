@@ -45,10 +45,10 @@ const DayPicker = ({ props, currentDate, text }) => {
             // Check if value is set
             if (value.type === "set") {
               // Convert the value
-              const newDate = handleDate(new Date(value.nativeEvent.hourstamp));
+              const newDate = handleDate(new Date(value.nativeEvent.timestamp));
 
               const newReadableDate = handleDate(
-                new Date(value.nativeEvent.hourstamp),
+                new Date(value.nativeEvent.timestamp),
                 "us"
               );
 
