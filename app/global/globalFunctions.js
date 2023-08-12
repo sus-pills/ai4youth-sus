@@ -67,23 +67,26 @@ export const handleDate = (date, mode) => {
   const day = date.getDate().toString();
 
   const monthFullNames = {
-    1: "JANUARY",
-    2: "FEBRUARY",
-    3: "MARCH",
-    4: "APRIL",
-    5: "MAY",
-    6: "JUNE",
-    7: "JULY",
-    8: "AUGUST",
-    9: "SEPTEMBER",
-    10: "OCTOBER",
-    11: "NOVERMBER",
-    12: "DECEMBER",
+    1: "January",
+    2: "February",
+    3: "March",
+    4: "April",
+    5: "May",
+    6: "June",
+    7: "July",
+    8: "August",
+    9: "September",
+    10: "October",
+    11: "November",
+    12: "December",
   };
 
-  if (mode === "r") {
-    return `${day} ${monthFullNames[month]} ${year}`;
+  switch (mode) {
+    case "us":
+      return `${monthFullNames[month]} ${day}, ${year}`;
+    case "eu":
+      return `${day} ${monthFullNames[month]} ${year}`;
+    default:
+      return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
   }
-
-  return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
 };
