@@ -23,6 +23,7 @@ import RNDateTimePicker from "@react-native-community/datetimepicker";
 import { HeaderBackButton } from "@react-navigation/elements";
 import TrashHeaderButton from "../components/trashHeaderButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import DayPickerButton from "../components/dayPickerButton";
 
 // TODO: Look for other TODOs in this file!
 // ! A lot of lines here share code with entryAdd.js
@@ -208,11 +209,7 @@ const EntryEdit = ({ route, navigation }) => {
   const [showTimePicker, setShowTimePicker] = useState(
     Array.from({ length: 5 }, () => false)
   );
-
-  // TODO: Put this in a separate component
-  // Create day picker show on/off
-  const [showDayPicker, setShowDayPicker] = useState(false);
-
+  
   // Handle date
   const handleHour = (hour) => {
     // Had to do it the old way
@@ -223,12 +220,6 @@ const EntryEdit = ({ route, navigation }) => {
     const minutes = hour.getMinutes().toString().padStart(2, "0");
     return `${hours}:${minutes}`;
   };
-
-  // TODO: Put this in a separate component
-  // Readable date in format of today
-  const [readableDate, setReadableDate] = useState(
-    handleDate(new Date(entry.startDate), "r")
-  );
 
   // Sorts and deletes duplicates from the given object
   const handleObject = (object) => {
@@ -440,48 +431,10 @@ const EntryEdit = ({ route, navigation }) => {
               </View>
 
               {/* From what day? */}
-              <View style={styles.inputContainer}>
-                <InputTitle text={"From what day?"} />
-                <IconButton
-                  style={[styles.dateButton]}
-                  title={readableDate}
-                  textColor={"black"}
-                  communityIcons={true}
-                  iconName={"calendar-start"}
-                  onPress={() => setShowDayPicker(true)}
-                />
-
-                {/* // TODO: START - dayPicker component */}
-                {showDayPicker && (
-                  <RNDateTimePicker
-                    value={new Date()}
-                    mode={"date"}
-                    positiveButtonLabel={"Ok"}
-                    negativeButtonLabel={"Cancel"}
-                    onChange={(value) => {
-                      // Hide the picker
-                      setShowDayPicker(false);
-
-                      // Check if value is set
-                      if (value.type === "set") {
-                        // Convert the value
-                        const newDate = handleDate(
-                          new Date(value.nativeEvent.timestamp)
-                        );
-
-                        const newReadableDate = handleDate(
-                          new Date(value.nativeEvent.timestamp),
-                          "r"
-                        );
-
-                        props.setFieldValue("startDate", newDate);
-                        setReadableDate(newReadableDate);
-                      }
-                    }}
-                  />
-                )}
-                {/* // TODO: END - dayPicker component */}
-              </View>
+              <DayPickerButton 
+                props={props} 
+                currentDate={entry.startDate} 
+              />
 
               {/* At what hours? */}
               <View style={styles.inputContainer}>
