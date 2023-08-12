@@ -35,7 +35,7 @@ const EntryEdit = ({ route, navigation }) => {
   // Exit Without Changes Alert
   const exitWithoutChanges = () => {
     Alert.alert(
-      "Exit 'Edit Entry' screen?",
+      "Exit this window?",
       "All unsaved changes will be lost.",
       [
         {
