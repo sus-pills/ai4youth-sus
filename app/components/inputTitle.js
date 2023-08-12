@@ -3,7 +3,7 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { StyleSheet, Text } from "react-native";
 import { CustomColors } from "../global/globalStyles";
 
-const InputText = ({text, chevronDouble}) => {
+const InputTitle = ({text, chevronDouble}) => {
   return (
     <Text style={styles.title}>
       <MaterialCommunityIcons
@@ -23,4 +23,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default InputText;
+export default InputTitle;

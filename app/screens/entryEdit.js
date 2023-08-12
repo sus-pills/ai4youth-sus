@@ -18,11 +18,13 @@ import SingleModalButton from "../components/singleModalButton";
 import { Formik } from "formik";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { isLightColor, handleDate } from "../global/globalFunctions";
-import InputText from "../components/inputText";
+import InputTitle from "../components/inputTitle";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import { HeaderBackButton } from "@react-navigation/elements";
 import TrashHeaderButton from "../components/trashHeaderButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import DayPicker from "../components/dayPicker";
+import HourManager from "../components/hourManager";
 
 // TODO: Look for other TODOs in this file!
 // ! A lot of lines here share code with entryAdd.js
@@ -34,7 +36,7 @@ const EntryEdit = ({ route, navigation }) => {
   // Exit Without Changes Alert
   const exitWithoutChanges = () => {
     Alert.alert(
-      "Exit 'Edit Entry' screen?",
+      "Exit this window?",
       "All unsaved changes will be lost.",
       [
         {
@@ -85,7 +87,9 @@ const EntryEdit = ({ route, navigation }) => {
       const data = fetchedData ? JSON.parse(fetchedData) : [];
 
       // Find the index
-      const entryIndex = data.findIndex((oldEntry) => oldEntry.id === updatedEntry.id);
+      const entryIndex = data.findIndex(
+        (oldEntry) => oldEntry.id === updatedEntry.id
+      );
 
       //  If the entry exists and is in fact different...
       if (
@@ -98,7 +102,7 @@ const EntryEdit = ({ route, navigation }) => {
         await AsyncStorage.setItem("@entries", processedData);
 
         // Update the route params
-        navigation.setParams({ entry: updatedEntry })
+        navigation.setParams({ entry: updatedEntry });
       }
 
       // Go back
@@ -106,7 +110,7 @@ const EntryEdit = ({ route, navigation }) => {
         name: "EntryInfo",
         params: { entry: updatedEntry },
         merge: true,
-      })
+      });
     } catch (error) {
       console.error("Error updating entry:", error);
     }
@@ -199,37 +203,6 @@ const EntryEdit = ({ route, navigation }) => {
     return 0;
   };
 
-  // TODO: Put this in a separate component
-  // Count times
-  const [times, setTimes] = useState(`${Object.keys(entry.times).length}`);
-
-  // TODO: Put this in a separate component
-  // Create list of which hour pickers to show
-  const [showTimePicker, setShowTimePicker] = useState(
-    Array.from({ length: 5 }, () => false)
-  );
-
-  // TODO: Put this in a separate component
-  // Create day picker show on/off
-  const [showDayPicker, setShowDayPicker] = useState(false);
-
-  // Handle date
-  const handleHour = (hour) => {
-    // Had to do it the old way
-    // because the toLocaleTimeString
-    // doesn't work in React Native apparently.
-
-    const hours = hour.getHours().toString().padStart(2, "0");
-    const minutes = hour.getMinutes().toString().padStart(2, "0");
-    return `${hours}:${minutes}`;
-  };
-
-  // TODO: Put this in a separate component
-  // Readable date in format of today
-  const [readableDate, setReadableDate] = useState(
-    handleDate(new Date(entry.startDate), "r")
-  );
-
   // Sorts and deletes duplicates from the given object
   const handleObject = (object) => {
     const keys = Object.keys(object);
@@ -245,25 +218,16 @@ const EntryEdit = ({ route, navigation }) => {
     return newObject;
   };
 
-  // TODO: Put this in a separate component
-  // Remove first occurence from array
-  const removeFirstOccurrence = (array, value) => {
-    const index = array.indexOf(value);
-    if (index === -1) {
-      return array;
-    }
-    return array.slice(0, index).concat(array.slice(index + 1));
-  };
-
   return (
     <Formik
       style={styles.container}
       initialValues={entry}
       onSubmit={(values) => {
-        values.times = handleObject(values.times);
+        values.hours = handleObject(values.hours);
 
         // Handle the entry update and exit
         handleEntryUpdate(values);
+        console.log("New object: ", values)
       }}
     >
       {(props) => (
@@ -355,7 +319,7 @@ const EntryEdit = ({ route, navigation }) => {
 
               {/* name */}
               <View style={styles.inputContainer}>
-                <InputText text={"Name"} />
+                <InputTitle text={"Name"} />
                 <TextInput
                   style={styles.input}
                   onChangeText={props.handleChange("name")}
@@ -367,7 +331,7 @@ const EntryEdit = ({ route, navigation }) => {
 
               {/* remainingIntakes */}
               <View style={styles.inputContainer}>
-                <InputText text={"Remaining intakes"} />
+                <InputTitle text={"Remaining intakes"} />
                 <View style={styles.upDownInputButtons}>
                   {/* Decrease by 5 */}
                   <IconButton
@@ -440,165 +404,22 @@ const EntryEdit = ({ route, navigation }) => {
               </View>
 
               {/* From what day? */}
-              <View style={styles.inputContainer}>
-                <InputText text={"From what day?"} />
-                <IconButton
-                  style={[styles.dateButton]}
-                  title={readableDate}
-                  textColor={"black"}
-                  communityIcons={true}
-                  iconName={"calendar-start"}
-                  onPress={() => setShowDayPicker(true)}
-                />
-
-                {/* // TODO: Put this in a separate component */}
-                {showDayPicker && (
-                  <RNDateTimePicker
-                    value={new Date()}
-                    mode={"date"}
-                    positiveButtonLabel={"Ok"}
-                    negativeButtonLabel={"Cancel"}
-                    onChange={(value) => {
-                      // Hide the picker
-                      setShowDayPicker(false);
-
-                      // Check if value is set
-                      if (value.type === "set") {
-                        // Convert the value
-                        const newDate = handleDate(
-                          new Date(value.nativeEvent.timestamp)
-                        );
-
-                        const newReadableDate = handleDate(
-                          new Date(value.nativeEvent.timestamp),
-                          "r"
-                        );
-
-                        props.setFieldValue("startDate", newDate);
-                        setReadableDate(newReadableDate);
-                      }
-                    }}
-                  />
-                )}
-              </View>
+              <DayPicker
+                props={props}
+                currentDate={entry.startDate}
+                text={"From what day?"}
+              />
 
               {/* At what hours? */}
-              <View style={styles.inputContainer}>
-                <InputText text={"At what hours?"} />
-                <View>
-                  {/* // TODO: Put this in a separate component */}
-                  {/* Add Hour Button */}
-                  {times < 5 && (
-                    <IconButton
-                      style={[styles.hourButton, styles.addHourButton]}
-                      title={"Add time"}
-                      iconName={"more-time"}
-                      onPress={() => {
-                        // Create new vars
-                        const newIndex = parseInt(times);
-                        const newTimes = { ...props.values.times };
-
-                        // Move values one place to the right
-                        for (let i = 0; i < newIndex; i++) {
-                          newTimes[`key-${i + 1}`] =
-                            props.values.times[`key-${i}`];
-                        }
-
-                        // Add new value on the left
-                        newTimes["key-0"] = "08:00";
-                        setTimes(newIndex + 1);
-                        props.setFieldValue("times", newTimes);
-                      }}
-                    />
-                  )}
-                  {/* // TODO: Put this in a separate component */}
-                  {/* Show the list of time pickers */}
-                  {Array.from({ length: parseInt(times) }, (_, index) => (
-                    // Create the view with times
-                    <View key={`key-${index}-time`}>
-                      {/* Hour Picker */}
-                      <View style={styles.hourButtons}>
-                        <IconButton
-                          textColor={"black"}
-                          style={[
-                            styles.hourButton,
-                            { backgroundColor: "#f6f6f6" },
-                          ]}
-                          title={props.values.times[`key-${index}`]}
-                          iconName={"access-time"}
-                          onPress={() => {
-                            const newShow = [...showTimePicker];
-                            newShow[index] = true;
-                            setShowTimePicker(newShow);
-                          }}
-                        />
-                        {/* // TODO: Put this in a separate component */}
-                        {/* Delete Hour Picker */}
-                        <IconButton
-                          style={styles.deleteHourButton}
-                          iconName={"delete-forever"}
-                          onPress={() => {
-                            // Create a set of current values without the current index.
-                            const inherentValues = [
-                              ...Object.values(props.values.times),
-                            ];
-
-                            // Remove the first occurrence
-                            // In case there are multiple exact times
-                            const newValues = removeFirstOccurrence(
-                              inherentValues,
-                              inherentValues[index]
-                            );
-
-                            // Assign values to keys
-                            const newTimes = {};
-                            for (let i = 0; i < newValues.length; i++) {
-                              newTimes[`key-${i}`] = newValues[i];
-                            }
-
-                            // Update variables
-                            setTimes(newValues.length);
-                            props.setFieldValue("times", newTimes);
-                          }}
-                        />
-                      </View>
-                      {/* // TODO: Put this in a separate component */}
-                      {/* Time Picker */}
-                      {showTimePicker[index] && (
-                        <RNDateTimePicker
-                          value={new Date()}
-                          mode={"time"}
-                          positiveButtonLabel={"Ok"}
-                          negativeButtonLabel={"Cancel"}
-                          onChange={(value) => {
-                            // Hide the picker
-                            const newShow = [...showTimePicker];
-                            newShow[index] = false;
-                            setShowTimePicker(newShow);
-
-                            // Check if value is set
-                            if (value.type === "set") {
-                              // Convert the value
-                              const dateValue = new Date(
-                                value.nativeEvent.timestamp
-                              );
-
-                              // Change the value
-                              const newValues = { ...props.values.times };
-                              newValues[`key-${index}`] = handleHour(dateValue);
-                              props.setFieldValue("times", newValues);
-                            }
-                          }}
-                        />
-                      )}
-                    </View>
-                  ))}
-                </View>
-              </View>
+              <HourManager
+                props={props}
+                currentHours={entry.hours}
+                text={"At what hours?"}
+              />
 
               {/* dosage & dosageUnit */}
               <View style={styles.inputContainer}>
-                <InputText text={"Dosage"} />
+                <InputTitle text={"Dosage"} />
                 <View
                   style={{
                     flexDirection: "row",
@@ -619,7 +440,7 @@ const EntryEdit = ({ route, navigation }) => {
 
               {/* instructions */}
               <View style={styles.inputContainer}>
-                <InputText text={"Additional information"} />
+                <InputTitle text={"Additional information"} />
                 <TextInput
                   multiline
                   style={styles.input}
@@ -748,34 +569,6 @@ const styles = StyleSheet.create({
     marginTop: 4,
     fontSize: 20,
     width: "100%",
-  },
-  hourButtons: {
-    flexDirection: "row",
-    marginHorizontal: "7%",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  hourButton: {
-    marginVertical: 4,
-    marginHorizontal: 0,
-    width: 270,
-  },
-  deleteHourButton: {
-    marginVertical: 4,
-    marginHorizontal: 0,
-    width: 58,
-    alignSelf: "center",
-    backgroundColor: CustomColors.customNegation,
-  },
-  addHourButton: {
-    width: 270 + 58 + 5,
-    alignSelf: "center",
-  },
-  dateButton: {
-    margin: 4,
-    backgroundColor: "#f6f6f6",
-    width: 270 + 58 + 5,
-    alignSelf: "center",
   },
   upDownButton: {
     margin: 0,

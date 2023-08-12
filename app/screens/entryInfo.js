@@ -6,13 +6,13 @@ import IconButton from "../components/iconButton";
 const EntryInfo = ({ route, navigation }) => {
   const entry = route.params?.entry;
 
-  const times = Object.values(entry.times);
+  const times = Object.values(entry.hours);
 
   return (
     <View>
       <Text>{`key: ${entry.id}`}</Text>
       <Text>{`name: ${entry.name}`}</Text>
-      <Text>{`times: ${entry.times}`}</Text>
+      <Text>{`times: ${entry.hours}`}</Text>
       {times.map((time, index) => (
         <Text key={Math.random()}>{`time #${index}: ${time}`}</Text>
       ))}
