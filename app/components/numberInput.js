@@ -3,8 +3,9 @@ import { View, StyleSheet } from "react-native";
 import InputTitle from "./inputTitle";
 import IconButton from "./iconButton";
 import { TextInput } from "react-native-gesture-handler";
+import { CustomColors, CustomBorder } from "../global/globalStyles";
 
-const NumberInput = ({ props, text }) => {
+const NumberInput = ({ props, text, propsValue }) => {
   // // Handle remaining intakes
   // const handleRemainingIntakes = (value, num) => {
   //   const newValue = value + num;
@@ -15,6 +16,8 @@ const NumberInput = ({ props, text }) => {
   //   // handle new bad values
   //   return 0;
   // };
+
+  const directValue = parseInt(props.values[propsValue])
 
   return (
     <View style={styles.inputContainer}>
@@ -29,9 +32,9 @@ const NumberInput = ({ props, text }) => {
           style={[styles.upDownButton, styles.upDownButtonLeft]}
           onPress={() =>
             props.setFieldValue(
-              "remainingIntakes",
-              // handleRemainingIntakes(props.values.remainingIntakes, -5)
-              props.values.remainingIntakes - 5 || 0
+              propsValue,
+              // handleRemainingIntakes(props.values.[propsValue], -5)
+              directValue > 0 ? directValue - 5 : 0
             )
           }
         />
@@ -43,9 +46,9 @@ const NumberInput = ({ props, text }) => {
           style={[styles.upDownButton, styles.upDownButtonLeft]}
           onPress={() =>
             props.setFieldValue(
-              "remainingIntakes",
-              // handleRemainingIntakes(props.values.remainingIntakes, -1)
-              props.values.remainingIntakes - 1 || 0
+              propsValue,
+              // handleRemainingIntakes(props.values[propsValue], -1)
+              directValue > 0 ? directValue - 1 : 0
             )
           }
         />
@@ -53,9 +56,9 @@ const NumberInput = ({ props, text }) => {
         {/* Show Remaining intakes */}
         <TextInput
           style={[styles.input, { width: 184, textAlign: "center" }]}
-          onChangeText={props.handleChange("remainingIntakes")}
-          onBlur={props.handleBlur("remainingIntakes")}
-          value={`${props.values.remainingIntakes}`}
+          onChangeText={props.handleChange(propsValue)}
+          onBlur={props.handleBlur(propsValue)}
+          value={`${props.values[propsValue]}`}
           placeholder={"np. 10"}
           keyboardType={"numeric"}
         />
@@ -67,9 +70,9 @@ const NumberInput = ({ props, text }) => {
           style={styles.upDownButton}
           onPress={() =>
             props.setFieldValue(
-              "remainingIntakes",
-              // handleRemainingIntakes(props.values.remainingIntakes, 1)
-              props.values.remainingIntakes + 1 || 0
+              propsValue,
+              // handleRemainingIntakes(props.values[propsValue], 1)
+              directValue + 1 || 0
             )
           }
         />
@@ -81,9 +84,9 @@ const NumberInput = ({ props, text }) => {
           style={styles.upDownButton}
           onPress={() =>
             props.setFieldValue(
-              "remainingIntakes",
-              // handleRemainingIntakes(props.values.remainingIntakes, 5)
-              props.values.remainingIntakes + 5 || 0
+              propsValue,
+              // handleRemainingIntakes(props.values[propsValue], 5)
+              directValue + 5 || 0
             )
           }
         />
@@ -113,6 +116,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginTop: 4,
     alignItems: "flex-start",
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: CustomColors.customDarkGray,
+    borderRadius: CustomBorder.customRadius,
+    padding: 8,
+    marginTop: 4,
+    fontSize: 20,
+    width: "100%",
   },
 });
 

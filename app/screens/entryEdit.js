@@ -25,6 +25,7 @@ import TrashHeaderButton from "../components/trashHeaderButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DayPicker from "../components/dayPicker";
 import HourManager from "../components/hourManager";
+import NumberInput from "../components/numberInput";
 
 // TODO: Look for other TODOs in this file!
 // ! A lot of lines here share code with entryAdd.js
@@ -192,17 +193,6 @@ const EntryEdit = ({ route, navigation }) => {
   // Choose icons
   const icons = ["pill", "needle", "bottle-tonic-plus", "medical-bag"];
 
-  // Handle remaining intakes
-  const handleRemainingIntakes = (value, num) => {
-    const newValue = value + num;
-
-    // Return a new value
-    if (newValue >= 0 && !isNaN(newValue)) return parseInt(newValue);
-
-    // handle new bad values
-    return 0;
-  };
-
   // Sorts and deletes duplicates from the given object
   const handleObject = (object) => {
     const keys = Object.keys(object);
@@ -330,78 +320,11 @@ const EntryEdit = ({ route, navigation }) => {
               </View>
 
               {/* remainingIntakes */}
-              <View style={styles.inputContainer}>
-                <InputTitle text={"Remaining intakes"} />
-                <View style={styles.upDownInputButtons}>
-                  {/* Decrease by 5 */}
-                  <IconButton
-                    iconName={"chevron-double-down"}
-                    communityIcons={true}
-                    style={[styles.upDownButton, styles.upDownButtonLeft]}
-                    onPress={() =>
-                      props.setFieldValue(
-                        "remainingIntakes",
-                        handleRemainingIntakes(
-                          props.values.remainingIntakes,
-                          -5
-                        )
-                      )
-                    }
-                  />
-
-                  {/* Decrease the number by 1 */}
-                  <IconButton
-                    iconName={"chevron-down"}
-                    communityIcons={true}
-                    style={[styles.upDownButton, styles.upDownButtonLeft]}
-                    onPress={() =>
-                      props.setFieldValue(
-                        "remainingIntakes",
-                        handleRemainingIntakes(
-                          props.values.remainingIntakes,
-                          -1
-                        )
-                      )
-                    }
-                  />
-
-                  {/* Show Remaining intakes */}
-                  <TextInput
-                    style={[styles.input, { width: 184, textAlign: "center" }]}
-                    onChangeText={props.handleChange("remainingIntakes")}
-                    onBlur={props.handleBlur("remainingIntakes")}
-                    value={`${props.values.remainingIntakes}`}
-                    placeholder={"np. 10"}
-                    keyboardType={"numeric"}
-                  />
-
-                  {/* Increase the number by 1 */}
-                  <IconButton
-                    iconName={"chevron-up"}
-                    communityIcons={true}
-                    style={styles.upDownButton}
-                    onPress={() =>
-                      props.setFieldValue(
-                        "remainingIntakes",
-                        handleRemainingIntakes(props.values.remainingIntakes, 1)
-                      )
-                    }
-                  />
-
-                  {/* Increase by 5 */}
-                  <IconButton
-                    iconName={"chevron-double-up"}
-                    communityIcons={true}
-                    style={styles.upDownButton}
-                    onPress={() =>
-                      props.setFieldValue(
-                        "remainingIntakes",
-                        handleRemainingIntakes(props.values.remainingIntakes, 5)
-                      )
-                    }
-                  />
-                </View>
-              </View>
+              <NumberInput 
+                props={props}
+                text={"Remaining intakes"}
+                propsValue={"remainingIntakes"}
+              />
 
               {/* From what day? */}
               <DayPicker
