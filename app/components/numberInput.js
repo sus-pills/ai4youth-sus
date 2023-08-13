@@ -6,6 +6,7 @@ import { TextInput } from "react-native-gesture-handler";
 import { CustomColors, CustomBorder } from "../global/globalStyles";
 
 const NumberInput = ({ props, text, propsValue }) => {
+  // Direct integer value from the props object
   const directValue = parseInt(props.values[propsValue]);
 
   return (
@@ -22,7 +23,6 @@ const NumberInput = ({ props, text, propsValue }) => {
           onPress={() =>
             props.setFieldValue(
               propsValue,
-              // handleRemainingIntakes(props.values.[propsValue], -5)
               directValue > 0 ? directValue - 5 : 0
             )
           }
@@ -36,7 +36,6 @@ const NumberInput = ({ props, text, propsValue }) => {
           onPress={() =>
             props.setFieldValue(
               propsValue,
-              // handleRemainingIntakes(props.values[propsValue], -1)
               directValue > 0 ? directValue - 1 : 0
             )
           }
@@ -60,7 +59,6 @@ const NumberInput = ({ props, text, propsValue }) => {
           onPress={() =>
             props.setFieldValue(
               propsValue,
-              // handleRemainingIntakes(props.values[propsValue], 1)
               directValue + 1 || 0
             )
           }
@@ -74,7 +72,6 @@ const NumberInput = ({ props, text, propsValue }) => {
           onPress={() =>
             props.setFieldValue(
               propsValue,
-              // handleRemainingIntakes(props.values[propsValue], 5)
               directValue + 5 || 0
             )
           }
