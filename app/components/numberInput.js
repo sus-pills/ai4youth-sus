@@ -6,18 +6,7 @@ import { TextInput } from "react-native-gesture-handler";
 import { CustomColors, CustomBorder } from "../global/globalStyles";
 
 const NumberInput = ({ props, text, propsValue }) => {
-  // // Handle remaining intakes
-  // const handleRemainingIntakes = (value, num) => {
-  //   const newValue = value + num;
-
-  //   // Return a new value
-  //   if (newValue >= 0 && !isNaN(newValue)) return parseInt(newValue);
-
-  //   // handle new bad values
-  //   return 0;
-  // };
-
-  const directValue = parseInt(props.values[propsValue])
+  const directValue = parseInt(props.values[propsValue]);
 
   return (
     <View style={styles.inputContainer}>
