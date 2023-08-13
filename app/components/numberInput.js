@@ -47,7 +47,7 @@ const NumberInput = ({ props, text, propsValue }) => {
           onChangeText={props.handleChange(propsValue)}
           onBlur={props.handleBlur(propsValue)}
           value={`${props.values[propsValue]}`}
-          placeholder={"np. 10"}
+          placeholder={"e.g. 10"}
           keyboardType={"numeric"}
         />
 
