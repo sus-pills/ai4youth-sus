@@ -162,7 +162,7 @@ const EntryEdit = ({ route, navigation }) => {
     }
   };
 
-  // Listen for system exit
+  // Listens for system exit
   useEffect(() => {
     const backHandler = BackHandler.addEventListener("hardwareBackPress", () =>
       exitWithoutChanges()
@@ -170,7 +170,8 @@ const EntryEdit = ({ route, navigation }) => {
     return () => backHandler.remove();
   }, []);
 
-  // Change goBack button function
+  // Changes goBack button function to exitWithoutChanges
+  // Adds an option to delete chosen entry
   navigation.setOptions({
     headerLeft: () => (
       <HeaderBackButton
