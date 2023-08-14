@@ -1,3 +1,8 @@
+// A screen in which the user can edit chosen entries.
+// 
+// TODO: Delete unused IMPORTS and STYLES
+// 
+
 import React, { useState, useEffect } from "react";
 import {
   View,
@@ -26,9 +31,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import DayPicker from "../components/dayPicker";
 import HourManager from "../components/hourManager";
 import NumberInput from "../components/numberInput";
-
-// TODO: Look for other TODOs in this file!
-// ! A lot of lines here share code with entryAdd.js
+import ColorPicker from "../components/colorPicker";
 
 const EntryEdit = ({ route, navigation }) => {
   // Load params
@@ -180,16 +183,6 @@ const EntryEdit = ({ route, navigation }) => {
     ),
   });
 
-  // Change color
-  const colorsPalette = [
-    ["#FF9999", "#ff0000", "#800000", "#964B00"],
-    ["#FFFF99", "#ffff00", "#808000", "#ffa500"],
-    ["#99FF99", "#00ff00", "#008000", "#00ffff"],
-    ["#9999FF", "#0000ff", "#000080", "#A020F0"],
-    ["#ffffff", "#999999", "#000000", "#ff00ff"],
-  ];
-  const [selectedColor, setSelectedColor] = useState(null);
-
   // Choose icons
   const icons = ["pill", "needle", "bottle-tonic-plus", "medical-bag"];
 
@@ -225,66 +218,15 @@ const EntryEdit = ({ route, navigation }) => {
           <View style={styles.header}>
             <ScrollView>
               {/* Color Box & Modal Button */}
-              <View style={styles.buttons}>
-                {/* Color Box */}
-                <View
-                  style={[
-                    styles.colorBox,
-                    { backgroundColor: props.values.color },
-                    GlobalStyles.customShadow,
-                  ]}
-                >
-                  <MaterialCommunityIcons
-                    name={props.values.icon}
-                    size={40}
-                    color={isLightColor(props.values.color) ? "black" : "white"}
-                  />
-                </View>
-
-                {/* Modal Button */}
-                <SingleModalButton
-                  buttonStyle={styles.changeColor}
-                  iconName={"color-lens"}
-                  title={"Change color"}
-                  // Clear the color picker upon leaving
-                  onLeave={() => setSelectedColor(null)}
-                  // Change Color on Accept
-                  onAccept={() =>
-                    props.setFieldValue(
-                      "color",
-                      // Don't change if null
-                      selectedColor || props.values.color
-                    )
-                  }
-                >
-                  {/* Color Palette */}
-                  <View style={styles.colorPickerContaier}>
-                    {colorsPalette.map((row, indexY) => (
-                      // Create rows
-                      <View
-                        key={`${indexY}-0`}
-                        style={{ flexDirection: "row" }}
-                      >
-                        {row.map((color, indexX) => (
-                          // Create a single cell
-                          <TouchableOpacity
-                            activeOpacity={0.6}
-                            key={`${indexY}-${indexX}`}
-                            // Assign a new selected color upon press
-                            onPress={() => setSelectedColor(color)}
-                            style={[
-                              styles.colorSwitch,
-                              { backgroundColor: color },
-                              // Assign 'selected' style on press
-                              selectedColor === color && styles.selectedColor,
-                            ]}
-                          ></TouchableOpacity>
-                        ))}
-                      </View>
-                    ))}
-                  </View>
-                </SingleModalButton>
-              </View>
+              <ColorPicker 
+                props={props}
+                inColorBox={<MaterialCommunityIcons
+                  name={props.values.icon}
+                  size={40}
+                  color={isLightColor(props.values.color) ? "black" : "white"}
+                />}
+                text={"Change color"}
+              />
 
               {/* Icons */}
               <View style={styles.icons}>
