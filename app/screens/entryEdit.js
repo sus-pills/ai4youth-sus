@@ -1,3 +1,8 @@
+// A screen in which the user can edit chosen entries.
+// 
+// TODO: Delete unused IMPORTS and STYLES
+// 
+
 import React, { useState, useEffect } from "react";
 import {
   View,
@@ -25,9 +30,8 @@ import TrashHeaderButton from "../components/trashHeaderButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DayPicker from "../components/dayPicker";
 import HourManager from "../components/hourManager";
-
-// TODO: Look for other TODOs in this file!
-// ! A lot of lines here share code with entryAdd.js
+import NumberInput from "../components/numberInput";
+import ColorPicker from "../components/colorPicker";
 
 const EntryEdit = ({ route, navigation }) => {
   // Load params
@@ -158,7 +162,7 @@ const EntryEdit = ({ route, navigation }) => {
     }
   };
 
-  // Listen for system exit
+  // Listens for system exit
   useEffect(() => {
     const backHandler = BackHandler.addEventListener("hardwareBackPress", () =>
       exitWithoutChanges()
@@ -166,7 +170,8 @@ const EntryEdit = ({ route, navigation }) => {
     return () => backHandler.remove();
   }, []);
 
-  // Change goBack button function
+  // Changes goBack button function to exitWithoutChanges
+  // Adds an option to delete chosen entry
   navigation.setOptions({
     headerLeft: () => (
       <HeaderBackButton
@@ -179,29 +184,8 @@ const EntryEdit = ({ route, navigation }) => {
     ),
   });
 
-  // Change color
-  const colorsPalette = [
-    ["#FF9999", "#ff0000", "#800000", "#964B00"],
-    ["#FFFF99", "#ffff00", "#808000", "#ffa500"],
-    ["#99FF99", "#00ff00", "#008000", "#00ffff"],
-    ["#9999FF", "#0000ff", "#000080", "#A020F0"],
-    ["#ffffff", "#999999", "#000000", "#ff00ff"],
-  ];
-  const [selectedColor, setSelectedColor] = useState(null);
-
   // Choose icons
   const icons = ["pill", "needle", "bottle-tonic-plus", "medical-bag"];
-
-  // Handle remaining intakes
-  const handleRemainingIntakes = (value, num) => {
-    const newValue = value + num;
-
-    // Return a new value
-    if (newValue >= 0 && !isNaN(newValue)) return parseInt(newValue);
-
-    // handle new bad values
-    return 0;
-  };
 
   // Sorts and deletes duplicates from the given object
   const handleObject = (object) => {
@@ -235,66 +219,15 @@ const EntryEdit = ({ route, navigation }) => {
           <View style={styles.header}>
             <ScrollView>
               {/* Color Box & Modal Button */}
-              <View style={styles.buttons}>
-                {/* Color Box */}
-                <View
-                  style={[
-                    styles.colorBox,
-                    { backgroundColor: props.values.color },
-                    GlobalStyles.customShadow,
-                  ]}
-                >
-                  <MaterialCommunityIcons
-                    name={props.values.icon}
-                    size={40}
-                    color={isLightColor(props.values.color) ? "black" : "white"}
-                  />
-                </View>
-
-                {/* Modal Button */}
-                <SingleModalButton
-                  buttonStyle={styles.changeColor}
-                  iconName={"color-lens"}
-                  title={"Change color"}
-                  // Clear the color picker upon leaving
-                  onLeave={() => setSelectedColor(null)}
-                  // Change Color on Accept
-                  onAccept={() =>
-                    props.setFieldValue(
-                      "color",
-                      // Don't change if null
-                      selectedColor || props.values.color
-                    )
-                  }
-                >
-                  {/* Color Palette */}
-                  <View style={styles.colorPickerContaier}>
-                    {colorsPalette.map((row, indexY) => (
-                      // Create rows
-                      <View
-                        key={`${indexY}-0`}
-                        style={{ flexDirection: "row" }}
-                      >
-                        {row.map((color, indexX) => (
-                          // Create a single cell
-                          <TouchableOpacity
-                            activeOpacity={0.6}
-                            key={`${indexY}-${indexX}`}
-                            // Assign a new selected color upon press
-                            onPress={() => setSelectedColor(color)}
-                            style={[
-                              styles.colorSwitch,
-                              { backgroundColor: color },
-                              // Assign 'selected' style on press
-                              selectedColor === color && styles.selectedColor,
-                            ]}
-                          ></TouchableOpacity>
-                        ))}
-                      </View>
-                    ))}
-                  </View>
-                </SingleModalButton>
-              </View>
+              <ColorPicker 
+                props={props}
+                inColorBox={<MaterialCommunityIcons
+                  name={props.values.icon}
+                  size={40}
+                  color={isLightColor(props.values.color) ? "black" : "white"}
+                />}
+                text={"Change color"}
+              />
 
               {/* Icons */}
               <View style={styles.icons}>
@@ -330,78 +263,11 @@ const EntryEdit = ({ route, navigation }) => {
               </View>
 
               {/* remainingIntakes */}
-              <View style={styles.inputContainer}>
-                <InputTitle text={"Remaining intakes"} />
-                <View style={styles.upDownInputButtons}>
-                  {/* Decrease by 5 */}
-                  <IconButton
-                    iconName={"chevron-double-down"}
-                    communityIcons={true}
-                    style={[styles.upDownButton, styles.upDownButtonLeft]}
-                    onPress={() =>
-                      props.setFieldValue(
-                        "remainingIntakes",
-                        handleRemainingIntakes(
-                          props.values.remainingIntakes,
-                          -5
-                        )
-                      )
-                    }
-                  />
-
-                  {/* Decrease the number by 1 */}
-                  <IconButton
-                    iconName={"chevron-down"}
-                    communityIcons={true}
-                    style={[styles.upDownButton, styles.upDownButtonLeft]}
-                    onPress={() =>
-                      props.setFieldValue(
-                        "remainingIntakes",
-                        handleRemainingIntakes(
-                          props.values.remainingIntakes,
-                          -1
-                        )
-                      )
-                    }
-                  />
-
-                  {/* Show Remaining intakes */}
-                  <TextInput
-                    style={[styles.input, { width: 184, textAlign: "center" }]}
-                    onChangeText={props.handleChange("remainingIntakes")}
-                    onBlur={props.handleBlur("remainingIntakes")}
-                    value={`${props.values.remainingIntakes}`}
-                    placeholder={"np. 10"}
-                    keyboardType={"numeric"}
-                  />
-
-                  {/* Increase the number by 1 */}
-                  <IconButton
-                    iconName={"chevron-up"}
-                    communityIcons={true}
-                    style={styles.upDownButton}
-                    onPress={() =>
-                      props.setFieldValue(
-                        "remainingIntakes",
-                        handleRemainingIntakes(props.values.remainingIntakes, 1)
-                      )
-                    }
-                  />
-
-                  {/* Increase by 5 */}
-                  <IconButton
-                    iconName={"chevron-double-up"}
-                    communityIcons={true}
-                    style={styles.upDownButton}
-                    onPress={() =>
-                      props.setFieldValue(
-                        "remainingIntakes",
-                        handleRemainingIntakes(props.values.remainingIntakes, 5)
-                      )
-                    }
-                  />
-                </View>
-              </View>
+              <NumberInput 
+                props={props}
+                text={"Remaining intakes"}
+                propsValue={"remainingIntakes"}
+              />
 
               {/* From what day? */}
               <DayPicker
