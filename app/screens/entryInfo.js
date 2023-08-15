@@ -6,8 +6,31 @@ import { View, Text, StyleSheet } from "react-native";
 import IconButton from "../components/iconButton";
 import {CustomColors, ColorsDark} from "../global/globalStyles";
 import { Animated, Easing, ImageBackground } from 'react-native';
-import backgroundImage1 from '../img/atlo.png';
-import backgroundImage2 from '../img/atlo2.png';
+import backgroundImage1 from '../img/tloNormal.png';
+import backgroundImage2 from '../img/tlo2Normal.png';
+
+const backgroundImageMappings = {
+  tloNormal: require('../img/tloNormal.png'),
+  tlo2Normal: require('../img/tlo2Normal.png'),
+  tloBCM: require('../img/tloBCM.png'),
+  tlo2BCM: require('../img/tlo2BCM.png'),
+  tlo2Deuteranomaly: require('../img/tlo2Deuteranomaly.png'),
+  tlo2Deuteranopia: require('../img/tlo2Deuteranopia.png'),
+  tlo2Monochromacy: require('../img/tlo2Monochromacy.png'),
+  tlo2Protanomaly: require('../img/tlo2Protanomaly.png'),
+  tlo2Protanopia: require('../img/tlo2Protanopia.png'),
+  tlo2Tritanomaly: require('../img/tlo2Tritanomaly.png'),
+  tlo2Tritanopia: require('../img/tlo2Tritanopia.png'),
+  tloDeuteranomaly: require('../img/tloDeuteranomaly.png'),
+  tloDeuteranopia: require('../img/tloDeuteranopia.png'),
+  tloMonochromacy: require('../img/tloMonochromacy.png'),
+  tloProtanomaly: require('../img/tloProtanomaly.png'),
+  tloProtanopia: require('../img/tloProtanopia.png'),
+  tloTritanomaly: require('../img/tloTritanomaly.png'),
+  tloTritanopia: require('../img/tloTritanopia.png'),
+  tloHC: require('../img/tloHC.png'),
+  // ... add more mappings for other images
+};
 
 const EntryInfo = ({ route, navigation }) => {
   const entry = route.params.entry;
@@ -44,6 +67,7 @@ const EntryInfo = ({ route, navigation }) => {
   const AnimetedImage = Animated.createAnimatedComponent(ImageBackground);
 
   const [options, setOptions] = useState(null);
+  const [optionsS, setOptionsS] = useState(null);
   const [fontSize, setFontSize] = useState('medium');
   const [darkModeEnabled, setDarkModeEnabled] = useState(false);
   const [contrastModeEnabled, setContrastModeEnabled] = useState(false);
@@ -53,6 +77,9 @@ const EntryInfo = ({ route, navigation }) => {
       const options = await AsyncStorage.getItem("@options");
       console.log("Fetched options:", options);
       setOptions(JSON.parse(options));
+      const optionsS = await AsyncStorage.getItem("@style");
+      console.log("Fetched options:", optionsS);
+      setOptionsS(JSON.parse(optionsS));
     } catch (error) {
       console.log("Error fetching options:", error);
     }
@@ -78,7 +105,8 @@ const EntryInfo = ({ route, navigation }) => {
   const firstParameter = options?.font_size;
   const integerFP = parseInt(firstParameter)
   console.log(firstParameter)
-  const fontSizeStyle = isNaN(integerFP) ? { fontSize: 16 } : { fontSize: integerFP };
+  const fontSizeStyle = isNaN(integerFP) ? { fontSize: 16 } : { fontSize: integerFP+4 };
+  const fontSizeStyle2 = isNaN(integerFP) ? { fontSize: 16 } : { fontSize: integerFP+8 };
   console.log(fontSizeStyle)
   const secondParameter = options?.dark_mode;
   const thirdParameter = options?.contrast_mode
@@ -88,43 +116,27 @@ const EntryInfo = ({ route, navigation }) => {
   const contrastBool = parseInt(thirdParameter)
   const colorblindString = fourthParameter
 
-  var colorBackground;
-  var colorText;
-  var colorMain;
-  var colorSecondary;
-  var colorG = "#0AAE1A";
-  var colorR = "#E75A0D"
-  var backgroundImage
-  if (darkModeBool === true)
-  {
-    console.log("Ciemny motyw");
-    colorBackground = ColorsDark.customBackground;
-    colorText = ColorsDark.customText;
-    colorMain = ColorsDark.customMain;
-    colorSecondary = ColorsDark.customSecondary;
-    backgroundImage = backgroundImage2
-  }
-  else
-  {
-    console.log("Biały motyw");
-    colorBackground = CustomColors.customBackground;
-    colorText = CustomColors.customText;
-    colorMain = CustomColors.customMain;
-    colorSecondary = CustomColors.customSecondary;
-    backgroundImage = backgroundImage1
-  }
-  //console.log('DarkModeBool = '+darkModeBool)
-  var colorButton = 'white'
+  const currentBackgroundColor = optionsS?.customBackground;
+  const currentMainColor = optionsS?.customMain;
+  const currentSecondaryColor = optionsS?.customSecondary;
+  const currentAffirmationColor = optionsS?.customAffirmation;
+  const currentNegationColor = optionsS?.customNegation;
+  const currentDarkGrayColor = optionsS?.customDarkGray;
+  const currentLightGrayColor = optionsS?.customLightGray;
+  const currentTextColor = optionsS?.customText;
+  const currentBorderColor = optionsS?.customBorder;
+  const currentBGButtonColor = optionsS?.customBGButton;
+  const currentBackgroundImageKey = optionsS?.backgroundImageKey;
 
   const InfoRow = ({ label, value, colorText }) => (
     <View style={styles.infoRow}>
-      <Text style={[styles.infoLabel, {color: colorText}]}>{label}:</Text>
-      <Text style={[styles.infoValue,{color: colorText}]}>{value}</Text>
+      <Text style={[styles.infoLabel, {color: colorText}, fontSizeStyle]}>{label}:</Text>
+      <Text style={[styles.infoValue,{color: colorText},fontSizeStyle]}>{value}</Text>
     </View>
   );
 
   return (
-    <View style={[styles.container,{backgroundColor: colorBackground}]}>
+    <View style={[styles.container,{backgroundColor: currentBackgroundColor}]}>
        <AnimetedImage 
             resizeMode="repeat" 
             style={[styles.background,{
@@ -137,16 +149,16 @@ const EntryInfo = ({ route, navigation }) => {
                     },
                   ],
             }]}
-            source={backgroundImage} />
-      <Text style={[styles.entryTitle,{color: colorText}]}>{entry.name}</Text>
+            source={backgroundImageMappings[currentBackgroundImageKey]} />
+      <Text style={[styles.entryTitle,{color: currentTextColor},fontSizeStyle2]}>{entry.name}</Text>
       <View style={[styles.infoContainer]}>
-        <InfoRow label="Key" value={entry.id} colorText={colorText}/>
+        <InfoRow label="Key" value={entry.id} colorText={currentTextColor}/>
         {times.map((time, index) => (
-          <InfoRow key={index} label={`Time #${index + 1}`} value={time} colorText={colorText}/>
+          <InfoRow key={index} label={`Time #${index + 1}`} value={time} colorText={currentTextColor}/>
         ))}
-        <InfoRow label="Next Intake" value={entry.nextIntake} colorText={colorText} />
-        <InfoRow label="Every Xth Day" value={entry.everyXthDay} colorText={colorText} />
-        <InfoRow label="Color" value={entry.color} colorText={colorText}/>
+        <InfoRow label="Next Intake" value={entry.nextIntake} colorText={currentTextColor} />
+        <InfoRow label="Every Xth Day" value={entry.everyXthDay} colorText={currentTextColor} />
+        <InfoRow label="Color" value={entry.color} colorText={currentTextColor}/>
       </View>
       <IconButton
         onPress={() => {
@@ -155,6 +167,9 @@ const EntryInfo = ({ route, navigation }) => {
         iconName="square-edit-outline"
         communityIcons={true}
         title="Edit"
+        style={{backgroundColor: currentBGButtonColor, borderColor: currentBorderColor,
+          borderWidth: 1,             
+          overflow: 'hidden',}}
       />
     </View>
   );

@@ -20,28 +20,10 @@ import { initializeAsyncStorage } from "../global/globalFunctions";
 
 const Tab = createBottomTabNavigator();
 
-export const HomeTab = ({darkModeEnabled}) => {
+export const HomeTab = () => {
   const isFocused = useIsFocused();
   const activeColor = "#5317FF";
   const inactiveColor = "#2DDD5D";
-
-  const [isDarkMode, setIsDarkMode] = useState(darkModeEnabled);
-  
-  useEffect(() => {
-    const fetchDarkModeSetting = async () => {
-      try {
-        const darkModeSetting = await AsyncStorage.getItem("@darkModeEnabled");
-        setIsDarkMode(JSON.parse(darkModeSetting));
-      } catch (error) {
-        console.log("Error fetching dark mode setting:", error);
-      }
-    };
-    
-    fetchDarkModeSetting();
-  }, [isFocused]);
-
-  const color = isDarkMode ? activeColor : inactiveColor;
-  console.log(isDarkMode + " = SETINGFEA DARK MDOE HOMTETAB")
   return (
     <Tab.Navigator
       screenOptions={{

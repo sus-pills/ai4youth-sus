@@ -7,23 +7,43 @@ import Entry from "../components/entry";
 
 // Styles Imports
 import { StyleSheet } from "react-native";
-import { CustomColors, CustomSpacing, ColorsDark } from "../global/globalStyles";
 
 import { useFocusEffect, useIsFocused } from '@react-navigation/native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { initializeAsyncStorage } from "../global/globalFunctions";
 import { Animated, Easing, ImageBackground } from 'react-native';
-import backgroundImage1 from '../img/atlo.png';
-import backgroundImage2 from '../img/atlo2.png';
+
+const backgroundImageMappings = {
+  tloNormal: require('../img/tloNormal.png'),
+  tlo2Normal: require('../img/tlo2Normal.png'),
+  tloBCM: require('../img/tloBCM.png'),
+  tlo2BCM: require('../img/tlo2BCM.png'),
+  tlo2Deuteranomaly: require('../img/tlo2Deuteranomaly.png'),
+  tlo2Deuteranopia: require('../img/tlo2Deuteranopia.png'),
+  tlo2Monochromacy: require('../img/tlo2Monochromacy.png'),
+  tlo2Protanomaly: require('../img/tlo2Protanomaly.png'),
+  tlo2Protanopia: require('../img/tlo2Protanopia.png'),
+  tlo2Tritanomaly: require('../img/tlo2Tritanomaly.png'),
+  tlo2Tritanopia: require('../img/tlo2Tritanopia.png'),
+  tloDeuteranomaly: require('../img/tloDeuteranomaly.png'),
+  tloDeuteranopia: require('../img/tloDeuteranopia.png'),
+  tloMonochromacy: require('../img/tloMonochromacy.png'),
+  tloProtanomaly: require('../img/tloProtanomaly.png'),
+  tloProtanopia: require('../img/tloProtanopia.png'),
+  tloTritanomaly: require('../img/tloTritanomaly.png'),
+  tloTritanopia: require('../img/tloTritanopia.png'),
+  tloHC: require('../img/tloHC.png'),
+  // ... add more mappings for other images
+};
 
 
 const Entries = ({ navigation: { navigate } }) => {
   const INPUT_RANGE_START = 0;
   const INPUT_RANGE_END = 1;
-  const OUTPUT_RANGE_START = -281;
+  const OUTPUT_RANGE_START = 1;
   const OUTPUT_RANGE_END = 0;
   const ANIMATION_TO_VALUE = 1;
-  const ANIMATION_DURATION = 25000;
+  const ANIMATION_DURATION = 1;
   const initialValue = 0;
   const translateValue = useRef(new Animated.Value(initialValue)).current;
 
@@ -217,6 +237,7 @@ const Entries = ({ navigation: { navigate } }) => {
   const [title, setTitle] = useState("Add Entry");
 
   const [options, setOptions] = useState({});
+  const [optionsS, setOptionsS] = useState({});
   const [fontSize, setFontSize] = useState('medium');
   const [darkModeEnabled, setDarkModeEnabled] = useState(false);
   const [contrastModeEnabled, setContrastModeEnabled] = useState(false);
@@ -226,6 +247,9 @@ const Entries = ({ navigation: { navigate } }) => {
       const options = await AsyncStorage.getItem("@options");
       console.log("Fetched options:", options);
       setOptions(JSON.parse(options));
+      const optionsS = await AsyncStorage.getItem("@style");
+      console.log("Fetched options:", optionsS);
+      setOptionsS(JSON.parse(optionsS));
     } catch (error) {
       console.log("Error fetching options:", error);
     }
@@ -248,7 +272,22 @@ const Entries = ({ navigation: { navigate } }) => {
       console.log("High Contrast Mode:", thirdParameter);
       console.log("Colorblind mode:", fourthParameter);
     }
-  }, [options]);
+  }, [options, optionsS]);
+
+  const currentBackgroundColor = optionsS?.customBackground;
+  const currentMainColor = optionsS?.customMain;
+  const currentSecondaryColor = optionsS?.customSecondary;
+  const currentAffirmationColor = optionsS?.customAffirmation;
+  const currentNegationColor = optionsS?.customNegation;
+  const currentDarkGrayColor = optionsS?.customDarkGray;
+  const currentLightGrayColor = optionsS?.customLightGray;
+  const currentTextColor = optionsS?.customText;
+  const currentBorderColor = optionsS?.customBorder;
+  const currentBGButtonColor = optionsS?.customBGButton;
+  const currentBackgroundImageKey = optionsS?.backgroundImageKey;
+
+  console.log("CURRENTBGBUTTON: "+currentBGButtonColor)
+
 
   const firstParameter = options?.font_size;
   const integerFP = parseInt(firstParameter)
@@ -260,39 +299,11 @@ const Entries = ({ navigation: { navigate } }) => {
   const fourthParameter = options?.colorblind_mode;
   const fontSizeInteger = parseInt(firstParameter)
   const darkModeBool = secondParameter
-  const contrastBool = parseInt(thirdParameter)
+  const contrastBool = thirdParameter
   const colorblindString = fourthParameter
 
-
-  var colorBackground;
-  var colorText;
-  var colorMain;
-  var colorSecondary;
-  var colorG = "#0AAE1A";
-  var colorR = "#E75A0D"
-  var backgroundImage
-  if (darkModeBool === true)
-  {
-    console.log("Ciemny motyw");
-    colorBackground = ColorsDark.customBackground;
-    colorText = ColorsDark.customText;
-    colorMain = ColorsDark.customMain;
-    colorSecondary = ColorsDark.customSecondary;
-    backgroundImage = backgroundImage2
-  }
-  else
-  {
-    console.log("Biały motyw");
-    colorBackground = CustomColors.customBackground;
-    colorText = CustomColors.customText;
-    colorMain = CustomColors.customMain;
-    colorSecondary = CustomColors.customSecondary;
-    backgroundImage = backgroundImage1
-  }
-  //console.log('DarkModeBool = '+darkModeBool)
-  //console.log('DarkModeBool = '+darkModeBool)
   return (
-    <View style={[styles.container,{backgroundColor: colorBackground}]}>
+    <View style={[styles.container,{backgroundColor: currentBackgroundColor}]}>
 <AnimetedImage 
             resizeMode="repeat" 
             style={[styles.background,{
@@ -305,15 +316,18 @@ const Entries = ({ navigation: { navigate } }) => {
                     },
                   ],
             }]}
-            source={backgroundImage} />
+            source={backgroundImageMappings[currentBackgroundImageKey]} />
       {/* Button */}
-      <IconButton title={title} style={{backgroundColor: colorMain}} iconName="add" />
+      <IconButton title={title} style={{backgroundColor: currentBGButtonColor, borderColor: currentBorderColor,
+          borderWidth: 1,             
+          overflow: 'hidden',}} iconName="add" />
 
       {/* Entries */}
       <ScrollView style={[styles.scrollView]}>
         {entries.map((entry) => (
           <Entry
             options={options}
+            optionsS={optionsS}
             onPress={() => {
               navigate("EntryInfo", { entry });
             }}
@@ -329,7 +343,7 @@ const Entries = ({ navigation: { navigate } }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: CustomColors.customBackground,
+    backgroundColor: "white"
   },
   scrollView: {
     flex: 1,

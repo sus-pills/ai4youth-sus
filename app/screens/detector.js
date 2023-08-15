@@ -4,7 +4,7 @@ import IconButton from "../components/iconButton";
 
 // Styles Import
 import { StyleSheet } from "react-native";
-import { CustomColors, CustomSpacing, ColorsDark } from "../global/globalStyles";
+import {CustomColors, ColorsDark, CustomColorsBCM, ColorsDarkBCM, CustomColorsDeuteranomaly, ColorsDarkDeuteranomaly, CustomColorsDeuteranopia, ColorsDarkDeuteranopia, CustomColorsMonochromacy, ColorsDarkMonochromacy, CustomColorsProtanomaly, ColorsDarkProtanomaly, CustomColorsProtanopia, ColorsDarkProtanopia, CustomColorsTritanomaly, ColorsDarkTritanomaly, CustomColorsTritanopia, ColorsDarkTritanopia} from "../global/globalStyles";
 
 //
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -13,10 +13,33 @@ import { initializeAsyncStorage } from "../global/globalFunctions";
 import ImagePicker from "react-native-image-picker";
 import { color } from "react-native-reanimated";
 import { Animated, Easing, ImageBackground } from 'react-native';
-import backgroundImage1 from '../img/atlo.png';
-import backgroundImage2 from '../img/atlo2.png';
+
+const backgroundImageMappings = {
+  tloNormal: require('../img/tloNormal.png'),
+  tlo2Normal: require('../img/tlo2Normal.png'),
+  tloBCM: require('../img/tloBCM.png'),
+  tlo2BCM: require('../img/tlo2BCM.png'),
+  tlo2Deuteranomaly: require('../img/tlo2Deuteranomaly.png'),
+  tlo2Deuteranopia: require('../img/tlo2Deuteranopia.png'),
+  tlo2Monochromacy: require('../img/tlo2Monochromacy.png'),
+  tlo2Protanomaly: require('../img/tlo2Protanomaly.png'),
+  tlo2Protanopia: require('../img/tlo2Protanopia.png'),
+  tlo2Tritanomaly: require('../img/tlo2Tritanomaly.png'),
+  tlo2Tritanopia: require('../img/tlo2Tritanopia.png'),
+  tloDeuteranomaly: require('../img/tloDeuteranomaly.png'),
+  tloDeuteranopia: require('../img/tloDeuteranopia.png'),
+  tloMonochromacy: require('../img/tloMonochromacy.png'),
+  tloProtanomaly: require('../img/tloProtanomaly.png'),
+  tloProtanopia: require('../img/tloProtanopia.png'),
+  tloTritanomaly: require('../img/tloTritanomaly.png'),
+  tloTritanopia: require('../img/tloTritanopia.png'),
+  tloHC: require('../img/tloHC.png'),
+  // ... add more mappings for other images
+};
+
 
 const Detector = () => {
+  console.log("-----------------")
   const [title, setTitle] = useState("Take a Photo");
   const INPUT_RANGE_START = 0;
   const INPUT_RANGE_END = 1;
@@ -49,6 +72,7 @@ const Detector = () => {
   const AnimetedImage = Animated.createAnimatedComponent(ImageBackground);
 
   const [options, setOptions] = useState(null);
+  const [optionsS, setOptionsS] = useState(null);
   const [fontSize, setFontSize] = useState('medium');
   const [darkModeEnabled, setDarkModeEnabled] = useState(false);
   const [contrastModeEnabled, setContrastModeEnabled] = useState(false);
@@ -58,6 +82,9 @@ const Detector = () => {
       const options = await AsyncStorage.getItem("@options");
       console.log("Fetched options:", options);
       setOptions(JSON.parse(options));
+      const optionsS = await AsyncStorage.getItem("@style");
+      console.log("Fetched options:", optionsS);
+      setOptionsS(JSON.parse(optionsS));
     } catch (error) {
       console.log("Error fetching options:", error);
     }
@@ -90,36 +117,22 @@ const Detector = () => {
   const fourthParameter = options?.colorblind_mode;
   const fontSizeInteger = parseInt(firstParameter)
   const darkModeBool = secondParameter
-  const contrastBool = parseInt(thirdParameter)
+  const contrastBool = thirdParameter
   const colorblindString = fourthParameter
 
 
-  var colorBackground;
-  var colorText;
-  var colorMain;
-  var colorSecondary;
-  var colorG = "#0AAE1A";
-  var colorR = "#E75A0D"
-  var backgroundImage
-  if (darkModeBool === true)
-  {
-    console.log("Ciemny motyw");
-    colorBackground = ColorsDark.customBackground;
-    colorText = ColorsDark.customText;
-    colorMain = ColorsDark.customMain;
-    colorSecondary = ColorsDark.customSecondary;
-    backgroundImage = backgroundImage2
-  }
-  else
-  {
-    console.log("Biały motyw");
-    colorBackground = CustomColors.customBackground;
-    colorText = CustomColors.customText;
-    colorMain = CustomColors.customMain;
-    colorSecondary = CustomColors.customSecondary;
-    backgroundImage = backgroundImage1
-  }
-  //console.log('DarkModeBool = '+darkModeBool)
+
+  const currentBackgroundColor = optionsS?.customBackground;
+  const currentMainColor = optionsS?.customMain;
+  const currentSecondaryColor = optionsS?.customSecondary;
+  const currentAffirmationColor = optionsS?.customAffirmation;
+  const currentNegationColor = optionsS?.customNegation;
+  const currentDarkGrayColor = optionsS?.customDarkGray;
+  const currentLightGrayColor = optionsS?.customLightGray;
+  const currentTextColor = optionsS?.customText;
+  const currentBorderColor = optionsS?.customBorder;
+  const currentBGButtonColor = optionsS?.customBGButton;
+  const currentBackgroundImageKey = optionsS?.backgroundImageKey;
 
   const handleCameraPress = () => {
     // Set options for the ImagePicker
@@ -144,7 +157,7 @@ const Detector = () => {
   };
 
   return (
-      <View style={[styles.container,{backgroundColor: colorBackground}]}>
+      <View style={[styles.container,{backgroundColor: currentBackgroundColor}]}>
         <AnimetedImage 
             resizeMode="repeat" 
             style={[styles.background,{
@@ -157,9 +170,16 @@ const Detector = () => {
                     },
                   ],
             }]}
-            source={backgroundImage} />
+            source={backgroundImageMappings[currentBackgroundImageKey]} />
         <View style={styles.centeredContent}>
-        <IconButton title={title} iconName="photo-camera" style={[{width: 255,backgroundColor: colorMain}]}onPress={handleCameraPress} />
+        <IconButton title={title} iconName="photo-camera" 
+        style={[{
+          width: 255,
+          backgroundColor: currentBGButtonColor,
+          borderColor: currentBorderColor,
+          borderWidth: 1,             
+          overflow: 'hidden',
+          },]}onPress={handleCameraPress} />
         {/* ... Your other components ... */}
         </View>
       </View>

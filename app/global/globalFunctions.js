@@ -17,11 +17,27 @@ export const initializeAsyncStorage = async () => {
     colorblind_mode: 'normal',
   };
 
+  const DEFAULT_STYLE = {
+    customBackground: "#FFFFFF",
+    customMain: "#47B8E0",
+    customSecondary: "#134074",
+    customAffirmation: "#0BC11D",
+    customNegation: "#F26419",
+    customDarkGray: "#666666",
+    customLightGray: "#dddddd",
+    customText: "#000000",
+    customBorder: "#47B8E",
+    customBGButton: "#47B8E",
+    backgroundImageKey: "tloNormal",
+  };
+
   try {
     // Options
     await AsyncStorage.getItem("@options") ||
       AsyncStorage.setItem("@options", JSON.stringify(DEFAULT_OPTIONS));
 
+    await AsyncStorage.getItem("@style") ||
+      AsyncStorage.setItem("@style", JSON.stringify(DEFAULT_STYLE));
     // Medication Entries
     await AsyncStorage.getItem("@entries") ||
       AsyncStorage.setItem("@entries", JSON.stringify([]));

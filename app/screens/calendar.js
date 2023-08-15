@@ -9,9 +9,30 @@ import { CalendarList, LocaleConfig } from "react-native-calendars";
 import { StyleSheet } from "react-native";
 import { CustomColors,ColorsDark } from "../global/globalStyles";
 import { Animated, Easing, ImageBackground } from 'react-native';
-import backgroundImage1 from '../img/atlo.png';
-import backgroundImage2 from '../img/atlo2.png';
 
+
+const backgroundImageMappings = {
+  tloNormal: require('../img/tloNormal.png'),
+  tlo2Normal: require('../img/tlo2Normal.png'),
+  tloBCM: require('../img/tloBCM.png'),
+  tlo2BCM: require('../img/tlo2BCM.png'),
+  tlo2Deuteranomaly: require('../img/tlo2Deuteranomaly.png'),
+  tlo2Deuteranopia: require('../img/tlo2Deuteranopia.png'),
+  tlo2Monochromacy: require('../img/tlo2Monochromacy.png'),
+  tlo2Protanomaly: require('../img/tlo2Protanomaly.png'),
+  tlo2Protanopia: require('../img/tlo2Protanopia.png'),
+  tlo2Tritanomaly: require('../img/tlo2Tritanomaly.png'),
+  tlo2Tritanopia: require('../img/tlo2Tritanopia.png'),
+  tloDeuteranomaly: require('../img/tloDeuteranomaly.png'),
+  tloDeuteranopia: require('../img/tloDeuteranopia.png'),
+  tloMonochromacy: require('../img/tloMonochromacy.png'),
+  tloProtanomaly: require('../img/tloProtanomaly.png'),
+  tloProtanopia: require('../img/tloProtanopia.png'),
+  tloTritanomaly: require('../img/tloTritanomaly.png'),
+  tloTritanopia: require('../img/tloTritanopia.png'),
+  tloHC: require('../img/tloHC.png'),
+  // ... add more mappings for other images
+};
 
 
 import gif from "../img/calendar.gif"
@@ -52,6 +73,7 @@ const PillCalendar = () => {
   const [colorText, setColorText] = useState('#FFFFFF');
   const [calendarKey, setCalendarKey] = useState(new Date().toString()); // Add a key to force re-rendering
   const [options, setOptions] = useState(null);
+  const [optionsS, setOptionsS] = useState(null);
   const [fontSize, setFontSize] = useState('medium');
   const [darkModeEnabled, setDarkModeEnabled] = useState(false);
   const [contrastModeEnabled, setContrastModeEnabled] = useState(false);
@@ -72,6 +94,9 @@ const PillCalendar = () => {
       const options = await AsyncStorage.getItem("@options");
       console.log("Fetched options:", options);
       setOptions(JSON.parse(options));
+      const optionsS = await AsyncStorage.getItem("@style");
+      console.log("Fetched options:", optionsS);
+      setOptionsS(JSON.parse(optionsS));
     } catch (error) {
       console.log("Error fetching options:", error);
     }
@@ -88,6 +113,9 @@ const PillCalendar = () => {
       const options = await AsyncStorage.getItem("@options");
       console.log("Fetched options:", options);
       setOptions(JSON.parse(options));
+      const optionsS = await AsyncStorage.getItem("@style");
+      console.log("Fetched options:", optionsS);
+      setOptionsS(JSON.parse(optionsS));
     } catch (error) {
       console.log("Error fetching options:", error);
     }
@@ -123,28 +151,19 @@ const PillCalendar = () => {
   const darkModeBool = secondParameter
   const contrastBool = parseInt(thirdParameter)
   const colorblindString = fourthParameter;
-  var backgroundImage;
-  useEffect(() => {
-    if (darkModeBool === true) {
-      setColorBackground(ColorsDark.customBackground); // Set the dark mode background color
-      setColorText(ColorsDark.customText);
-    } else {
-      setColorBackground(CustomColors.customBackground); // Set the light mode background color
-      setColorText(CustomColors.customText);
-    }
-    setCalendarKey(new Date().toString());
-  }, [darkModeBool]);
-  if (darkModeBool==true)
-  {
-    console.log(backgroundImage+" BAKCROUND IMAGE")
-    backgroundImage = backgroundImage1
-    console.log(backgroundImage+" BAKCROUND IMAGE")
-  }
-  else
-  {
-    backgroundImage = backgroundImage1
-    console.log(backgroundImage+" BAKCROUND IMAGE")
-  }
+
+  const currentBackgroundColor = optionsS?.customBackground;
+  const currentMainColor = optionsS?.customMain;
+  const currentSecondaryColor = optionsS?.customSecondary;
+  const currentAffirmationColor = optionsS?.customAffirmation;
+  const currentNegationColor = optionsS?.customNegation;
+  const currentDarkGrayColor = optionsS?.customDarkGray;
+  const currentLightGrayColor = optionsS?.customLightGray;
+  const currentTextColor = optionsS?.customText;
+  const currentBorderColor = optionsS?.customBorder;
+  const currentBGButtonColor = optionsS?.customBGButton;
+  const currentBackgroundImageKey = optionsS?.backgroundImageKey;
+
   // useEffect(() => {
   //   if (options) {
   //     const darkModeBool = options?.dark_mode;
@@ -218,37 +237,100 @@ const PillCalendar = () => {
   //   colorSecondary = "#134074";
   // }
   const calendarTheme = {
+    "stylesheet.calendar.main": {
+      container: {
+        paddingLeft: 0, // Set the left padding to 0 to start the days from the leftmost position
+      },
+      week: {
+        marginTop: 5,
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+        //backgroundColor: "your_desired_color",
+      },
+      dayContainer: {
+        flex: 1,
+        alignItems: "center",
+      },
+      dayText: {
+        fontSize: 18,
+        fontWeight: "500",
+        color: currentTextColor,
+        textAlign: "center",
+      },
+    },
     "stylesheet.day.basic": {
       base: {
         height: 42,
         width: 42,
         alignItems: 'center',
         justifyContent: 'center',
+        borderColor: currentTextColor, // Set the border color for the day component
+        borderWidth: 1,  
+        borderRadius: 12,
+        backgroundColor: currentMainColor,
       },
       text: {
         fontSize: 18, // Set the desired font size for day texts
-        color: colorText,
+        color: currentTextColor,
+        fontWeight: 'bold',
+      },
+      today: {
+        backgroundColor: currentBackgroundColor, // Set the background color for the current day
+        fontWeight: 'bold',
       },
     },
     "stylesheet.calendar.header": {
       header: {
-        backgroundColor: "BLACK", // Apply the background color to the custom header
+        //backgroundColor: "BLACK", // Apply the background color to the custom header
         flexDirection: "row",
-        justifyContent: "space-between",
+        justifyContent: "center",
         alignItems: "center",
-        paddingLeft: 10,
-        paddingRight: 10,
+        //paddingLeft: 10,
+        //paddingRight: 10,
+        color: currentTextColor,
+        backgroundColor: currentBackgroundColor,
+        fontWeight: "bold",
+        paddingHorizontal: 10, // Adjust the padding as needed
+        paddingBottom: 10, // Add padding to the bottom
+        borderColor: currentTextColor, // Set the border color for the day component
+        borderWidth: 1,  
+      },
+      dayHeader: {
+        color: currentTextColor,
+        fontWeight: "bold",
+        textAlign: "center",
+        //margin: 5,
+        fontSize: 18,
+        width: 43,
+        alignItems: "center",
+        //padding: 2,
+        borderColor: currentTextColor, // Set the border color for the day component
+        borderWidth: 1,  
+      },
+      week: {
+      backgroundColor: currentSecondaryColor,
+      //marginTop: 5, // Add margin to separate the weekdays row from the month days
+      flexDirection: "row",
+      justifyContent: "space-between", // Adjust as needed
+      alignItems: "center",
+      //paddingHorizontal: 10, // Add horizontal padding
+      //paddingVertical: 5, // Add vertical padding
+      width: '100%',
       },
     },
+    
 
-    calendarBackground: colorBackground,
-    dayTextColor: colorText,
-    monthTextColor: colorText,
+    calendarBackground: 'rgba(235, 52, 0, 0)',
+    dayTextColor: currentTextColor,
+    monthTextColor: currentTextColor,
   };
 
   if (isLoading) {
     return (
-      <View style={[Styles.container, { backgroundColor: colorBackground }]}>
+      <View style={[Styles.container, { backgroundColor: currentBackgroundColor }]}>
         <AnimetedImage 
             resizeMode="repeat" 
             style={[Styles.background,{
@@ -261,7 +343,7 @@ const PillCalendar = () => {
                     },
                   ],
             }]}
-            source={backgroundImage} />
+            source={backgroundImageMappings[currentBackgroundImageKey]} />
         <Image source={gif} style={{width: 265, height: 265}}/>
       </View>
     );
@@ -271,7 +353,7 @@ const PillCalendar = () => {
   const renderContent = () => {
     if (isLoading) {
       return (
-        <View style={[Styles.container, { backgroundColor: colorBackground }]}>
+        <View style={[Styles.container, { backgroundColor: currentBackgroundColor }]}>
           <AnimetedImage 
             resizeMode="repeat" 
             style={[Styles.background,{
@@ -284,14 +366,14 @@ const PillCalendar = () => {
                     },
                   ],
             }]}
-            source={backgroundImage} />
+            source={backgroundImageMappings[currentBackgroundImageKey]} />
           <Text>Loading...</Text>
         </View>
       );
     }
     else {
       return (
-    <View style={[Styles.container,{backgroundColor: colorBackground}]}>
+    <View style={[Styles.container,{backgroundColor: currentBackgroundColor}]}>
       <AnimetedImage 
             resizeMode="repeat" 
             style={[Styles.background,{
@@ -304,13 +386,13 @@ const PillCalendar = () => {
                     },
                   ],
             }]}
-            source={backgroundImage} />
+            source={backgroundImageMappings[currentBackgroundImageKey]} />
       <View style={[Styles.calendarContainer]}>
       <CalendarList
         key={calendarKey} // Use the key to force re-rendering
         style={{
           flex: 1,
-          backgroundColor: colorBackground,
+          backgroundColor: 'rgba(0, 0, 0, 0)',
         }}
         contentContainerStyle={{
           justifyContent: "center", // Align the items vertically to the center
@@ -361,6 +443,7 @@ const Styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     height: "100%",
+    width: "100%",
     fontSize: 25,
   },
 
