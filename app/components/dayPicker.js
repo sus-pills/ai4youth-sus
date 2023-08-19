@@ -1,11 +1,41 @@
 import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
-import { handleDate } from "../global/globalFunctions";
 import InputTitle from "./inputTitle";
 import IconButton from "./iconButton";
 
 const DayPicker = ({ props, currentDate, text }) => {
+
+  const handleDate = (date, mode) => {
+    const year = date.getFullYear().toString();
+    const month = (date.getMonth() + 1).toString();
+    const day = date.getDate().toString();
+  
+    const monthFullNames = {
+      1: "January",
+      2: "February",
+      3: "March",
+      4: "April",
+      5: "May",
+      6: "June",
+      7: "July",
+      8: "August",
+      9: "September",
+      10: "October",
+      11: "November",
+      12: "December",
+    };
+  
+    switch (mode) {
+      case "us":
+        return `${monthFullNames[month]} ${day}, ${year}`;
+      case "eu":
+        return `${day} ${monthFullNames[month]} ${year}`;
+      default:
+        return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+    }
+  };
+
   // Day picker toggle on/off
   const [showDayPicker, setShowDayPicker] = useState(false);
 
