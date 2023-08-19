@@ -6,6 +6,9 @@ import { CustomColors } from "../global/globalStyles";
 import InputTitle from "./inputTitle";
 
 const HourManager = ({ props, currentHours, text }) => {
+  // Localization mode
+  const TIME_MODE = "eu";
+
   // Count hours
   const [numHours, setNumHours] = useState(currentHours.length);
 
@@ -15,18 +18,26 @@ const HourManager = ({ props, currentHours, text }) => {
   );
 
   // Handle date
-  const handleHour = (hour) => {
+  const handleHour = (date) => {
     // toLocaleTimeString does not work!
-    const hours = hour.getHours().toString().padStart(2, "0");
-    const minutes = hour.getMinutes().toString().padStart(2, "0");
-    return `${hours}:${minutes}`;
+    const hour = date.getHours().toString().padStart(2, "0");
+    const minute = date.getMinutes().toString().padStart(2, "0");
+
+    return `${hour}:${minute}:00`;
   };
 
-  // Remove first occurrence from array
-  const removeFirstOccurrence = (array, value) => {
-    const index = array.indexOf(value);
-    if (index !== -1) {
-      array.splice(index, 1);
+  // Read a hour string like "08:00:00"
+  const readHourString = (hourString, mode) => {
+    const time = hourString.split(":");
+    const hour = time[0];
+    const minute = time[1];
+
+    switch (mode) {
+      // Implement more time formats
+      case "eu":
+        return `${hour}:${minute}`
+      default:
+        return `${hour}:${minute}:00`;
     }
   };
 
@@ -44,7 +55,8 @@ const HourManager = ({ props, currentHours, text }) => {
             iconName={"more-time"}
             onPress={() => {
               const newHours = props.values.hours;
-              newHours.unshift("08:00");
+              const newDate = new Date();
+              newHours.unshift(handleHour(newDate));
 
               setNumHours(numHours + 1);
               props.setFieldValue("hours", newHours);
@@ -61,7 +73,7 @@ const HourManager = ({ props, currentHours, text }) => {
               <IconButton
                 textColor={"black"}
                 style={[styles.hourButton, { backgroundColor: "#f6f6f6" }]}
-                title={props.values.hours[index]}
+                title={readHourString(props.values.hours[index], TIME_MODE)}
                 iconName={"access-time"}
                 onPress={() => {
                   const newShow = [...showTimePicker];
@@ -76,8 +88,7 @@ const HourManager = ({ props, currentHours, text }) => {
                 iconName={"delete-forever"}
                 onPress={() => {
                   const newHours = props.values.hours;
-
-                  removeFirstOccurrence(newHours, newHours[index]);
+                  newHours.splice(index, 1);
 
                   // Update variables
                   setNumHours(newHours.length);

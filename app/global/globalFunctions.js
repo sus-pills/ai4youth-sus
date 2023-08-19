@@ -22,10 +22,7 @@ export const initializeAsyncStorage = async () => {
     remainingIntakes: 20,
     startDate: "2023-02-15",
     dates: {},
-    hours: [
-      "12:00",
-      "18:00"
-    ],
+    hours: [],
     dosage: "100 mg",
     information: "Take after a meal",
     color: "#f00",
