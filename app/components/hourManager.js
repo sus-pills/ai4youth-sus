@@ -22,11 +22,11 @@ const HourManager = ({ props, currentHours, text }) => {
     return `${hours}:${minutes}`;
   };
 
-      // Remove first occurrence from array
-      const removeFirstOccurrence = (array, value) => {
+  // Remove first occurrence from array
+  const removeFirstOccurrence = (array, value) => {
     const index = array.indexOf(value);
     if (index !== -1) {
-        array.splice(index, 1);
+      array.splice(index, 1);
     }
   };
 
@@ -43,8 +43,8 @@ const HourManager = ({ props, currentHours, text }) => {
             title={"Add hour"}
             iconName={"more-time"}
             onPress={() => {
-              const newHours = props.values.hours
-              newHours.unshift("08:00")
+              const newHours = props.values.hours;
+              newHours.unshift("08:00");
 
               setNumHours(numHours + 1);
               props.setFieldValue("hours", newHours);
@@ -54,7 +54,6 @@ const HourManager = ({ props, currentHours, text }) => {
 
         {/* Show the list of hour pickers */}
         {Array.from({ length: numHours }, (_, index) => (
-          
           // Create a view with hours
           <View key={`hour-${index}-time`}>
             {/* Hour Picker */}
@@ -76,12 +75,9 @@ const HourManager = ({ props, currentHours, text }) => {
                 style={styles.hourDeleteButton}
                 iconName={"delete-forever"}
                 onPress={() => {
-                  const newHours = props.values.hours
+                  const newHours = props.values.hours;
 
-                  removeFirstOccurrence(
-                    newHours,
-                    newHours[index]
-                  )
+                  removeFirstOccurrence(newHours, newHours[index]);
 
                   // Update variables
                   setNumHours(newHours.length);
@@ -108,8 +104,8 @@ const HourManager = ({ props, currentHours, text }) => {
                     // Convert the value
                     const newDate = new Date(value.nativeEvent.timestamp);
 
-                    const newHours = props.values.hours
-                    newHours[index] = handleHour(newDate)
+                    const newHours = props.values.hours;
+                    newHours[index] = handleHour(newDate);
 
                     props.setFieldValue("hours", newHours);
                   }
