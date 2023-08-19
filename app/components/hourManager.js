@@ -26,7 +26,7 @@ const HourManager = ({ props, currentHours, text }) => {
     return `${hour}:${minute}`;
   };
 
-  // Read a hour string like "08:00:00"
+  // Read a hour string like "08:00"
   const readHourString = (hourString, mode) => {
     const time = hourString.split(":");
     const hour = time[0];
