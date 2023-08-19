@@ -7,7 +7,7 @@ import InputTitle from "./inputTitle";
 
 const HourManager = ({ props, currentHours, text }) => {
   // Localization mode
-  const TIME_MODE = "eu";
+  const TIME_FORMAT = "eu";
 
   // Count hours
   const [numHours, setNumHours] = useState(currentHours.length);
@@ -23,7 +23,7 @@ const HourManager = ({ props, currentHours, text }) => {
     const hour = date.getHours().toString().padStart(2, "0");
     const minute = date.getMinutes().toString().padStart(2, "0");
 
-    return `${hour}:${minute}:00`;
+    return `${hour}:${minute}`;
   };
 
   // Read a hour string like "08:00:00"
@@ -34,10 +34,8 @@ const HourManager = ({ props, currentHours, text }) => {
 
     switch (mode) {
       // Implement more time formats
-      case "eu":
-        return `${hour}:${minute}`
       default:
-        return `${hour}:${minute}:00`;
+        return `${hour}:${minute}`;
     }
   };
 
@@ -73,7 +71,7 @@ const HourManager = ({ props, currentHours, text }) => {
               <IconButton
                 textColor={"black"}
                 style={[styles.hourButton, { backgroundColor: "#f6f6f6" }]}
-                title={readHourString(props.values.hours[index], TIME_MODE)}
+                title={readHourString(props.values.hours[index], TIME_FORMAT)}
                 iconName={"access-time"}
                 onPress={() => {
                   const newShow = [...showTimePicker];
