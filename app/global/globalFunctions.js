@@ -22,10 +22,10 @@ export const initializeAsyncStorage = async () => {
     remainingIntakes: 20,
     startDate: "2023-02-15",
     dates: {},
-    hours: {
-      "hour-0": "12:00",
-      "hour-1": "18:00",
-    },
+    hours: [
+      "12:00",
+      "18:00"
+    ],
     dosage: "100 mg",
     information: "Take after a meal",
     color: "#f00",
@@ -91,3 +91,7 @@ export const handleDate = (date, mode) => {
       return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
   }
 };
+
+export const makeDateTimes = () => {
+  const datetimes = []
+}

@@ -7,7 +7,7 @@ import InputTitle from "./inputTitle";
 
 const HourManager = ({ props, currentHours, text }) => {
   // Count hours
-  const [hours, setHours] = useState(`${Object.keys(currentHours).length}`);
+  const [numHours, setNumHours] = useState(currentHours.length);
 
   // Create list of which hour pickers to show
   const [showTimePicker, setShowTimePicker] = useState(
@@ -22,14 +22,12 @@ const HourManager = ({ props, currentHours, text }) => {
     return `${hours}:${minutes}`;
   };
 
-  // Remove first occurence from array
-  const removeFirstOccurrence = (array, value) => {
+      // Remove first occurrence from array
+      const removeFirstOccurrence = (array, value) => {
     const index = array.indexOf(value);
-    if (index === -1) {
-      return array;
+    if (index !== -1) {
+        array.splice(index, 1);
     }
-    array.splice(index, 1);
-    return array;
   };
 
   return (
@@ -38,32 +36,24 @@ const HourManager = ({ props, currentHours, text }) => {
       {text && <InputTitle text={text} />}
 
       <View>
-        {/* Add Hour Button */}
-        {hours < 5 && (
+        {/* Hour Add Button */}
+        {numHours < 5 && (
           <IconButton
-            style={[styles.hourButton, styles.addHourButton]}
+            style={[styles.hourButton, styles.hourAddButton]}
             title={"Add hour"}
             iconName={"more-time"}
             onPress={() => {
-              // Create new vars
-              const newIndex = parseInt(hours);
-              const newHours = { ...props.values.hours };
+              const newHours = props.values.hours
+              newHours.unshift("08:00")
 
-              // Move values one place to the right
-              for (let i = 0; i < newIndex; i++) {
-                newHours[`hour-${i + 1}`] = props.values.hours[`hour-${i}`];
-              }
-
-              // Add new value on the left
-              newHours["hour-0"] = "08:00";
-              setHours(newIndex + 1);
+              setNumHours(numHours + 1);
               props.setFieldValue("hours", newHours);
             }}
           />
         )}
 
         {/* Show the list of hour pickers */}
-        {Array.from({ length: parseInt(hours) }, (_, index) => (
+        {Array.from({ length: numHours }, (_, index) => (
           
           // Create a view with hours
           <View key={`hour-${index}-time`}>
@@ -72,7 +62,7 @@ const HourManager = ({ props, currentHours, text }) => {
               <IconButton
                 textColor={"black"}
                 style={[styles.hourButton, { backgroundColor: "#f6f6f6" }]}
-                title={props.values.hours[`hour-${index}`]}
+                title={props.values.hours[index]}
                 iconName={"access-time"}
                 onPress={() => {
                   const newShow = [...showTimePicker];
@@ -81,29 +71,20 @@ const HourManager = ({ props, currentHours, text }) => {
                 }}
               />
 
-              {/* Delete Hour Picker */}
+              {/* Hour Delete Button */}
               <IconButton
-                style={styles.deleteHourButton}
+                style={styles.hourDeleteButton}
                 iconName={"delete-forever"}
                 onPress={() => {
-                  // Create a set of current values without the current index.
-                  const inherentValues = [...Object.values(props.values.hours)];
+                  const newHours = props.values.hours
 
-                  // Remove the first occurrence
-                  // In case there are multiple exact hours
-                  const newValues = removeFirstOccurrence(
-                    inherentValues,
-                    inherentValues[index]
-                  );
-
-                  // Assign values to keys
-                  const newHours = {};
-                  for (let i = 0; i < newValues.length; i++) {
-                    newHours[`hour-${i}`] = newValues[i];
-                  }
+                  removeFirstOccurrence(
+                    newHours,
+                    newHours[index]
+                  )
 
                   // Update variables
-                  setHours(newValues.length);
+                  setNumHours(newHours.length);
                   props.setFieldValue("hours", newHours);
                 }}
               />
@@ -125,12 +106,12 @@ const HourManager = ({ props, currentHours, text }) => {
                   // Check if value is set
                   if (value.type === "set") {
                     // Convert the value
-                    const dateValue = new Date(value.nativeEvent.timestamp);
+                    const newDate = new Date(value.nativeEvent.timestamp);
 
-                    // Change the value
-                    const newValues = { ...props.values.hours };
-                    newValues[`hour-${index}`] = handleHour(dateValue);
-                    props.setFieldValue("hours", newValues);
+                    const newHours = props.values.hours
+                    newHours[index] = handleHour(newDate)
+
+                    props.setFieldValue("hours", newHours);
                   }
                 }}
               />
@@ -157,14 +138,14 @@ const styles = StyleSheet.create({
     marginHorizontal: 0,
     width: 270,
   },
-  deleteHourButton: {
+  hourDeleteButton: {
     marginVertical: 4,
     marginHorizontal: 0,
     width: 58,
     alignSelf: "center",
     backgroundColor: CustomColors.customNegation,
   },
-  addHourButton: {
+  hourAddButton: {
     width: 270 + 58 + 5,
     alignSelf: "center",
   },

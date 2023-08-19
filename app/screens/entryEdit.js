@@ -187,27 +187,35 @@ const EntryEdit = ({ route, navigation }) => {
   // Choose icons
   const icons = ["pill", "needle", "bottle-tonic-plus", "medical-bag"];
 
-  // Sorts and deletes duplicates from the given object
-  const handleObject = (object) => {
-    const keys = Object.keys(object);
-    const values = [...new Set(Object.values(object))].sort();
-    const length = values.length;
+  // // Sorts and deletes duplicates from the given object
+  // const handleObject = (object) => {
+  //   const keys = Object.keys(object);
+  //   const values = [...new Set(Object.values(object))].sort();
+  //   const length = values.length;
 
-    const newObject = {};
+  //   const newObject = {};
 
-    for (let i = 0; i < length; i++) {
-      newObject[keys[i]] = values[i];
-    }
+  //   for (let i = 0; i < length; i++) {
+  //     newObject[keys[i]] = values[i];
+  //   }
 
-    return newObject;
-  };
+  //   return newObject;
+  // };
+
+  // Sorts and deletes duplicates from the given array
+  const organizeArray = (array) => {
+    array.sort()
+    
+    return [...new Set(array)]
+  }
 
   return (
     <Formik
       style={styles.container}
       initialValues={entry}
       onSubmit={(values) => {
-        values.hours = handleObject(values.hours);
+        // values.hours = handleObject(values.hours);
+        values.hours = organizeArray(values.hours);
 
         // Handle the entry update and exit
         handleEntryUpdate(values);
