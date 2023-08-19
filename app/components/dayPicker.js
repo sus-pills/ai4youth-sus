@@ -5,12 +5,11 @@ import InputTitle from "./inputTitle";
 import IconButton from "./iconButton";
 
 const DayPicker = ({ props, currentDate, text }) => {
-
   const handleDate = (date, mode) => {
     const year = date.getFullYear().toString();
     const month = (date.getMonth() + 1).toString();
     const day = date.getDate().toString();
-  
+
     const monthFullNames = {
       1: "January",
       2: "February",
@@ -25,7 +24,7 @@ const DayPicker = ({ props, currentDate, text }) => {
       11: "November",
       12: "December",
     };
-  
+
     switch (mode) {
       case "us":
         return `${monthFullNames[month]} ${day}, ${year}`;
@@ -48,7 +47,7 @@ const DayPicker = ({ props, currentDate, text }) => {
     <View style={styles.inputContainer}>
       {/* Title of the button */}
       {text && <InputTitle text={text} />}
-      
+
       {/* Button */}
       <IconButton
         style={styles.dateButton}
@@ -74,15 +73,11 @@ const DayPicker = ({ props, currentDate, text }) => {
 
             // Check if value is set
             if (value.type === "set") {
-              // Convert the value
-              const newDate = handleDate(new Date(value.nativeEvent.timestamp));
+              const newDate = new Date(value.nativeEvent.timestamp);
 
-              const newReadableDate = handleDate(
-                new Date(value.nativeEvent.timestamp),
-                "us"
-              );
+              const newReadableDate = handleDate(newDate, "us");
 
-              props.setFieldValue("startDate", newDate);
+              props.setFieldValue("startDate", `${newDate}`);
               setReadableDate(newReadableDate);
             }
           }}
