@@ -9,7 +9,7 @@ import { CustomColors } from "../global/globalStyles";
 // Navigation Imports
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import PillCalendar from "../screens/calendar";
+import Calendar from "../screens/calendar";
 import Detector from "../screens/detector";
 import Entries from "../screens/entries";
 import Settings from "../screens/settings";
@@ -30,11 +30,11 @@ export const HomeTab = () => {
         tabBarActiveTintColor: activeColor,
         tabBarInactiveTintColor: inactiveColor,
       }}
-      initialRouteName="PillCalendar"
+      initialRouteName="Calendar"
     >
       <Tab.Screen
         name="Calendar"
-        component={PillCalendar}
+        component={Calendar}
         options={{
           title: "Calendar",
           tabBarIcon: ({ focused, size }) => (
