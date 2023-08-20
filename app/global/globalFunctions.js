@@ -69,7 +69,7 @@ export const createDateTimes = (startDate, hours, remainingIntakes) => {
   const datetimes = [];
   // Convert String to Date
   const formattedDate = new Date(startDate);
-  // Changes an array of "HH:mm" strings to an array of [HH, mm] arrays
+  // Changes array of "HH:mm" strings to array of [HH, mm] arrays
   const formattedHours = hours.map((hour) => hour.split(":"));
 
   let counter = 0; // keep track of current hour
