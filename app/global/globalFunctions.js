@@ -31,6 +31,22 @@ export const initializeAsyncStorage = async () => {
     backgroundImageKey: "tloNormal",
   };
 
+  const DELETE_THIS_LATER = [{
+    id: "0",
+    name: "Vitamin C",
+    remainingIntakes: 20,
+    startDate: "2023-02-15",
+    dates: {},
+    hours: {
+      "hour-0": "12:00",
+      "hour-1": "18:00",
+    },
+    dosage: "100 mg",
+    information: "Take after a meal",
+    color: "#f00",
+    icon: "pill",
+  }];
+
   try {
     // Options
     await AsyncStorage.getItem("@options") ||
@@ -40,7 +56,7 @@ export const initializeAsyncStorage = async () => {
       AsyncStorage.setItem("@style", JSON.stringify(DEFAULT_STYLE));
     // Medication Entries
     await AsyncStorage.getItem("@entries") ||
-      AsyncStorage.setItem("@entries", JSON.stringify([]));
+      await AsyncStorage.setItem("@entries", JSON.stringify(DELETE_THIS_LATER));
 
     // Add other things in the future here
     // ...

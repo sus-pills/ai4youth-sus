@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { View, Text, ScrollView } from "react-native";
 
 // Custom Imports
@@ -85,163 +85,53 @@ const Entries = ({ navigation: { navigate } }) => {
       translate();
     }
   }, [animationPaused, translateValue]);
-  const [entries, setEntries] = useState([
-    {
-      id: "1",
-      name: "Vitamin C",
-      remainingIntakes: 20,
-      nextDate: "2023-02-15",
-      times: {
-        "key-0": "12:00",
-        "key-1": "18:00",
-      },
-      dosage: "100 mg",
-      information: "Take after a meal",
-      color: "#f00",
-      icon: "pill",
-    },
-    {
-      id: "2",
-      name: "Calcium",
-      remainingIntakes: 30,
-      nextDate: "2022-12-01",
-      times: {
-        "key-0": "08:00",
-        "key-1": "14:00",
-        "key-2": "20:00",
-      },
-      dosage: "500 mg",
-      information: "Take with food",
-      color: "#0f0",
-      icon: "pill",
-    },
-    {
-      id: "3",
-      name: "Iron",
-      remainingIntakes: 25,
-      nextDate: "2022-11-17",
-      times: {
-        "key-0": "10:00",
-        "key-1": "15:00",
-      },
-      dosage: "200 mg",
-      information: "Take with a glass of orange juice",
-      color: "#00f",
-      icon: "needle",
-    },
-    {
-      id: "4",
-      name: "Zinc",
-      remainingIntakes: 40,
-      nextDate: "2022-10-22",
-      times: {
-        "key-0": "09:00",
-        "key-1": "12:00",
-        "key-2": "18:00",
-      },
-      dosage: "150 mg",
-      information: "Take before a meal",
-      color: "#ff0",
-      icon: "bottle-tonic-plus",
-    },
-    {
-      id: "5",
-      name: "Vitamin B12",
-      remainingIntakes: 50,
-      nextDate: "2022-09-19",
-      times: {
-        "key-0": "07:00",
-        "key-1": "13:00",
-        "key-2": "19:00",
-      },
-      dosage: "500 mcg",
-      information: "Take with water",
-      color: "#f0f",
-      icon: "pill",
-    },
-    {
-      id: "6",
-      name: "Magnesium",
-      remainingIntakes: 35,
-      nextDate: "2022-08-15",
-      times: {
-        "key-0": "06:00",
-        "key-1": "12:00",
-        "key-2": "20:00",
-      },
-      dosage: "400 mg",
-      information: "Take with a meal",
-      color: "#0ff",
-      icon: "medical-bag",
-    },
-    {
-      id: "7",
-      name: "Omega-3",
-      remainingIntakes: 60,
-      nextDate: "2022-07-12",
-      times: {
-        "key-0": "08:00",
-        "key-1": "14:00",
-      },
-      dosage: "1000 mg",
-      information: "Take with food",
-      color: "#f80",
-      icon: "pill",
-    },
-    {
-      id: "8",
-      name: "Folic Acid",
-      remainingIntakes: 45,
-      nextDate: "2022-06-17",
-      times: {
-        "key-0": "09:00",
-        "key-1": "16:00",
-        "key-2": "22:00",
-      },
-      dosage: "400 mcg",
-      information: "Take with a glass of water",
-      color: "#8f0",
-      icon: "bottle-tonic-plus",
-    },
-    {
-      id: "9",
-      name: "Vitamin D",
-      remainingIntakes: 55,
-      nextDate: "2022-05-22",
-      times: {
-        "key-0": "07:00",
-        "key-1": "13:00",
-        "key-2": "20:00",
-      },
-      dosage: "1000 IU",
-      information: "Take after a meal",
-      color: "#0f8",
-      icon: "needle",
-    },
-    {
-      id: "10",
-      name: "Probiotic",
-      remainingIntakes: 50,
-      nextDate: "2022-04-19",
-      times: {
-        "key-0": "06:00",
-        "key-1": "12:00",
-        "key-2": "18:00",
-      },
-      dosage: "1 capsule",
-      information: "Take with a glass of water",
-      color: "#f08",
-      icon: "medical-bag",
-    },
-  ]);
+  const [entries, setEntries] = useState([]);
   const [title, setTitle] = useState("Add Entry");
 
-  const [options, setOptions] = useState({});
-  const [optionsS, setOptionsS] = useState({});
+  const [options, setOptions] = useState({
+    font_size: 'medium', // Provide a default value for font_size
+    dark_mode: false,    // Provide a default value for dark_mode
+    contrast_mode: 0,    // Provide a default value for contrast_mode
+    colorblind_mode: 'normal', // Provide a default value for colorblind_mode
+  });
+  const [optionsS, setOptionsS] = useState({
+    // Provide default values for your custom styles
+    customBackground: '#FFFFFF',
+    customMain: '#333333',
+    customSecondary: '#555555',
+    customAffirmation: '#00FF00',
+    customNegation: '#FF0000',
+    customDarkGray: '#111111',
+    customLightGray: '#AAAAAA',
+    customText: '#333333',
+    customBorder: '#000000',
+    customBGButton: '#FFFFFF',
+    backgroundImageKey: 'tloNormal', // Provide a default value for backgroundImageKey
+  });
   const [fontSize, setFontSize] = useState('medium');
   const [darkModeEnabled, setDarkModeEnabled] = useState(false);
   const [contrastModeEnabled, setContrastModeEnabled] = useState(false);
   const [colorblindMode, setColorblindMode] = useState('normal');
+
+  const fetchDataFromStorage = async () => {
+    try {
+      const fetchedData = await AsyncStorage.getItem("@entries");
+      console.log("Fetched data:", fetchedData); // Add this line
+      const processedData = fetchedData ? JSON.parse(fetchedData) : [];
+      console.log("Processed data:", processedData); // Add thi
+      setEntries(processedData);
+    } catch (error) {
+      console.error("Error retrieving data from AsyncStorage:", error);
+    }
+  };
+
+  useEffect(() => {
+    // Check for data
+    fetchDataFromStorage();
+  }, [fetchDataFromStorage]);
+
+
+
   const getOptionsFromAsyncStorage = async () => {
     try {
       const options = await AsyncStorage.getItem("@options");
@@ -301,7 +191,7 @@ const Entries = ({ navigation: { navigate } }) => {
   const darkModeBool = secondParameter
   const contrastBool = thirdParameter
   const colorblindString = fourthParameter
-
+  console.log(entries)
   return (
     <View style={[styles.container,{backgroundColor: currentBackgroundColor}]}>
 <AnimetedImage 
@@ -320,7 +210,9 @@ const Entries = ({ navigation: { navigate } }) => {
       {/* Button */}
       <IconButton title={title} style={{backgroundColor: currentBGButtonColor, borderColor: currentBorderColor,
           borderWidth: 1,             
-          overflow: 'hidden',}} iconName="add" />
+          overflow: 'hidden',}} iconName="add" onPress={() => {
+            navigate("EntryAdd");
+          }}/>
 
       {/* Entries */}
       <ScrollView style={[styles.scrollView]}>

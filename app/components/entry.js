@@ -21,7 +21,7 @@ const dateToString = () => {
 }
 
 const Entry = ({ entry, options, optionsS, onPress }) => {
-  const { font_size,dark_mode, contrast_mode, colorblind_mode } = options
+  //const { font_size,dark_mode, contrast_mode, colorblind_mode } = options
   const firstParameter = options?.font_size;
   const integerFP = parseInt(font_size);
   const fontSizeStyle = isNaN(integerFP) ? { fontSize: 16 } : { fontSize: integerFP };
@@ -32,28 +32,33 @@ const Entry = ({ entry, options, optionsS, onPress }) => {
   const contrastBool = contrast_mode;
   const colorblindString = colorblind_mode;
 
-  const currentBackgroundColor = optionsS?.customBackground;
-  const currentMainColor = optionsS?.customMain;
-  const currentSecondaryColor = optionsS?.customSecondary;
-  const currentAffirmationColor = optionsS?.customAffirmation;
-  const currentNegationColor = optionsS?.customNegation;
-  const currentDarkGrayColor = optionsS?.customDarkGray;
-  const currentLightGrayColor = optionsS?.customLightGray;
-  const currentTextColor = optionsS?.customText;
-  const currentBorderColor = optionsS?.customBorder;
-  const currentBGButtonColor = optionsS?.customBGButton;
-  const currentBackgroundImageKey = optionsS?.backgroundImageKey;
-  var currentColorDot;
+  const font_size = options?.font_size || 'medium';
+  const dark_mode = options?.dark_mode || 'false';
+  const contrast_mode = options?.contrast_mode || 'false';
+  const colorblind_mode = options?.colorblind_mode || 'Normal';
+  const currentBackgroundColor = optionsS?.customBackground || '#FFFFFF';
+  const currentMainColor = optionsS?.customMain || 'defaultMainColor';
+  const currentSecondaryColor = optionsS?.customSecondary || 'defaultSecondaryColor';
+  const currentAffirmationColor = optionsS?.customAffirmation || 'defaultAffirmationColor';
+  const currentNegationColor = optionsS?.customNegation || 'defaultNegationColor';
+  const currentDarkGrayColor = optionsS?.customDarkGray || 'defaultDarkGrayColor';
+  const currentLightGrayColor = optionsS?.customLightGray || 'defaultLightGrayColor';
+  const currentTextColor = optionsS?.customText || 'defaultTextColor';
+  const currentBorderColor = optionsS?.customBorder || 'defaultBorderColor';
+  const currentBGButtonColor = optionsS?.customBGButton || 'defaultBGButtonColor';
+  const currentBackgroundImageKey = optionsS?.backgroundImageKey || 'defaultBackgroundImageKey';
+  const currentColorDot = options?.contrast_mode === true ? "white" : entry.color;
   console.log("FONTSIZESTYLE: "+fontSizeStyle)
-  if (options?.contrast_mode===true)
-  {
-    currentColorDot = "white"
-  }
-  else
-  {
-    currentColorDot = entry.color
-  }
-
+  // if (options?.contrast_mode===true)
+  // {
+  //   currentColorDot = "white"
+  // }
+  // else
+  // {
+  //   currentColorDot = entry.color
+  // }
+  console.log("OPTIONSS: "+optionsS)
+  console.log("OPTIONS: "+options)
   console.log(currentBackgroundColor+" = CURRENT BACKGROUDN COLOR")
   return (
     <TouchableOpacity

@@ -9,6 +9,7 @@ import { CustomColors } from "../global/globalStyles";
 import HomeTab from "../routes/homeTab";
 import EntryInfo from "../screens/entryInfo";
 import EntryEdit from "../screens/entryEdit";
+import EntryAdd from "../screens/entryAdd";
 
 const Stack = createStackNavigator();
 
@@ -32,7 +33,7 @@ const AppStack = ({isDarkMode, setIsDarkMode}) => {
           }}
           >
             {props => (
-            <HomeTab {...props} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
+            <HomeTab />
           )}
 
         </Stack.Screen>
@@ -50,6 +51,14 @@ const AppStack = ({isDarkMode, setIsDarkMode}) => {
           component={EntryEdit}
           options={{
             title: "Edit Entry",
+          }}
+        />
+        
+        <Stack.Screen
+          name="EntryAdd"
+          component={EntryAdd}
+          options={{
+            title: "Add Entry",
           }}
         />
       </Stack.Navigator>

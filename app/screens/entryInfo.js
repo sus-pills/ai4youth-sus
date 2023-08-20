@@ -33,8 +33,8 @@ const backgroundImageMappings = {
 };
 
 const EntryInfo = ({ route, navigation }) => {
-  const entry = route.params.entry;
-  const times = Object.values(entry.times);
+  const entry = route.params?.entry;
+  const times = Object.values(entry.hours);
 
   const INPUT_RANGE_START = 0;
   const INPUT_RANGE_END = 1;
@@ -66,8 +66,26 @@ const EntryInfo = ({ route, navigation }) => {
 
   const AnimetedImage = Animated.createAnimatedComponent(ImageBackground);
 
-  const [options, setOptions] = useState(null);
-  const [optionsS, setOptionsS] = useState(null);
+  const [options, setOptions] = useState({
+    font_size: 'medium', // Provide a default value for font_size
+    dark_mode: false,    // Provide a default value for dark_mode
+    contrast_mode: 0,    // Provide a default value for contrast_mode
+    colorblind_mode: 'normal', // Provide a default value for colorblind_mode
+  });
+  const [optionsS, setOptionsS] = useState({
+    // Provide default values for your custom styles
+    customBackground: '#FFFFFF',
+    customMain: '#333333',
+    customSecondary: '#555555',
+    customAffirmation: '#00FF00',
+    customNegation: '#FF0000',
+    customDarkGray: '#111111',
+    customLightGray: '#AAAAAA',
+    customText: '#333333',
+    customBorder: '#000000',
+    customBGButton: '#FFFFFF',
+    backgroundImageKey: 'tloNormal', // Provide a default value for backgroundImageKey
+  });
   const [fontSize, setFontSize] = useState('medium');
   const [darkModeEnabled, setDarkModeEnabled] = useState(false);
   const [contrastModeEnabled, setContrastModeEnabled] = useState(false);
