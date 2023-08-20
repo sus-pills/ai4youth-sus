@@ -29,11 +29,8 @@ const Calendar = () => {
 
     entries.forEach((entry) => {
       entry.dates.forEach((date) => {
-        // Convert to Date object
-        const newDate = new Date(date);
-
         // Format the date
-        const formattedDate = format(newDate, "yyyy-MM-dd");
+        const formattedDate = format(new Date(date), "yyyy-MM-dd");
 
         // Create a new key-val pair with all properties
         if (!newDates[formattedDate]) {
