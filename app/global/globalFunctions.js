@@ -31,7 +31,7 @@ export const initializeAsyncStorage = async () => {
       hours: ["12:00", "18:00"],
       dosage: "100 mg",
       information: "Take after a meal",
-      color: "#f00",
+      color: "#FF5733",
       icon: "pill",
     },
   ];
