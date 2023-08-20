@@ -9,7 +9,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Formik } from "formik";
 import DayPicker from "../components/dayPicker";
 import HourManager from "../components/hourManager";
-import { handleDate } from "../global/globalFunctions";
+import { createDateTimes } from "../global/globalFunctions";
 
 // TODO: Look for other TODOs in this file!
 // ! A lot of lines here share code with entryEdit.js
@@ -21,9 +21,9 @@ const EntryAdd = ({ route, navigation }) => {
     id: uuid.v4(),
     name: null,
     remainingIntakes: null,
-    startDate: handleDate(new Date()),
-    hours: {},
-    dates: {},
+    startDate: new Date(),
+    hours: [],
+    dates: [],
     dosage: null,
     information: null,
     color: `#${Math.floor(Math.random() * 0x1000000)
@@ -100,6 +100,11 @@ const EntryAdd = ({ route, navigation }) => {
       initialValues={entry}
       onSubmit={(values) => {
         // Handle the entry submit and exit
+        values.dates = createDateTimes(
+          values.startDate,
+          values.hours,
+          values.remainingIntakes
+        );
         handleEntrySubmit(values);
 
         console.log("submit", values);
