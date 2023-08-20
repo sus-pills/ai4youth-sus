@@ -18,11 +18,16 @@ export const initializeAsyncStorage = async () => {
   // ! DELETE THIS LATER
   const DELETE_THIS_LATER = [
     {
-      id: "0",
+      id: "4bd36a66-35da-4210-8530-bf6b94c02a9a",
       name: "Vitamin C",
-      remainingIntakes: 20,
-      startDate: `${new Date()}`,
-      dates: {},
+      remainingIntakes: 4,
+      startDate: 'Sun Aug 20 2023 13:46:20 GMT+0200 (Central European Summer Time)',
+      dates: [
+        'Sun Aug 20 2023 18:00:00 GMT+0200 (Central European Summer Time)',
+        'Mon Aug 21 2023 12:00:00 GMT+0200 (Central European Summer Time)',
+        'Mon Aug 21 2023 18:00:00 GMT+0200 (Central European Summer Time)',
+        'Tue Aug 22 2023 12:00:00 GMT+0200 (Central European Summer Time)'
+      ],
       hours: ["12:00", "18:00"],
       dosage: "100 mg",
       information: "Take after a meal",
