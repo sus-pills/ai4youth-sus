@@ -10,4 +10,19 @@ sus/logs
 info
 legacy_code
 .expo
-app/node_modeules
+
+# App
+app/node_modules/
+app/.expo/
+app/dist/
+app/npm-debug.*
+app/*.jks
+app/*.p8
+app/*.p12
+app/*.key
+app/*.mobileprovision
+app/*.orig.*
+app/web-build/
+
+# macOS
+app/.DS_Store

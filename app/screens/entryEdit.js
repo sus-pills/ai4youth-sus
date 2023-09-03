@@ -1,9 +1,9 @@
 // A screen in which the user can edit chosen entries.
-// 
+//
 // TODO: Delete unused IMPORTS and STYLES
-// 
+//
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -17,14 +17,14 @@ import IconButton from "../components/iconButton";
 import {
   CustomBorder,
   CustomColors,
-  GlobalStyles,
 } from "../global/globalStyles";
-import SingleModalButton from "../components/singleModalButton";
 import { Formik } from "formik";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import { isLightColor, handleDate } from "../global/globalFunctions";
+import {
+  isLightColor,
+  createDateTimes,
+} from "../global/globalFunctions";
 import InputTitle from "../components/inputTitle";
-import RNDateTimePicker from "@react-native-community/datetimepicker";
 import { HeaderBackButton } from "@react-navigation/elements";
 import TrashHeaderButton from "../components/trashHeaderButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -187,19 +187,11 @@ const EntryEdit = ({ route, navigation }) => {
   // Choose icons
   const icons = ["pill", "needle", "bottle-tonic-plus", "medical-bag"];
 
-  // Sorts and deletes duplicates from the given object
-  const handleObject = (object) => {
-    const keys = Object.keys(object);
-    const values = [...new Set(Object.values(object))].sort();
-    const length = values.length;
+  // Sorts and deletes duplicates from the given array
+  const organizeArray = (array) => {
+    array.sort();
 
-    const newObject = {};
-
-    for (let i = 0; i < length; i++) {
-      newObject[keys[i]] = values[i];
-    }
-
-    return newObject;
+    return [...new Set(array)];
   };
 
   return (
@@ -207,11 +199,16 @@ const EntryEdit = ({ route, navigation }) => {
       style={styles.container}
       initialValues={entry}
       onSubmit={(values) => {
-        values.hours = handleObject(values.hours);
+        values.hours = organizeArray(values.hours);
+        values.dates = createDateTimes(
+          values.startDate,
+          values.hours,
+          values.remainingIntakes
+        );
 
         // Handle the entry update and exit
         handleEntryUpdate(values);
-        console.log("New object: ", values)
+        console.log("New object: ", values);
       }}
     >
       {(props) => (
@@ -219,13 +216,15 @@ const EntryEdit = ({ route, navigation }) => {
           <View style={styles.header}>
             <ScrollView>
               {/* Color Box & Modal Button */}
-              <ColorPicker 
+              <ColorPicker
                 props={props}
-                inColorBox={<MaterialCommunityIcons
-                  name={props.values.icon}
-                  size={40}
-                  color={isLightColor(props.values.color) ? "black" : "white"}
-                />}
+                inColorBox={
+                  <MaterialCommunityIcons
+                    name={props.values.icon}
+                    size={40}
+                    color={isLightColor(props.values.color) ? "black" : "white"}
+                  />
+                }
                 text={"Change color"}
               />
 
@@ -263,7 +262,7 @@ const EntryEdit = ({ route, navigation }) => {
               </View>
 
               {/* remainingIntakes */}
-              <NumberInput 
+              <NumberInput
                 props={props}
                 text={"Remaining intakes"}
                 propsValue={"remainingIntakes"}
