@@ -74,6 +74,7 @@ const DayPicker = ({ props, currentDate, text }) => {
             // Check if value is set
             if (value.type === "set") {
               const newDate = new Date(value.nativeEvent.timestamp);
+              console.log(newDate) // ! CHECK IT TOMORROW!!!!!!!!!!!!!!!!!!
 
               const newReadableDate = handleDate(newDate, "us");
 
