@@ -23,7 +23,7 @@ const NumberInput = ({ props, text, propsValue }) => {
           onPress={() =>
             props.setFieldValue(
               propsValue,
-              directValue > 0 ? directValue - 5 : 0
+              directValue > 5 ? directValue - 5 : 0
             )
           }
         />
