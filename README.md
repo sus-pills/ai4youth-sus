@@ -4,9 +4,9 @@
 
 # SUS Pills
 
-Continuation of my project from [Intel AI4YOUTH](https://ai4youth.edu.pl/). The original, full project (without any latest additions) can be found in the [data_misc_sus.7z](./data_misc_sus.7z) archive.
+Continuation of our project from [Intel AI4YOUTH](https://ai4youth.edu.pl/). The original, full project (without any latest additions) can be found in the [data_misc_sus.7z](./data_misc_sus.7z) archive.
 
-**The development of this project has been paused for an indefinite amount of time**, or until I decide I'm ready to continue it and find some free time for it.
+**The development of this project has been paused for an indefinite amount of time**, or until I decide that I'm ready to continue and find some free time for it.
 
 ## Instructions
 
